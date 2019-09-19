@@ -54,7 +54,7 @@ buildArtifact.then(deployQa)
 7.  From beginning to end, your Jenkinsfile should roughly look like this:
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>']) _
+@Library('jenkinsfile-pipeline-library@<VERSION>') _
 
 Jenkinsfile.init(this)
 
