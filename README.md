@@ -101,7 +101,7 @@ By default, your pipeline will be a Scripted Pipeline. You can convert your pipe
 Jenkinsfile.declarative = true
 ```
 
-A short-coming of Declarative Pipelines is the inability to use variables when defining Stage names (See: [JENKINS-43820](https://issues.jenkins-ci.org/browse/JENKINS-43820)).  The compromise made by terraform-pipeline is to name each of the top-level Stage names using consecutive numbers '1', '2', '3', etc.  The following code:
+A short-coming of Declarative Pipelines is the inability to use variables when defining Stage names (See: [JENKINS-43820](https://issues.jenkins-ci.org/browse/JENKINS-43820)).  The compromise made by jenkinsfile-pipeline-library is to name each of the top-level Stage names using consecutive numbers '1', '2', '3', etc.  The following code:
 
 ```
 @Library('jenkinsfile-pipeline-library') _
@@ -208,7 +208,7 @@ Restart from Stage will now display more sensible names.  __Note:__ This is in _
 
 1.  Fork this project.
 2.  Make your changes and run the tests with `./gradlew test`.
-3.  Validate your changes by pointing a terraform-pipeline project to your fork.
+3.  Validate your changes by pointing a jenkinsfile-pipeline-library project to your fork.
 4.  Update the CHANGELOG with your changes.  Changes are queued under "Unreleased", until an official release is cut.
 5.  Your PR will be reviewed and merged into a release branch.
 6.  Release branches are periodically reviewed, then merged into master.  An official release is then published, and the release branch is deleted.
