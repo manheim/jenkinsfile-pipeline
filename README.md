@@ -23,7 +23,7 @@ Jenkinsfile.init(this)
 ```
 // Jenkinsfile
 ...
-def build = new BuildStage()
+def buildArtifact = new BuildStage()
 ```
 4.  Create a DeployStages for each of the environments that you would normally deploy to.  This example deploys to qa, uat, and prod environments.  The number and names of your environments can differ from this example.  Choose the environments and environment names that reflect your own development process to go from Code to Customer.
 ```
@@ -37,9 +37,9 @@ def deployProd = new DeployStage('prod')
 ```
 // Jenkinsfile
 ...
-build.then(deployQa)
-     .then(deployUat)
-     .then(deployProd)
+buildArtifact.then(deployQa)
+             .then(deployUat)
+             .then(deployProd)
 ```
 6.  The design of this library is influenced by the [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern) - your pipeline has been configured, but hasn't been constructed just yet.  Finalize and create your pipeline by calling the `build()` method.  This should only be done once - no code should come after calling this method.
 ```
@@ -55,15 +55,15 @@ build.then(deployQa)
 
 Jenkinsfile.init(this)
 
-def build = new BuildStage()
+def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
 def deployProd = new DeployStage('prod')
 
-build.then(deployQa)
-     .then(deployUat)
-     .then(deployProd)
-     .build()
+buildArtifact.then(deployQa)
+             .then(deployUat)
+             .then(deployProd)
+             .build()
 ```
 
 8.  Load your project into Jenkins, and point it to your newly created Jenkinsfile.
@@ -105,15 +105,15 @@ A short-coming of Declarative Pipelines is the inability to use variables when d
 
 Jenkinsfile.init(this)
 
-def build = new BuildStage()
+def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
 def deployProd = new DeployStage('prod')
 
-build.then(deployQa)
-     .then(deployUat)
-     .then(deployProd)
-     .build()
+buildArtifact.then(deployQa)
+             .then(deployUat)
+             .then(deployProd)
+             .build()
 ```
 
 will produce a Declarative Pipeline that looks like this:
@@ -180,15 +180,15 @@ In your Jenkinsfile, override the default pipelineTemplate, and point it to your
 Jenkinsfile.init(this)
 Jenkinsfile.pipelineTemplate = this.CustomPipelineTemplate
 
-def build = new BuildStage()
+def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
 def deployProd = new DeployStage('prod')
 
-build.then(deployQa)
-     .then(deployUat)
-     .then(deployProd)
-     .build()
+buildArtifact.then(deployQa)
+             .then(deployUat)
+             .then(deployProd)
+             .build()
 ```
 
 This will generate a new Declarative Pipeline, using your custom template.
