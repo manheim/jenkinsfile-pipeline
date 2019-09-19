@@ -92,10 +92,10 @@ Scripted Pipelines are much easier to work with, and offer a lot of flexibility 
 
 jenkinsfile-pipeline-library attempts to abstract away these two different types of pipelines, so that you can get the features that you want, without needing to write your pipeline code in a specific/arbitrary way.
 
-By default, your pipeline will be a Declarative Pipeline.  If for some reason you need your pipeline to be a Scripted Pipeline, you can do so by disabling the declarative flag:
+By default, your pipeline will be a Scripted Pipeline. You can convert your pipeline to a Declarative Pipeline by enabling a flag:
 
 ```
-Jenkinsfile.declarative = false
+Jenkinsfile.declarative = true
 ```
 
 A short-coming of Declarative Pipelines is the inability to use variables when defining Stage names (See: [JENKINS-43820](https://issues.jenkins-ci.org/browse/JENKINS-43820)).  The compromise made by terraform-pipeline is to name each of the top-level Stage names using consecutive numbers '1', '2', '3', etc.  The following code:
@@ -104,6 +104,7 @@ A short-coming of Declarative Pipelines is the inability to use variables when d
 @Library('jenkinsfile-pipeline-library') _
 
 Jenkinsfile.init(this)
+Jenkinsfile.declarative = true
 
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
@@ -178,6 +179,7 @@ In your Jenkinsfile, override the default pipelineTemplate, and point it to your
 @Library(['jenkinisfile-pipeline-library', 'jenkinsfile-pipeline-library-customizations']) _
 
 Jenkinsfile.init(this)
+Jenkinsfile.declarative = true
 Jenkinsfile.pipelineTemplate = this.CustomPipelineTemplate
 
 def buildArtifact = new BuildStage()
