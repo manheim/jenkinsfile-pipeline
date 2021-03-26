@@ -2,7 +2,7 @@
 
 
 # jenkinsfile-pipeline-library
-A reusable pipeline template to build and deploy an application serially across multiple environments.
+A reusable pipeline template to build and deploy an application serially across multiple environments, using [Jenkins](https://www.jenkins.io/) and [Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/jenkinsfile/).
 
 # Requirements and Assumptions
 1.  You have an application that can build an artifact that can be deployed.  By default, the artifact will be built with `./bin/build.sh`, but this can be changed.
