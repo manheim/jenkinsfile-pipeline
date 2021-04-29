@@ -1,5 +1,3 @@
-import static org.junit.Assert.assertTrue
-
 import org.junit.Test
 import org.junit.runner.RunWith
 import de.bechte.junit.runners.context.HierarchicalContextRunner
@@ -7,7 +5,14 @@ import de.bechte.junit.runners.context.HierarchicalContextRunner
 @RunWith(HierarchicalContextRunner.class)
 class BuildStageTest {
     @Test
-    void foo() {
-        assertTrue(true)
+    void constructorDoesNotFail() {
+        def buildStage = new BuildStage()
+    }
+
+    @Test
+    void buildDoesNotFail() {
+        def buildStage = new BuildStage()
+
+        buildStage.build()
     }
 }
