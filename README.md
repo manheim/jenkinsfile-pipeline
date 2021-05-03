@@ -17,9 +17,9 @@ A reusable pipeline template to build and deploy an application serially across 
 // Jenkinsfile
 @Library('jenkinsfile-pipeline-library@<VERSION>') _
 ```
-2.  Create a pipeline.  In this case, we'll make it Declarative.
+2.  Create a pipeline.  In this case, we'll make it Scripted.
 ```
-def pipeline = new DeclarativePipeline(this)
+def pipeline = new ScriptedPipeline(this)
 ```
 3.  Create a stage to build your deployment artifact.
 ```
@@ -56,7 +56,7 @@ pipeline.startsWith(buildArtifact)
 ```
 @Library('jenkinsfile-pipeline-library@<VERSION>') _
 
-def pipeline = new DeclarativePipeline(this)
+def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
