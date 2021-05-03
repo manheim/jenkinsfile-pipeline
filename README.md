@@ -17,13 +17,17 @@ A reusable pipeline template to build and deploy an application serially across 
 // Jenkinsfile
 @Library('jenkinsfile-pipeline-library@<VERSION>') _
 ```
-2.  Start your pipeline by building your deployment artifact.
+2.  Create a pipeline.  In this case, we'll make it Declarative.
+```
+def pipeline = new DeclarativePipeline(this)
+```
+3.  Create a stage to build your deployment artifact.
 ```
 // Jenkinsfile
 ...
 def buildArtifact = new BuildStage()
 ```
-3.  Create a DeployStages for each of the environments that you would normally deploy to.  This example deploys to qa, uat, and prod environments.  The number and names of your environments can differ from this example.  Choose the environments and environment names that reflect your own development process to go from Code to Customer.
+4.  Create a stage to deploy to each of your environments.  This example creates stages to deploy to qa, uat, and prod environments.  The number and names of your environments can differ from this example.  Choose the environments and environment names that reflect your own development process to go from Code to Customer.
 ```
 // Jenkinsfile
 ...
@@ -31,15 +35,16 @@ def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
 def deployProd = new DeployStage('prod')
 ```
-4.  Link the Stages together in the order that you want them to run.  This examples builds your deployment artifact, then deploys qa, then uat, then prod.  Each step *MUST* succeed before it can proceed on to the next.
+5.  Link the Stages together in your pipeline in the order that you want them to run.  This examples builds your deployment artifact, then deploys qa, then uat, then prod.  Each step *MUST* succeed before it can proceed on to the next.
 ```
 // Jenkinsfile
 ...
-buildArtifact.then(deployQa)
-             .then(deployUat)
-             .then(deployProd)
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
 ```
-5.  The design of this library is influenced by the [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern) - your pipeline has been configured, but hasn't been constructed just yet.  Finalize and create your pipeline by calling the `build()` method.  This should only be done once - no code should come after calling this method.
+6.  The design of this library is influenced by the [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern) - your pipeline has been configured, but hasn't been constructed just yet.  Finalize and create your pipeline by calling the `build()` method.  This should only be done once - no code should come after calling this method.
 ```
 // Jenkinsfile
 ...
@@ -51,15 +56,17 @@ buildArtifact.then(deployQa)
 ```
 @Library('jenkinsfile-pipeline-library@<VERSION>') _
 
+def pipeline = new DeclarativePipeline(this)
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
 def deployProd = new DeployStage('prod')
 
-buildArtifact.then(deployQa)
-             .then(deployUat)
-             .then(deployProd)
-             .build()
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
+        .build()
 ```
 
 8.  Load your project into Jenkins, and point it to your newly created Jenkinsfile.
