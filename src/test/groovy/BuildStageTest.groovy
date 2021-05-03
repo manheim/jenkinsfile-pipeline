@@ -31,20 +31,13 @@ class BuildStageTest {
         @Test
         void createsAStageNamedBuild() {
             def buildStage = new BuildStage()
-            def workflowScript = spy(new WorkflowScript())
+            def workflowScript = spy(new MockWorkflowScript())
 
             def closure = buildStage.pipelineConfiguration()
             closure.delegate = workflowScript
             closure()
 
             verify(workflowScript).stage(eq("build"), any(Closure.class))
-        }
-    }
-
-    public class WorkflowScript {
-        public stage(String name, Closure innerClosure) {
-            println "WorkflowScript.stage(${name})"
-            innerClosure()
         }
     }
 }
