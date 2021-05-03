@@ -1,5 +1,8 @@
 public class BuildStage {
-    public void build() {
-        println "do the thing"
+    public Closure pipelineConfiguration() {
+        return { ->
+            stage("build") {
+            }
+        }
     }
 }
