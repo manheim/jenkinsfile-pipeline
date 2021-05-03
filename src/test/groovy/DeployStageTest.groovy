@@ -1,13 +1,11 @@
-import static org.junit.Assert.assertTrue
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 
-import org.junit.Test
-import org.junit.runner.RunWith
-import de.bechte.junit.runners.context.HierarchicalContextRunner
+import org.junit.jupiter.api.Test
 
-@RunWith(HierarchicalContextRunner.class)
 class DeployStageTest {
     @Test
     void foo() {
-        assertTrue(true)
+        assertThat(true, equalTo(true))
     }
 }

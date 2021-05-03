@@ -1,9 +1,14 @@
-import org.junit.Test
-import org.junit.runner.RunWith
-import de.bechte.junit.runners.context.HierarchicalContextRunner
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 
-@RunWith(HierarchicalContextRunner.class)
+import org.junit.jupiter.api.Test
+
 class BuildStageTest {
+    @Test
+    void foo() {
+        assertThat(true, equalTo(true))
+    }
+
     @Test
     void constructorDoesNotFail() {
         def buildStage = new BuildStage()
