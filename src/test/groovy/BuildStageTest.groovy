@@ -39,5 +39,17 @@ class BuildStageTest {
 
             verify(workflowScript).stage(eq("build"), any(Closure.class))
         }
+
+        @Test
+        void runBuildScriptByDefault() {
+            def buildStage = new BuildStage()
+            def workflowScript = spy(new MockWorkflowScript())
+
+            def closure = buildStage.pipelineConfiguration()
+            closure.delegate = workflowScript
+            closure()
+
+            verify(workflowScript).sh("./bin/build.sh")
+        }
     }
 }
