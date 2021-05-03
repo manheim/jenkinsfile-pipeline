@@ -36,6 +36,20 @@ test {
     useJUnitPlatform()
 }
 
+sourceSets {
+  test {
+    groovy {
+      srcDirs = ['test']
+    }
+  }
+
+  main {
+    groovy {
+      srcDirs = ['src']
+    }
+  }
+}
+
 jacocoTestReport {
   reports {
     xml.enabled true
