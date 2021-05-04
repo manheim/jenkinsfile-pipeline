@@ -1,4 +1,4 @@
-public class BuildStage {
+public class BuildStage implements Stage {
     public Closure pipelineConfiguration() {
         return { ->
             stage("build") {
