@@ -11,4 +11,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #13](https://github.com/manheim/jenkinsfile-pipeline-library/issues/13): Add a Code of Conduct
 - [Issue #12](https://github.com/manheim/jenkinsfile-pipeline-library/issues/12): Add a Contributing guide
 - [Issue #15](https://github.com/manheim/jenkinsfile-pipeline-library/issues/15): Add a License
+- [Issue #1](https://github.com/manheim/jenkinsfile-pipeline-library/issues/1): Create a pipeline and BuildStage
 
