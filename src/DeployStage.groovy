@@ -9,7 +9,7 @@ public class DeployStage implements Stage {
     public Closure pipelineConfiguration() {
         return {
             stage("deploy-${environment}") {
-                println "do the thing"
+                sh './bin/deploy.sh'
             }
         }
     }

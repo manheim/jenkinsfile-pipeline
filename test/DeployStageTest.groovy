@@ -38,5 +38,17 @@ class DeployStageTest {
 
             verify(workflowScript).stage(eq("deploy-qa"), any(Closure.class))
         }
+
+        @Test
+        void runsDeployScriptByDefault() {
+            def deployStage = new DeployStage('qa')
+            def workflowScript = spy(new MockWorkflowScript())
+
+            def pipelineConfiguration = deployStage.pipelineConfiguration()
+            pipelineConfiguration.delegate = workflowScript
+            pipelineConfiguration()
+
+            verify(workflowScript).sh('./bin/deploy.sh')
+        }
     }
 }
