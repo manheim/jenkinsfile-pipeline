@@ -12,4 +12,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #12](https://github.com/manheim/jenkinsfile-pipeline-library/issues/12): Add a Contributing guide
 - [Issue #15](https://github.com/manheim/jenkinsfile-pipeline-library/issues/15): Add a License
 - [Issue #1](https://github.com/manheim/jenkinsfile-pipeline-library/issues/1): Create a pipeline and BuildStage
+- [Issue #21](https://github.com/manheim/jenkinsfile-pipeline-library/issues/21): Create a DeployStage
 

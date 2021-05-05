@@ -1,24 +1,31 @@
 public class ScriptedPipeline {
     private workflowScript
-    private stage
+    private stages = []
 
     public ScriptedPipeline(workflowScript) {
         this.workflowScript = workflowScript
     }
 
     public ScriptedPipeline startsWith(Stage stage) {
-        this.stage = stage
+        this.stages << stage
+        return this
+    }
+
+    public ScriptedPipeline then(Stage nextStage) {
+        this.stages << nextStage
         return this
     }
 
     public void build() {
-        def stagePipelineConfiguration = stage.pipelineConfiguration()
         def pipelineDsl = {
             node {
                 checkout scm
 
-                stagePipelineConfiguration.delegate = delegate
-                stagePipelineConfiguration()
+                stages.each { stage ->
+                    def pipelineConfiguration = stage.pipelineConfiguration()
+                    pipelineConfiguration.delegate = delegate
+                    pipelineConfiguration()
+                }
             }
         }
         pipelineDsl.delegate = workflowScript

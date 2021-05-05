@@ -1,11 +1,54 @@
+import static org.hamcrest.Matchers.instanceOf
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.hamcrest.Matchers.equalTo
+import static org.mockito.Mockito.any
+import static org.mockito.Mockito.eq
+import static org.mockito.Mockito.spy
+import static org.mockito.Mockito.verify
 
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 class DeployStageTest {
-    @Test
-    void foo() {
-        assertThat(true, equalTo(true))
+    @Nested
+    public class Constructor {
+        @Test
+        void doesNotFail() {
+            def deployStage = new DeployStage('qa')
+        }
+    }
+
+    @Nested
+    public class PipelineConfiguration {
+        @Test
+        void returnsAClosure() {
+            def deployStage = new DeployStage('qa')
+
+            def result = deployStage.pipelineConfiguration()
+            assertThat(result, instanceOf(Closure.class))
+        }
+
+        @Test
+        void createsAStageNamedAfterTheEnvironment() {
+            def deployStage = new DeployStage('qa')
+            def workflowScript = spy(new MockWorkflowScript())
+
+            def pipelineConfiguration = deployStage.pipelineConfiguration()
+            pipelineConfiguration.delegate = workflowScript
+            pipelineConfiguration()
+
+            verify(workflowScript).stage(eq("deploy-qa"), any(Closure.class))
+        }
+
+        @Test
+        void runsDeployScriptByDefault() {
+            def deployStage = new DeployStage('qa')
+            def workflowScript = spy(new MockWorkflowScript())
+
+            def pipelineConfiguration = deployStage.pipelineConfiguration()
+            pipelineConfiguration.delegate = workflowScript
+            pipelineConfiguration()
+
+            verify(workflowScript).sh('./bin/deploy.sh')
+        }
     }
 }

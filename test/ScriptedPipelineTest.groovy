@@ -40,6 +40,19 @@ class ScriptedPipelineTest {
     }
 
     @Nested
+    public class Then {
+        @Test
+        void returnsItself() {
+            def stage1 = mock(Stage.class)
+            def stage2 = mock(Stage.class)
+            def pipeline = new ScriptedPipeline()
+
+            def result = pipeline.startsWith(stage1).then(stage2)
+            assertThat(result, equalTo(pipeline))
+        }
+    }
+
+    @Nested
     public class Build {
         @Test
         void wrapsStagesInANode() {
@@ -68,7 +81,7 @@ class ScriptedPipelineTest {
         }
 
         @Test
-        void runsThePipelineConfigurationOfThePipelineStages() {
+        void runsThePipelineConfigurationOfTheStartingStage() {
             def stage = mock(Stage.class)
             def jenkinsfileDsl = { sh 'do the thing' }
             doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
@@ -78,6 +91,22 @@ class ScriptedPipelineTest {
 
             pipeline.startsWith(stage).build()
             verify(workflowScript).sh('do the thing')
+        }
+
+        @Test
+        void runsThePipelineConfigurationOfMultipleStages() {
+            def stage1 = mock(Stage.class)
+            doReturn { sh 'stage1 do the thing' }.when(stage1).pipelineConfiguration()
+
+            def stage2 = mock(Stage.class)
+            doReturn { sh 'stage2 do the thing' }.when(stage2).pipelineConfiguration()
+
+            def workflowScript = spy(new MockWorkflowScript())
+            def pipeline = new ScriptedPipeline(workflowScript)
+
+            pipeline.startsWith(stage1).then(stage2).build()
+            verify(workflowScript).sh('stage1 do the thing')
+            verify(workflowScript).sh('stage2 do the thing')
         }
     }
 }
