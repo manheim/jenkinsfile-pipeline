@@ -3,7 +3,11 @@ public class ScriptedPipeline {
         println "ScriptedPipeline()"
     }
 
-    public startsWith(Stage stage) {
-        println "ScriptedPipeline.startsWith()"
+    public ScriptedPipeline startsWith(Stage stage) {
+        return this
+    }
+
+    public void build() {
+        println "ScriptedPipeline.build()"
     }
 }
