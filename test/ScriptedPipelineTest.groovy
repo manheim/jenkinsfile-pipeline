@@ -1,6 +1,9 @@
-import static org.mockito.Mockito.mock
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.mockito.Mockito.doReturn
+import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.spy
+import static org.mockito.Mockito.verify
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Nested
@@ -38,11 +41,16 @@ class ScriptedPipelineTest {
     @Nested
     public class Build {
         @Test
-        void doesNotFail() {
+        void runsThePipelineConfigurationOfThePipelineStages() {
             def stage = mock(Stage.class)
-            def pipeline = new ScriptedPipeline()
+            def jenkinsfileDsl = { sh 'do the thing' }
+            doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
+
+            def workflowScript = spy(new MockWorkflowScript())
+            def pipeline = new ScriptedPipeline(workflowScript)
 
             pipeline.startsWith(stage).build()
+            verify(workflowScript).sh('do the thing')
         }
     }
 }

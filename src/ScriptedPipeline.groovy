@@ -1,13 +1,20 @@
 public class ScriptedPipeline {
+    private workflowScript
+    private stage
+
     public ScriptedPipeline(workflowScript) {
-        println "ScriptedPipeline()"
+        this.workflowScript = workflowScript
     }
 
     public ScriptedPipeline startsWith(Stage stage) {
+        this.stage = stage
         return this
     }
 
     public void build() {
-        println "ScriptedPipeline.build()"
+        def stagePipelineConfiguration = stage.pipelineConfiguration()
+        stagePipelineConfiguration.delegate = workflowScript
+
+        stagePipelineConfiguration()
     }
 }
