@@ -40,6 +40,19 @@ class ScriptedPipelineTest {
     }
 
     @Nested
+    public class Then {
+        @Test
+        void returnsItself() {
+            def stage1 = mock(Stage.class)
+            def stage2 = mock(Stage.class)
+            def pipeline = new ScriptedPipeline()
+
+            def result = pipeline.startsWith(stage1).then(stage2)
+            assertThat(result, equalTo(pipeline))
+        }
+    }
+
+    @Nested
     public class Build {
         @Test
         void wrapsStagesInANode() {

@@ -11,6 +11,10 @@ public class ScriptedPipeline {
         return this
     }
 
+    public ScriptedPipeline then(Stage nextStage) {
+        return this
+    }
+
     public void build() {
         def stagePipelineConfiguration = stage.pipelineConfiguration()
         def pipelineDsl = {
