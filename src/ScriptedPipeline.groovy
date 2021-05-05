@@ -13,8 +13,13 @@ public class ScriptedPipeline {
 
     public void build() {
         def stagePipelineConfiguration = stage.pipelineConfiguration()
-        stagePipelineConfiguration.delegate = workflowScript
-
-        stagePipelineConfiguration()
+        def pipelineDsl = {
+            node {
+                stagePipelineConfiguration.delegate = delegate
+                stagePipelineConfiguration()
+            }
+        }
+        pipelineDsl.delegate = workflowScript
+        pipelineDsl()
     }
 }

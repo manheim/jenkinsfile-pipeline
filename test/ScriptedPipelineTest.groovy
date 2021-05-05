@@ -1,5 +1,6 @@
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.mockito.Mockito.any
 import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
@@ -40,6 +41,19 @@ class ScriptedPipelineTest {
 
     @Nested
     public class Build {
+        @Test
+        void wrapsStagesInANode() {
+            def stage = mock(Stage.class)
+            def jenkinsfileDsl = { }
+            doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
+
+            def workflowScript = spy(new MockWorkflowScript())
+            def pipeline = new ScriptedPipeline(workflowScript)
+
+            pipeline.startsWith(stage).build()
+            verify(workflowScript).node(any(Closure.class))
+        }
+
         @Test
         void runsThePipelineConfigurationOfThePipelineStages() {
             def stage = mock(Stage.class)
