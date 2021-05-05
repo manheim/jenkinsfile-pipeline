@@ -15,6 +15,8 @@ public class ScriptedPipeline {
         def stagePipelineConfiguration = stage.pipelineConfiguration()
         def pipelineDsl = {
             node {
+                checkout scm
+
                 stagePipelineConfiguration.delegate = delegate
                 stagePipelineConfiguration()
             }
