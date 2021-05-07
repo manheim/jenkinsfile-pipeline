@@ -14,4 +14,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #1](https://github.com/manheim/jenkinsfile-pipeline-library/issues/1): Create a pipeline and BuildStage
 - [Issue #21](https://github.com/manheim/jenkinsfile-pipeline-library/issues/21): Create a DeployStage
 - [Issue #22](https://github.com/manheim/jenkinsfile-pipeline-library/issues/22): Update codecov bash script integration
+- [Issue #27](https://github.com/manheim/jenkinsfile-pipeline-library/issues/27): Control the node where the pipeline is run
 

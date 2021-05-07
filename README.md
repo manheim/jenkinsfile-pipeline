@@ -84,6 +84,14 @@ pipeline.startsWith(buildArtifact)
 
 ![DefaultPipelineSuccess](./images/default-pipeline-success.png)
 
+# Control Where Your Jobs Are Run
+
+By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so with the following line of code:
+
+```
+def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
+```
+
 # Goals that this library is trying to achieve:
 
 1.  Application code should be written once, and should be reusable for all environments.
