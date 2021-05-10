@@ -62,6 +62,33 @@ class BuildStageTest {
 
             verify(workflowScript).sh("./bin/build.sh")
         }
+
+        @Test
+        void appliesPlugins() {
+            def buildStage = spy(new BuildStage())
+
+            def closure = buildStage.pipelineConfiguration()
+            closure.delegate = new MockWorkflowScript()
+            closure()
+
+            verify(buildStage).applyPlugins()
+        }
+
+        @Nested
+        public class WithDecorations {
+            @Test
+            void appliesDecorations() {
+                def wasCalled = false
+                def decoration = { innerClosure -> wasCalled = true }
+                def buildStage = new BuildStage()
+
+                buildStage.decorateWith(decoration)
+                def closure = buildStage.pipelineConfiguration()
+                closure()
+
+                assertThat(wasCalled, equalTo(true))
+            }
+        }
     }
 
     @Nested
