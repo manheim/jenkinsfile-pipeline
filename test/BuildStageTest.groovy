@@ -1,14 +1,25 @@
+import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.mockito.Mockito.any
 import static org.mockito.Mockito.eq
+import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Nested
 
 class BuildStageTest {
+    @BeforeEach
+    @AfterEach
+    public void reset() {
+        BuildStage.reset()
+    }
+
     @Nested
     public class Constructor {
         @Test
@@ -50,6 +61,29 @@ class BuildStageTest {
             closure()
 
             verify(workflowScript).sh("./bin/build.sh")
+        }
+    }
+
+    @Nested
+    public class AddPlugin {
+        @Test
+        void addsThePlugin() {
+            def somePlugin = mock(Plugin.class)
+
+            BuildStage.addPlugin(somePlugin)
+            def plugins = BuildStage.getPlugins()
+
+            assertThat(plugins, hasItem(somePlugin))
+        }
+    }
+
+    @Nested
+    public class GetPlugins {
+        @Test
+        void returnsEmptyListByDefault() {
+            def plugins = BuildStage.getPlugins()
+
+            assertThat(plugins, equalTo([]))
         }
     }
 }
