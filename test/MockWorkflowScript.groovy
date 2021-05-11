@@ -80,5 +80,16 @@ class MockWorkflowScript {
         closure.delegate = this
         closure()
     }
+
+    public withCredentials(List credentials, Closure closure) {
+        print "MockWorkflowScript.withCredentials(${credentials})"
+        closure.delegate = this
+        closure()
+    }
+
+    public usernamePassword(Map options) {
+        print "MockWorkflowScript.usernamePassword(${options})"
+        return options
+    }
 }
 

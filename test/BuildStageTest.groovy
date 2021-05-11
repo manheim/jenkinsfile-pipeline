@@ -113,4 +113,19 @@ class BuildStageTest {
             assertThat(plugins, equalTo([]))
         }
     }
+
+    @Nested
+    public class ApplyPlugins {
+        @Test
+        void callsTheApplyMethodOnAddedPlugins() {
+            def plugin = mock(Plugin.class)
+
+            def buildStage = new BuildStage()
+            buildStage.addPlugin(plugin)
+
+            buildStage.applyPlugins()
+
+            verify(plugin).apply(buildStage)
+        }
+    }
 }

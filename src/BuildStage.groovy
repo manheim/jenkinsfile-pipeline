@@ -16,8 +16,14 @@ public class BuildStage implements Stage {
         }
     }
 
-    public decorateWith(Closure decoration) {
+    public void decorateWith(Closure decoration) {
         this.decorations = decoration
+    }
+
+    public applyPlugins() {
+        plugins.each { plugin ->
+            plugin.apply(this)
+        }
     }
 
     public static addPlugin(Plugin newPlugin) {
