@@ -3,7 +3,7 @@ public class CredentialsPlugin implements Plugin {
         BuildStage.addPlugin(new CredentialsPlugin())
     }
 
-    public static withBuildCredentials(String credentialId) {
+    public static withCredentials(String credentialId) {
         return this
     }
 }

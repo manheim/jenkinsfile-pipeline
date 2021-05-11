@@ -12,7 +12,7 @@ Specify the credential that you want to inject in your stages.  Optionally provi
 @Library('jenkinsfile-pipeline-library@<VERSION>') _
 
 // MY_CREDENTIALS_USERNAME and MY_CREDENTIALS_PASSWORD will contain the username/password of the 'my-credentials' credential.
-CredentialsPlugin.withBuildCredentials('my-credentials').init()
+CredentialsPlugin.withCredentials('my-credentials').init()
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()

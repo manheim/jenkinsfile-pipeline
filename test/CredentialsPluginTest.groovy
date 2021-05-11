@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test
 
 class CredentialsPluginTest {
     @Nested
-    public class WithBuildCredentials {
+    public class WithCredentials {
         @Test
         void isFluent() {
-            def result = CredentialsPlugin.withBuildCredentials('someCredential')
+            def result = CredentialsPlugin.withCredentials('someCredential')
 
             assertThat(result, equalTo(CredentialsPlugin.class))
         }
