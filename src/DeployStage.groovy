@@ -16,6 +16,6 @@ public class DeployStage implements Stage {
 
     @Override
     public void decorateWith(Closure closure) {
-        println "Do the thing"
+        throw new RuntimeException("Unimplemented - see Issue #31")
     }
 }
