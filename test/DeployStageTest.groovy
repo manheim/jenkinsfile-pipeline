@@ -54,13 +54,13 @@ class DeployStageTest {
     }
 
     @Nested
-    public class DecorateWith {
+    public class Decorate {
         @Test
         void throwsAnUnimplementedException() {
             def deployStage = new DeployStage('qa')
 
             assertThrows(RuntimeException.class) {
-                deployStage.decorateWith { -> }
+                deployStage.decorate { -> }
             }
         }
     }

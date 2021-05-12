@@ -1,4 +1,4 @@
 public interface Stage {
     public Closure pipelineConfiguration()
-    public void decorateWith(Closure closure)
+    public void decorate(Closure closure)
 }

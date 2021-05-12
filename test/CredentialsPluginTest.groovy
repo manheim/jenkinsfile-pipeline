@@ -77,7 +77,7 @@ class CredentialsPluginTest {
 
             plugin.apply(stage)
 
-            verify(stage).decorateWith(credentialsClosure)
+            verify(stage).decorate(credentialsClosure)
         }
     }
 

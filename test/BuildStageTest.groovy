@@ -82,7 +82,7 @@ class BuildStageTest {
                 def decoration = { innerClosure -> wasCalled = true }
                 def buildStage = new BuildStage()
 
-                buildStage.decorateWith(decoration)
+                buildStage.decorate(decoration)
                 def closure = buildStage.pipelineConfiguration()
                 closure()
 

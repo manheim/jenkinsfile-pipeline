@@ -16,7 +16,7 @@ public class BuildStage implements Stage {
         }
     }
 
-    public void decorateWith(Closure decoration) {
+    public void decorate(Closure decoration) {
         this.decorations = decoration
     }
 

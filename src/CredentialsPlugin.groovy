@@ -17,7 +17,7 @@ public class CredentialsPlugin implements Plugin {
 
     @Override
     public void apply(Stage stage) {
-        stage.decorateWith(credentialsClosure())
+        stage.decorate(credentialsClosure())
     }
 
     public Closure credentialsClosure() {
