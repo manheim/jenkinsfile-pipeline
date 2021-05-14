@@ -1,4 +1,5 @@
 public class DeployStage implements Stage {
+    private plugins = new StagePlugins()
     private decorations = new StageDecorations()
     private String environment
 
@@ -8,6 +9,8 @@ public class DeployStage implements Stage {
 
     @Override
     public Closure pipelineConfiguration() {
+        plugins.apply(this)
+
         return {
             decorations.apply() {
                 stage("deploy-${environment}") {
