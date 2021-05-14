@@ -1,4 +1,5 @@
 public class DeployStage implements Stage {
+    private decorations = new StageDecorations()
     private String environment
 
     public DeployStage(String environment) {
@@ -8,14 +9,16 @@ public class DeployStage implements Stage {
     @Override
     public Closure pipelineConfiguration() {
         return {
-            stage("deploy-${environment}") {
-                sh './bin/deploy.sh'
+            decorations.apply() {
+                stage("deploy-${environment}") {
+                    sh './bin/deploy.sh'
+                }
             }
         }
     }
 
     @Override
-    public void decorate(Closure closure) {
-        throw new RuntimeException("Unimplemented - see Issue #31")
+    public void decorate(Closure decoration) {
+        decorations.add(decoration)
     }
 }

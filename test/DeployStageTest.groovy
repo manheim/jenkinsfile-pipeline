@@ -1,6 +1,6 @@
+import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.instanceOf
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.junit.jupiter.api.Assertions.assertThrows
 import static org.mockito.Mockito.any
 import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.spy
@@ -51,16 +51,20 @@ class DeployStageTest {
 
             verify(workflowScript).sh('./bin/deploy.sh')
         }
-    }
 
-    @Nested
-    public class Decorate {
-        @Test
-        void throwsAnUnimplementedException() {
-            def deployStage = new DeployStage('qa')
+        @Nested
+        public class WithDecorations {
+            @Test
+            void appliesDecorations() {
+                def wasCalled = false
+                def decoration = { innerClosure -> wasCalled = true }
+                def deployStage = new DeployStage('myEnv')
 
-            assertThrows(RuntimeException.class) {
-                deployStage.decorate { -> }
+                deployStage.decorate(decoration)
+                def closure = deployStage.pipelineConfiguration()
+                closure()
+
+                assertThat(wasCalled, equalTo(true))
             }
         }
     }
