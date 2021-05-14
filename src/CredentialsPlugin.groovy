@@ -2,7 +2,7 @@ public class CredentialsPlugin implements Plugin {
     private static credentials = [:]
 
     public static init() {
-        BuildStage.addPlugin(new CredentialsPlugin())
+        StagePlugins.add(new CredentialsPlugin(), BuildStage.class)
     }
 
     public static withCredentials(Map options = [:], String credentialId) {
