@@ -9,6 +9,8 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -55,12 +57,17 @@ class CredentialsPluginTest {
 
     @Nested
     public class Init {
+        @BeforeEach
+        @AfterEach
+        public void reset() {
+            StagePlugins.reset()
+        }
+
         @Test
         void addsPluginToTheBuildStage() {
             CredentialsPlugin.init()
 
-            def buildStage = new BuildStage()
-            def plugins = buildStage.getPlugins()
+            def plugins = StagePlugins.getPluginsFor(mock(BuildStage.class))
 
             assertThat(plugins, hasItem(instanceOf(CredentialsPlugin.class)))
         }
@@ -77,7 +84,7 @@ class CredentialsPluginTest {
 
             plugin.apply(stage)
 
-            verify(stage).decorateWith(credentialsClosure)
+            verify(stage).decorate(credentialsClosure)
         }
     }
 

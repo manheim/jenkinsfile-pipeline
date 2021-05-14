@@ -1,14 +1,13 @@
 public class BuildStage implements Stage {
-    private static List plugins = []
-    private decorations = { innerClosure -> innerClosure() }
+    private plugins = new StagePlugins()
+    private decorations = new StageDecorations()
 
     @Override
     public Closure pipelineConfiguration() {
-        applyPlugins()
+        plugins.apply(this)
 
         return { ->
-            decorations.delegate = delegate
-            decorations() {
+            decorations.apply() {
                 stage("build") {
                     sh("./bin/build.sh")
                 }
@@ -16,25 +15,7 @@ public class BuildStage implements Stage {
         }
     }
 
-    public void decorateWith(Closure decoration) {
-        this.decorations = decoration
-    }
-
-    public applyPlugins() {
-        plugins.each { plugin ->
-            plugin.apply(this)
-        }
-    }
-
-    public static addPlugin(Plugin newPlugin) {
-        plugins << newPlugin
-    }
-
-    public static getPlugins() {
-        return plugins
-    }
-
-    public static void reset() {
-        plugins = []
+    public void decorate(Closure decoration) {
+        decorations.add(decoration)
     }
 }

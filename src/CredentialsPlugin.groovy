@@ -2,7 +2,7 @@ public class CredentialsPlugin implements Plugin {
     private static credentials = [:]
 
     public static init() {
-        BuildStage.addPlugin(new CredentialsPlugin())
+        StagePlugins.add(new CredentialsPlugin(), BuildStage.class)
     }
 
     public static withCredentials(Map options = [:], String credentialId) {
@@ -17,7 +17,7 @@ public class CredentialsPlugin implements Plugin {
 
     @Override
     public void apply(Stage stage) {
-        stage.decorateWith(credentialsClosure())
+        stage.decorate(credentialsClosure())
     }
 
     public Closure credentialsClosure() {
