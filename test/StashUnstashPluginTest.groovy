@@ -61,6 +61,18 @@ class StashUnstashPluginTest {
 
             verify(buildStage).decorate(stashDecoration)
         }
+
+        @Test
+        void decoratesTheDeployStage() {
+            def deployStage = mock(DeployStage.class)
+            def unstashDecoration = { }
+            def plugin = spy(new StashUnstashPlugin())
+            doReturn(unstashDecoration).when(plugin).unstashDecoration()
+
+            plugin.apply(deployStage)
+
+            verify(deployStage).decorate(unstashDecoration)
+        }
     }
 
     @Nested
@@ -88,6 +100,37 @@ class StashUnstashPluginTest {
             def workflowScript = new MockWorkflowScript()
 
             def decoration = plugin.stashDecoration()
+            decoration.delegate = workflowScript
+            decoration(innerClosure)
+
+            assertThat(wasCalled, equalTo(true))
+        }
+    }
+
+    @Nested
+    public class UnstashDecoration {
+        @Test
+        void callsUnstashOnDeployStage() {
+            def expectedStashName = StashUnstashPlugin.DEFAULT_STASH_NAME
+            def plugin = new StashUnstashPlugin()
+            def workflowScript = spy(new MockWorkflowScript())
+
+            StashUnstashPlugin.withArtifact('someArtifact')
+            def decoration = plugin.unstashDecoration()
+            decoration.delegate = workflowScript
+            decoration() { }
+
+            verify(workflowScript).unstash(expectedStashName)
+        }
+
+        @Test
+        void callsInnerClosure() {
+            def wasCalled = false
+            def innerClosure = { wasCalled = true }
+            def plugin = new StashUnstashPlugin()
+            def workflowScript = new MockWorkflowScript()
+
+            def decoration = plugin.unstashDecoration()
             decoration.delegate = workflowScript
             decoration(innerClosure)
 

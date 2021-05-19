@@ -13,13 +13,24 @@ public class StashUnstashPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        stage.decorate(stashDecoration())
+        if (stage instanceof BuildStage) {
+            stage.decorate(stashDecoration())
+        } else if (stage instanceof DeployStage) {
+            stage.decorate(unstashDecoration())
+        }
     }
 
     public Closure stashDecoration() {
         return { innerClosure ->
             innerClosure()
             stash includes: artifactPattern, name: DEFAULT_STASH_NAME
+        }
+    }
+
+    public Closure unstashDecoration() {
+        return { innerClosure ->
+            unstash DEFAULT_STASH_NAME
+            innerClosure()
         }
     }
 }
