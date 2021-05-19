@@ -9,6 +9,7 @@ public class StashUnstashPlugin implements Plugin {
 
     public static void init() {
         StagePlugins.add(new StashUnstashPlugin(), BuildStage.class)
+        StagePlugins.add(new StashUnstashPlugin(), DeployStage.class)
     }
 
     public void apply(Stage stage) {

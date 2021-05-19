@@ -38,6 +38,14 @@ class StashUnstashPluginTest {
 
             assertThat(results, hasItem(instanceOf(StashUnstashPlugin.class)))
         }
+
+        @Test
+        void addStashUnstashPluginToDeployStage() {
+            StashUnstashPlugin.init()
+            def results = StagePlugins.getPluginsFor(new DeployStage())
+
+            assertThat(results, hasItem(instanceOf(StashUnstashPlugin.class)))
+        }
     }
 
     @Nested
