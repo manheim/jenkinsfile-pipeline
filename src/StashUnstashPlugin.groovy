@@ -1,5 +1,9 @@
 public class StashUnstashPlugin implements Plugin {
-    public static withArtifact(String artifact) {
+    public static final String DEFAULT_STASH_NAME = 'buildArtifact'
+    private static String artifactPattern
+
+    public static withArtifact(String artifactPattern) {
+        this.artifactPattern = artifactPattern
         return this
     }
 
@@ -12,6 +16,9 @@ public class StashUnstashPlugin implements Plugin {
     }
 
     public Closure stashDecoration() {
-        return { }
+        return { innerClosure ->
+            innerClosure()
+            stash includes: artifactPattern, name: DEFAULT_STASH_NAME
+        }
     }
 }

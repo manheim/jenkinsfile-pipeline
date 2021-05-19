@@ -54,4 +54,36 @@ class StashUnstashPluginTest {
             verify(buildStage).decorate(stashDecoration)
         }
     }
+
+    @Nested
+    public class StashDecoration {
+        @Test
+        void callsStashOnTheGivenArtifactPatternAndDefaultStashName() {
+            def expectedStashName = StashUnstashPlugin.DEFAULT_STASH_NAME
+            def expectedArtifactPattern = 'build/pattern.artifact'
+            def plugin = new StashUnstashPlugin()
+            def workflowScript = spy(new MockWorkflowScript())
+
+            StashUnstashPlugin.withArtifact(expectedArtifactPattern)
+            def decoration = plugin.stashDecoration()
+            decoration.delegate = workflowScript
+            decoration() { }
+
+            verify(workflowScript).stash(includes: expectedArtifactPattern, name: expectedStashName)
+        }
+
+        @Test
+        void callsInnerClosure() {
+            def wasCalled = false
+            def innerClosure = { wasCalled = true }
+            def plugin = new StashUnstashPlugin()
+            def workflowScript = new MockWorkflowScript()
+
+            def decoration = plugin.stashDecoration()
+            decoration.delegate = workflowScript
+            decoration(innerClosure)
+
+            assertThat(wasCalled, equalTo(true))
+        }
+    }
 }
