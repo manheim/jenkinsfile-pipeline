@@ -24,4 +24,8 @@ public class DeployStage implements Stage {
     public void decorate(Closure decoration) {
         decorations.add(decoration)
     }
+
+    public String getEnvironment() {
+        return environment
+    }
 }
