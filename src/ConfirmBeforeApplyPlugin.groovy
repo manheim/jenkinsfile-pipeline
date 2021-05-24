@@ -4,6 +4,10 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        println "ConfirmBeforeDeploy.apply()"
+        stage.decorate(confirmClosure())
+    }
+
+    public Closure confirmClosure() {
+        return { }
     }
 }
