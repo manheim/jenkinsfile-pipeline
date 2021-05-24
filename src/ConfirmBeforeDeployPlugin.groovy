@@ -17,7 +17,7 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
             timeout(time: 15, unit: 'MINUTES') {
                 def results = input([
                     message: "Do you really want to deploy ${environment}?".toString(),
-                    okMessage: "Deploy ${environment}".toString(),
+                    ok: "Deploy ${environment}".toString(),
                     submitterParameter: 'approver'
                 ])
 

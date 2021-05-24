@@ -80,7 +80,7 @@ class ConfirmBeforeDeployPluginTest {
             def environment = 'qa'
             def expectedInputParams = [
                 message: "Do you really want to deploy ${environment}?".toString(),
-                okMessage: "Deploy ${environment}".toString(),
+                ok: "Deploy ${environment}".toString(),
                 submitterParameter: 'approver'
             ]
 
