@@ -27,7 +27,7 @@ class ConfirmBeforeDeployPluginTest {
         void addsPluginToTheDeployStage() {
             ConfirmBeforeDeployPlugin.init()
 
-            def plugins = StagePlugins.getPluginsFor(mock(BuildStage.class))
+            def plugins = StagePlugins.getPluginsFor(mock(DeployStage.class))
 
             assertThat(plugins, hasItem(instanceOf(ConfirmBeforeDeployPlugin.class)))
         }

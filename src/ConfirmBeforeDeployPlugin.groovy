@@ -1,6 +1,6 @@
 public class ConfirmBeforeDeployPlugin implements Plugin {
     public static init() {
-        StagePlugins.add(new ConfirmBeforeDeployPlugin(), BuildStage.class)
+        StagePlugins.add(new ConfirmBeforeDeployPlugin(), DeployStage.class)
     }
 
     public static autoDeploy(String environmentName) {
