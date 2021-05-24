@@ -8,6 +8,6 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
     }
 
     public Closure confirmClosure() {
-        return { }
+        return { it() }
     }
 }
