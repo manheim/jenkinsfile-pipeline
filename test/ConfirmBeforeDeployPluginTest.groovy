@@ -61,4 +61,14 @@ class ConfirmBeforeDeployPluginTest {
             assertThat(wasCalled, equalTo(true))
         }
     }
+
+    @Nested
+    public class AutoDeploy {
+        @Test
+        void isFluent() {
+            def result = ConfirmBeforeDeployPlugin.autoDeploy('qa')
+
+            assertThat(result, equalTo(ConfirmBeforeDeployPlugin))
+        }
+    }
 }

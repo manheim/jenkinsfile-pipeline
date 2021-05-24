@@ -3,6 +3,10 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
         StagePlugins.add(new ConfirmBeforeDeployPlugin(), BuildStage.class)
     }
 
+    public static autoDeploy(String environmentName) {
+        return this
+    }
+
     public void apply(Stage stage) {
         stage.decorate(confirmClosure())
     }
