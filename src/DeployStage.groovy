@@ -14,7 +14,7 @@ public class DeployStage implements Stage {
         return {
             decorations.apply() {
                 stage("deploy-${environment}") {
-                    sh './bin/deploy.sh'
+                    sh "./bin/deploy.sh ${environment}".toString()
                 }
             }
         }
