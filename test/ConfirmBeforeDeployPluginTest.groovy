@@ -74,6 +74,25 @@ class ConfirmBeforeDeployPluginTest {
 
             verify(workflowScript).timeout(eq(time: 15, unit: 'MINUTES'), any(Closure.class))
         }
+
+        @Test
+        void promptsForUserInput() {
+            def environment = 'qa'
+            def expectedInputParams = [
+                message: "Do you really want to deploy ${environment}?".toString(),
+                okMessage: "Deploy ${environment}".toString(),
+                submitterParameter: 'approver'
+            ]
+
+            def workflowScript = spy(new MockWorkflowScript())
+            def plugin = new ConfirmBeforeDeployPlugin()
+
+            def confirmClosure = plugin.confirmClosure(environment)
+            confirmClosure.delegate = workflowScript
+            confirmClosure { }
+
+            verify(workflowScript).input(eq(expectedInputParams))
+        }
     }
 
     @Nested

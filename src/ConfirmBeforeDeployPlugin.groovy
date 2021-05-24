@@ -8,13 +8,20 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        stage.decorate(confirmClosure())
+        String environment = stage.getEnvironment()
+        stage.decorate(confirmClosure(environment))
     }
 
-    public Closure confirmClosure() {
+    public Closure confirmClosure(String environment) {
         return { innerClosure ->
             timeout(time: 15, unit: 'MINUTES') {
-                println "prompt for input"
+                def results = input([
+                    message: "Do you really want to deploy ${environment}?".toString(),
+                    okMessage: "Deploy ${environment}".toString(),
+                    submitterParameter: 'approver'
+                ])
+
+                sh "echo results: ${results}"
             }
 
             innerClosure()
