@@ -18,4 +18,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #29](https://github.com/manheim/jenkinsfile-pipeline-library/issues/29): Allow access to Jenkins Credentials during BuildStage
 - [Issue #31](https://github.com/manheim/jenkinsfile-pipeline-library/issues/31): Allow DeployStage to be decorated by Plugins
 - [Issue #7](https://github.com/manheim/jenkinsfile-pipeline-library/issues/7): Save artifacts created in BuildStage
+- [Issue #37](https://github.com/manheim/jenkinsfile-pipeline-library/issues/37): Pass environment name to DeployStage
 
