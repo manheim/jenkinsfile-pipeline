@@ -41,15 +41,16 @@ class DeployStageTest {
         }
 
         @Test
-        void runsDeployScriptByDefault() {
-            def deployStage = new DeployStage('qa')
+        void runsDeployScriptWithEnvironmentNameByDefault() {
+            def environment = 'qa'
+            def deployStage = new DeployStage(environment)
             def workflowScript = spy(new MockWorkflowScript())
 
             def pipelineConfiguration = deployStage.pipelineConfiguration()
             pipelineConfiguration.delegate = workflowScript
             pipelineConfiguration()
 
-            verify(workflowScript).sh('./bin/deploy.sh')
+            verify(workflowScript).sh("./bin/deploy.sh ${environment}".toString())
         }
 
         @Nested
