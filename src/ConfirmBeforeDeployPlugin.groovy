@@ -12,6 +12,12 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
     }
 
     public Closure confirmClosure() {
-        return { it() }
+        return { innerClosure ->
+            timeout(time: 15, unit: 'MINUTES') {
+                println "prompt for input"
+            }
+
+            innerClosure()
+        }
     }
 }

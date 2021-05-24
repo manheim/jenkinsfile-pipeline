@@ -2,7 +2,9 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
+import static org.mockito.Mockito.any
 import static org.mockito.Mockito.doReturn
+import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
@@ -59,6 +61,18 @@ class ConfirmBeforeDeployPluginTest {
             confirmClosure(innerClosure)
 
             assertThat(wasCalled, equalTo(true))
+        }
+
+        @Test
+        void timesOutAfter15Minutes() {
+            def workflowScript = spy(new MockWorkflowScript())
+            def plugin = new ConfirmBeforeDeployPlugin()
+
+            def confirmClosure = plugin.confirmClosure()
+            confirmClosure.delegate = workflowScript
+            confirmClosure { }
+
+            verify(workflowScript).timeout(eq(time: 15, unit: 'MINUTES'), any(Closure.class))
         }
     }
 
