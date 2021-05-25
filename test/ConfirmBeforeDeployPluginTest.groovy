@@ -95,22 +95,15 @@ class ConfirmBeforeDeployPluginTest {
             verify(workflowScript).input(eq(expectedInputParams))
         }
 
-        /*
         @Nested
         public class WithAutoDeploy {
-            @BeforeEach
-            @AfterEach
-            void reset() {
-                ConfirmBeforeDeployPlugin.reset()
-            }
-
             @Test
             void skipsPromptsForUserInput() {
                 def environment = 'qa'
                 def workflowScript = spy(new MockWorkflowScript())
-                def plugin = new ConfirmBeforeDeployPlugin()
+                def plugin = spy(new ConfirmBeforeDeployPlugin())
+                doReturn(true).when(plugin).shouldAutoDeploy(environment)
 
-                ConfirmBeforeDeployPlugin.autoDeploy('qa')
                 def confirmClosure = plugin.confirmClosure(environment)
                 confirmClosure.delegate = workflowScript
                 confirmClosure { }
@@ -118,7 +111,6 @@ class ConfirmBeforeDeployPluginTest {
                 verify(workflowScript, times(0)).input(any(Map.class))
             }
         }
-        */
     }
 
     @Nested

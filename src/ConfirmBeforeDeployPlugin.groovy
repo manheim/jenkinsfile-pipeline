@@ -17,14 +17,16 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
 
     public Closure confirmClosure(String environment) {
         return { innerClosure ->
-            timeout(time: 15, unit: 'MINUTES') {
-                def results = input([
-                    message: "Do you really want to deploy ${environment}?".toString(),
-                    ok: "Deploy ${environment}".toString(),
-                    submitterParameter: 'approver'
-                ])
+            if (!shouldAutoDeploy(environment)) {
+                timeout(time: 15, unit: 'MINUTES') {
+                    def results = input([
+                        message: "Do you really want to deploy ${environment}?".toString(),
+                        ok: "Deploy ${environment}".toString(),
+                        submitterParameter: 'approver'
+                    ])
 
-                sh "echo results: ${results}"
+                    sh "echo results: ${results}"
+                }
             }
 
             innerClosure()
