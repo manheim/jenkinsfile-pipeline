@@ -11,10 +11,11 @@ public class DeployStage implements Stage {
     public Closure pipelineConfiguration() {
         plugins.apply(this)
 
+        def stageEnvironment = environment
         return {
             decorations.apply() {
-                stage("deploy-${environment}") {
-                    sh "./bin/deploy.sh ${environment}".toString()
+                stage("deploy-${stageEnvironment}") {
+                    sh "./bin/deploy.sh ${stageEnvironment}".toString()
                 }
             }
         }
