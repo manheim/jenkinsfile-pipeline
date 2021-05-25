@@ -1,9 +1,12 @@
 public class ConfirmBeforeDeployPlugin implements Plugin {
+    private static autoDeployEnvironments = []
+
     public static init() {
         StagePlugins.add(new ConfirmBeforeDeployPlugin(), DeployStage.class)
     }
 
-    public static autoDeploy(String environmentName) {
+    public static autoDeploy(String environment) {
+        autoDeployEnvironments << environment
         return this
     }
 
@@ -26,5 +29,13 @@ public class ConfirmBeforeDeployPlugin implements Plugin {
 
             innerClosure()
         }
+    }
+
+    public boolean shouldAutoDeploy(String environment) {
+        return autoDeployEnvironments.contains(environment)
+    }
+
+    public static reset() {
+        autoDeployEnvironments = []
     }
 }

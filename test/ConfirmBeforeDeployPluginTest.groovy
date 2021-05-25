@@ -7,6 +7,7 @@ import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
+import static org.mockito.Mockito.times
 import static org.mockito.Mockito.verify
 
 import org.junit.jupiter.api.AfterEach
@@ -92,6 +93,76 @@ class ConfirmBeforeDeployPluginTest {
             confirmClosure { }
 
             verify(workflowScript).input(eq(expectedInputParams))
+        }
+
+        /*
+        @Nested
+        public class WithAutoDeploy {
+            @BeforeEach
+            @AfterEach
+            void reset() {
+                ConfirmBeforeDeployPlugin.reset()
+            }
+
+            @Test
+            void skipsPromptsForUserInput() {
+                def environment = 'qa'
+                def workflowScript = spy(new MockWorkflowScript())
+                def plugin = new ConfirmBeforeDeployPlugin()
+
+                ConfirmBeforeDeployPlugin.autoDeploy('qa')
+                def confirmClosure = plugin.confirmClosure(environment)
+                confirmClosure.delegate = workflowScript
+                confirmClosure { }
+
+                verify(workflowScript, times(0)).input(any(Map.class))
+            }
+        }
+        */
+    }
+
+    @Nested
+    public class ShouldAutoDeploy {
+        @BeforeEach
+        @AfterEach
+        void reset() {
+            ConfirmBeforeDeployPlugin.reset()
+        }
+
+        @Test
+        void returnsFalseByDefault() {
+            def plugin = new ConfirmBeforeDeployPlugin()
+
+            def result = plugin.shouldAutoDeploy('qa')
+
+            assertThat(result, equalTo(false))
+        }
+
+        @Test
+        void returnsTrueForAutoDeployEnvironments() {
+            def autoDeployEnvironment = 'qa'
+            def plugin = new ConfirmBeforeDeployPlugin()
+
+            ConfirmBeforeDeployPlugin.autoDeploy(autoDeployEnvironment)
+            def result = plugin.shouldAutoDeploy(autoDeployEnvironment)
+
+            assertThat(result, equalTo(true))
+        }
+
+        @Test
+        void returnsTrueForMultipleEnvironments() {
+            def autoDeployEnvironment1 = 'qa1'
+            def autoDeployEnvironment2 = 'qa2'
+            def plugin = new ConfirmBeforeDeployPlugin()
+
+            ConfirmBeforeDeployPlugin.autoDeploy(autoDeployEnvironment1)
+                                     .autoDeploy(autoDeployEnvironment2)
+
+            def result1 = plugin.shouldAutoDeploy(autoDeployEnvironment1)
+            def result2 = plugin.shouldAutoDeploy(autoDeployEnvironment2)
+
+            assertThat(result1, equalTo(true))
+            assertThat(result2, equalTo(true))
         }
     }
 
