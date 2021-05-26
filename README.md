@@ -88,11 +88,14 @@ pipeline.startsWith(buildArtifact)
 
 The example above gives you a bare-bones pipeline, and there may be Jenkinsfile features that you'd like to take advantage of.  Some of these features have been pre-defined as Plugins for this library.  Pre-defined plugins can be enabled by simply calling their static `init()` method.
 
-### Deployment Artifact Management
+### Build Artifact Management
 * [StashUnstashPlugin](./docs/StashUnstashPlugin.md): Stash your artifact after BuildStage, and unstash it for each of your subsequent DeployStages.
 
 ### Credentials and Configuration Management
 * [CredentialsPlugin](./docs/CredentialsPlugin.md): Inject Jenkins credentials into your stages.
+
+### Workflow Management
+* [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Optionally wait for confirmation before deploying
 
 # Control Where Your Jobs Are Run
 

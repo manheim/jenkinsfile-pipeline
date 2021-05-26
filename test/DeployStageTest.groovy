@@ -69,4 +69,17 @@ class DeployStageTest {
             }
         }
     }
+
+    @Nested
+    public class GetEnvironment {
+        @Test
+        void returnsTheDeployStageEnvironment() {
+            def expectedEnvironment = 'qa'
+
+            def stage = new DeployStage(expectedEnvironment)
+            def result = stage.getEnvironment()
+
+            assertThat(result, equalTo(expectedEnvironment))
+        }
+    }
 }
