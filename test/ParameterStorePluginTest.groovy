@@ -2,6 +2,7 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
+import static org.mockito.Mockito.any
 import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
@@ -59,6 +60,18 @@ class ParameterStorePluginTest {
             parameterStoreClosure(innerClosure)
 
             assertThat(wasCalled, equalTo(true))
+        }
+
+        @Test
+        void callsWithAwsParameterStore() {
+            def workflowScript = spy(new MockWorkflowScript())
+            def plugin = new ParameterStorePlugin()
+            def parameterStoreClosure = plugin.parameterStoreClosure()
+
+            parameterStoreClosure.delegate = workflowScript
+            parameterStoreClosure { }
+
+            verify(workflowScript).withAWSParameterStore(any(Map), any(Closure))
         }
     }
 }

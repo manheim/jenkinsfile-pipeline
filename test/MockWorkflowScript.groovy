@@ -91,5 +91,11 @@ class MockWorkflowScript {
         print "MockWorkflowScript.usernamePassword(${options})"
         return options
     }
+
+    public withAWSParameterStore(Map options, Closure innerClosure) {
+        print "MockWorkflowScript.withAWSParameterStore(${options})"
+        innerClosure.delegate = this
+        innerClosure()
+    }
 }
 

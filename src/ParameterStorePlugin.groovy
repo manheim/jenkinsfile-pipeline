@@ -8,8 +8,12 @@ class ParameterStorePlugin implements Plugin {
     }
 
     public Closure parameterStoreClosure() {
+        def options = [:]
         return { innerClosure ->
-            innerClosure()
+            sh "echo \"loading withAWSParameterStore(${options})\""
+            withAWSParameterStore(options) {
+                innerClosure()
+            }
         }
     }
 }
