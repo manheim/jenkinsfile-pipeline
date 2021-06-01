@@ -8,6 +8,8 @@ class ParameterStorePlugin implements Plugin {
     }
 
     public Closure parameterStoreClosure() {
-        return { }
+        return { innerClosure ->
+            innerClosure()
+        }
     }
 }

@@ -1,4 +1,5 @@
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
 import static org.mockito.Mockito.doReturn
@@ -42,6 +43,22 @@ class ParameterStorePluginTest {
             plugin.apply(stage)
 
             verify(stage).decorate(expectedDecoration)
+        }
+    }
+
+    @Nested
+    public class ParameterStoreClosure {
+        @Test
+        void runsTheInnerClosure() {
+            def wasCalled = false
+            def innerClosure = { wasCalled = true }
+            def plugin = new ParameterStorePlugin()
+            def parameterStoreClosure = plugin.parameterStoreClosure()
+
+            parameterStoreClosure.delegate = new MockWorkflowScript()
+            parameterStoreClosure(innerClosure)
+
+            assertThat(wasCalled, equalTo(true))
         }
     }
 }
