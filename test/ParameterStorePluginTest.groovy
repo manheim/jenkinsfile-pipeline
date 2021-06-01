@@ -76,4 +76,16 @@ class ParameterStorePluginTest {
             verify(workflowScript).withAWSParameterStore(expectedParameters, innerClosure)
         }
     }
+
+    @Nested
+    public class GetParameters {
+        @Test
+        void usesBasenameNamingByDefault() {
+            def plugin = new ParameterStorePlugin()
+
+            def results = plugin.getParameters()
+
+            assertThat(results['naming'], equalTo('basename'))
+        }
+    }
 }

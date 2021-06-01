@@ -16,6 +16,6 @@ class ParameterStorePlugin implements Plugin {
     }
 
     public Map getParameters() {
-        return [:]
+        return [ naming: 'basename' ]
     }
 }
