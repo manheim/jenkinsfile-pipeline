@@ -4,6 +4,10 @@ class ParameterStorePlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        println "Do the thing"
+        stage.decorate(parameterStoreClosure())
+    }
+
+    public Closure parameterStoreClosure() {
+        return { }
     }
 }
