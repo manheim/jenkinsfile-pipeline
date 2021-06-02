@@ -93,6 +93,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Credentials and Configuration Management
 * [CredentialsPlugin](./docs/CredentialsPlugin.md): Inject Jenkins credentials into your stages.
+* [ParameterStorePlugin](./docs/ParameterStorePlugin.md): Inject environment variables from ParameterStore parameters.
 
 ### Workflow Management
 * [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Optionally wait for confirmation before deploying

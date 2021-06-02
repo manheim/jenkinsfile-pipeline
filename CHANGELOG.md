@@ -20,4 +20,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #7](https://github.com/manheim/jenkinsfile-pipeline-library/issues/7): Save artifacts created in BuildStage
 - [Issue #37](https://github.com/manheim/jenkinsfile-pipeline-library/issues/37): Pass environment name to DeployStage
 - [Issue #2](https://github.com/manheim/jenkinsfile-pipeline-library/issues/2): Optionally wait for confirmation before DeployStage
+- [Issue #41](https://github.com/manheim/jenkinsfile-pipeline-library/issues/41): Allow parameters from ParameterStore
 

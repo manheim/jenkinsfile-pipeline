@@ -1,6 +1,6 @@
 class MockWorkflowScript {
     public docker
-    public scm
+    public scm = new MockScm('someurl')
     public env = [:]
     public static BRANCH_NAME
 
@@ -90,6 +90,12 @@ class MockWorkflowScript {
     public usernamePassword(Map options) {
         print "MockWorkflowScript.usernamePassword(${options})"
         return options
+    }
+
+    public withAWSParameterStore(Map options, Closure innerClosure) {
+        print "MockWorkflowScript.withAWSParameterStore(${options})"
+        innerClosure.delegate = this
+        innerClosure()
     }
 }
 
