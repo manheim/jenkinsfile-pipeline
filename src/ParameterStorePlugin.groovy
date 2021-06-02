@@ -4,18 +4,26 @@ class ParameterStorePlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        stage.decorate(parameterStoreClosure())
+        if (stage instanceof DeployStage) {
+            def environment = stage.getEnvironment()
+            stage.decorate(parameterStoreClosure(environment))
+        }
     }
 
-    public Closure parameterStoreClosure() {
-        def options = getParameters()
+    public Closure parameterStoreClosure(String environment) {
         return { innerClosure ->
+            def scmUtil = new ScmUtil(this)
+            def options = getParameters(environment, scmUtil)
             sh "echo \"loading withAWSParameterStore(${options})\""
             withAWSParameterStore(options, innerClosure)
         }
     }
 
-    public Map getParameters() {
-        return [ naming: 'basename' ]
+    public Map getParameters(String environment, ScmUtil scmUtil) {
+        def scm = scmUtil.getParsedUrl()
+        return [
+            naming: 'basename',
+            path: "/${scm['org']}/${scm['repo']}/${environment}"
+        ]
     }
 }
