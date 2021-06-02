@@ -95,6 +95,9 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 * [CredentialsPlugin](./docs/CredentialsPlugin.md): Inject Jenkins credentials into your stages.
 * [ParameterStorePlugin](./docs/ParameterStorePlugin.md): Inject environment variables from ParameterStore parameters.
 
+### IAM Role Management
+* [WithAwsPlugin](./docs/WithAwsPlugin.md): Use `withAws` to assume different IAM roles during deployment.
+
 ### Workflow Management
 * [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Optionally wait for confirmation before deploying
 
