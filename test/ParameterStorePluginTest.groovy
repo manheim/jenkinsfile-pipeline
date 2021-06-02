@@ -69,7 +69,8 @@ class ParameterStorePluginTest {
         void runsTheInnerClosure() {
             def wasCalled = false
             def innerClosure = { wasCalled = true }
-            def plugin = new ParameterStorePlugin()
+            def plugin = spy(new ParameterStorePlugin())
+            doReturn([:]).when(plugin).getParameters(any(String), any(ScmUtil))
             def parameterStoreClosure = plugin.parameterStoreClosure('foo')
 
             parameterStoreClosure.delegate = new MockWorkflowScript()
@@ -113,7 +114,7 @@ class ParameterStorePluginTest {
             def plugin = new ParameterStorePlugin()
             def scmUtil = mock(ScmUtil)
             when(scmUtil.getParsedUrl()).thenReturn([
-                org: expectedOrg,
+                organization: expectedOrg,
                 repo: expectedRepo
             ])
 

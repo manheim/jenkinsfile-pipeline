@@ -45,4 +45,59 @@ class ScmUtilTest {
             assertThat(url, equalTo(expectedUrl))
         }
     }
+
+    @Nested
+    public class ParseScmUrl {
+        @Nested
+        public class WithHttpUrl {
+            @Test
+            void worksWithHttp() {
+                def expectedProtocol = "http"
+                def scmUtil = new ScmUtil(null)
+                def url = "${expectedProtocol}://github.com/SomeOrg/myRepo".toString()
+
+                def result = scmUtil.parseScmUrl(url)
+
+                assertThat(result['protocol'], equalTo(expectedProtocol))
+            }
+
+            @Test
+            void worksWithHttps() {
+                def expectedProtocol = "https"
+                def scmUtil = new ScmUtil(null)
+                def url = "${expectedProtocol}://github.com/SomeOrg/myRepo".toString()
+
+                def result = scmUtil.parseScmUrl(url)
+
+                assertThat(result['protocol'], equalTo(expectedProtocol))
+            }
+
+            @Test
+            void determinesTheOrgFromTheUrl() {
+                def expectedOrg = "MyOrg"
+                def scmUtil = new ScmUtil(null)
+                def url = "https://github.com/${expectedOrg}/myRepo".toString()
+
+                def result = scmUtil.parseScmUrl(url)
+
+                assertThat(result['organization'], equalTo(expectedOrg))
+            }
+
+            @Test
+            void determinesTheRepoFromTheUrl() {
+                def expectedRepo = "myRepo"
+                def scmUtil = new ScmUtil(null)
+                def url = "https://github.com/MyOrg/${expectedRepo}".toString()
+
+                def result = scmUtil.parseScmUrl(url)
+
+                assertThat(result['repo'], equalTo(expectedRepo))
+            }
+        }
+
+        @Nested
+        public class WithSshUrl {
+
+        }
+    }
 }
