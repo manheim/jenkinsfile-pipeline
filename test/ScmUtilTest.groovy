@@ -97,7 +97,27 @@ class ScmUtilTest {
 
         @Nested
         public class WithSshUrl {
+            @Test
+            void determinesTheOrgFromTheUrl() {
+                def expectedOrg = "MyOrg"
+                def scmUtil = new ScmUtil(null)
+                def url = "git@github.com:${expectedOrg}/myRepo".toString()
 
+                def result = scmUtil.parseScmUrl(url)
+
+                assertThat(result['organization'], equalTo(expectedOrg))
+            }
+
+            @Test
+            void determinesTheRepoFromTheUrl() {
+                def expectedRepo = "myRepo"
+                def scmUtil = new ScmUtil(null)
+                def url = "git@github.com:MyOrg/${expectedRepo}".toString()
+
+                def result = scmUtil.parseScmUrl(url)
+
+                assertThat(result['repo'], equalTo(expectedRepo))
+            }
         }
     }
 }
