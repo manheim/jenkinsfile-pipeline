@@ -23,7 +23,8 @@ class ParameterStorePlugin implements Plugin {
         def scm = scmUtil.getParsedUrl()
         return [
             naming: 'basename',
-            path: "/${scm['organization']}/${scm['repo']}/${environment}"
+            path: "/${scm['organization']}/${scm['repo']}/${environment}",
+            credentialsId: "${environment.toUpperCase()}_PARAMETER_STORE_ACCESS".toString()
         ]
     }
 }

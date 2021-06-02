@@ -4,6 +4,7 @@ Enable this plugin to inject environment variables into your stages using the [A
 
 One-time setup:
 * Install the [AWS Parameter Store Build Wrapper Plugin](https://plugins.jenkins.io/aws-parameter-store/).
+* If your environment live in different AWS Accounts, create an AWS Credential with the id `<ENVIRONMENT>_PARAMETER_STORE_ACCESS` that provides access to ParameterStore for that environment's account.
 
 By default, parameters will be retrieved from the ParameterStore path constructed from your project's Git Organization, Git Repository name, and environment. Eg: If my repo were at https://github.com/Manheim/MyApp, then my 'qa' environment would receive parameters from the ParameterStore path `/Manheim/MyApp/qa`.
 

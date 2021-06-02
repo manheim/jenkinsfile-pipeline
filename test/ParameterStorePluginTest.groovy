@@ -122,5 +122,15 @@ class ParameterStorePluginTest {
 
             assertThat(results['path'], equalTo("/${expectedOrg}/${expectedRepo}/foo"))
         }
+
+        @Test
+        void includesCredentialsIdNamespacedByEnvironment() {
+            def environment = 'foo'
+            def plugin = new ParameterStorePlugin()
+
+            def results = plugin.getParameters(environment, mock(ScmUtil))
+
+            assertThat(results['credentialsId'], equalTo("${environment.toUpperCase()}_PARAMETER_STORE_ACCESS".toString()))
+        }
     }
 }
