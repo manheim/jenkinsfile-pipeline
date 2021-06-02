@@ -1,6 +1,6 @@
 ## [ParameterStorePlugin](../src/ParameterStorePlugin.groovy)
 
-Enable this plugin to inject environment variables into your stages using the [AWS Parameter Store Build Wrapper Plugin](https://plugins.jenkins.io/aws-parameter-store/).
+Enable this plugin to inject environment variables into your stages using the [AWS Parameter Store Build Wrapper Plugin](https://plugins.jenkins.io/aws-parameter-store/). Note: This Plugin currently only works with DeployStages (not BuildStage).
 
 One-time setup:
 * Install the [AWS Parameter Store Build Wrapper Plugin](https://plugins.jenkins.io/aws-parameter-store/).
