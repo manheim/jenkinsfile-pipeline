@@ -12,7 +12,7 @@ class ParameterStorePlugin implements Plugin {
 
     public Closure parameterStoreClosure(String environment) {
         return { innerClosure ->
-            def scmUtil = new ScmUtil(this)
+            def scmUtil = new ScmUtil(delegate)
             def options = getParameters(environment, scmUtil)
             sh "echo \"loading withAWSParameterStore(${options})\""
             withAWSParameterStore(options, innerClosure)

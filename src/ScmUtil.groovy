@@ -1,6 +1,8 @@
 public class ScmUtil {
+    private workflowScript
+
     public ScmUtil(workflowScript) {
-        println "ScmUtil()"
+        this.workflowScript = workflowScript
     }
 
     public Map getParsedUrl() {
@@ -9,7 +11,7 @@ public class ScmUtil {
     }
 
     public String getScmUrl() {
-        return 'someUrl'
+        workflowScript.scm.getUserRemoteConfigs()[0].getUrl()
     }
 
     public Map parseScmUrl(String url) {

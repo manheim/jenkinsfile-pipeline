@@ -30,4 +30,19 @@ class ScmUtilTest {
             assertThat(result, equalTo(expectedResult))
         }
     }
+
+    @Nested
+    public class GetScmUrl {
+        @Test
+        void returnsTheFirstUserRemoteConfigUrl() {
+            def expectedUrl = 'myUrl'
+            def workflowScript = new MockWorkflowScript()
+            workflowScript.scm = new MockScm(expectedUrl)
+            def scmUtil = new ScmUtil(workflowScript)
+
+            def url = scmUtil.getScmUrl()
+
+            assertThat(url, equalTo(expectedUrl))
+        }
+    }
 }

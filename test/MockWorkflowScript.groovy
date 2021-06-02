@@ -1,6 +1,6 @@
 class MockWorkflowScript {
     public docker
-    public scm
+    public scm = new MockScm('someurl')
     public env = [:]
     public static BRANCH_NAME
 
