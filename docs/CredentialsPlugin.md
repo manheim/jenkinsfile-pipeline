@@ -9,7 +9,7 @@ One-time setup:
 Specify the credential that you want to inject in your stages.  Optionally provide custom username/password environment variables that will contain the credential values for your use.
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 
 // MY_CREDENTIALS_USERNAME and MY_CREDENTIALS_PASSWORD will contain the username/password of the 'my-credentials' credential.
 CredentialsPlugin.withCredentials('my-credentials').init()

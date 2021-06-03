@@ -3,7 +3,7 @@
 By default, environments will deploy builds/changes automatically, with no human intervention.  Enable this plugin to optionally require confirmation before proceeding to deploy an environment.
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 
 // Wait on confirmation before deploying to any environment.
 ConfirmBeforeDeployPlugin.init()
@@ -24,7 +24,7 @@ pipeline.startsWith(buildArtifact)
 You can configure different behavior per-environment, using the `autoDeploy` method.  Any environments set to `autoDeploy` will skip human confirmation, just as though the `ConfirmBeforeDeployPlugin` were not enabled.
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 
 // Automatically deploy qa builds with no confirmation.
 // Wait on confirmation before deploying to any other environment (uat/prod).

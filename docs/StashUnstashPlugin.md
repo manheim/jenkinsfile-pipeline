@@ -5,7 +5,7 @@ Enable this plugin to [stash](https://www.jenkins.io/doc/pipeline/steps/workflow
 Specify the path to the artifact that you want to stash.
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 
 // BuildStage is expected to generate a file target/MyApplication.war - stash it on completion
 // Unstash MyApplication.war at the beginning of each subsequent DeployStage
