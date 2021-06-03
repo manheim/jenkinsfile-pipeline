@@ -8,26 +8,32 @@ class WithAwsPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        stage.decorate(withAwsClosure())
+        def environment = stage.getEnvironment()
+        stage.decorate(withAwsClosure(environment))
     }
 
-    public Map getOptions(EnvironmentUtil util) {
+    public Map getOptions(String environment, EnvironmentUtil util) {
         def results = [:]
         def role = null
 
-        role = util.getEnvironmentVariable('AWS_ROLE_ARN')
+        role = util.getEnvironmentVariable("${environment.toUpperCase()}_AWS_ROLE_ARN".toString())
         if (role != null) {
             results['iamRole'] = role
+        } else {
+            role = util.getEnvironmentVariable('AWS_ROLE_ARN')
+            if (role != null) {
+                results['iamRole'] = role
+            }
         }
 
         return results
     }
 
-    public Closure withAwsClosure() {
+    public Closure withAwsClosure(String environment) {
         return { innerClosure ->
             def envUtil = new EnvironmentUtil()
-            def options = getOptions(envUtil)
-            sh "echo \"WithAwsPlugin.withAWS(${options})\""
+            def options = getOptions(environment, envUtil)
+            sh "echo \"WithAwsPlugin.withAWS(${options}) for ${environment}\""
             withAWS(options, innerClosure)
         }
     }

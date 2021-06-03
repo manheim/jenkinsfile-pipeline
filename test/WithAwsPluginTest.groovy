@@ -66,7 +66,7 @@ class WithAwsPluginTest {
             def innerClosure = { wasCalled = true }
             def plugin = spy(new WithAwsPlugin())
 
-            def withAwsClosure = plugin.withAwsClosure()
+            def withAwsClosure = plugin.withAwsClosure('foo')
             withAwsClosure.delegate = new MockWorkflowScript()
             withAwsClosure(innerClosure)
 
@@ -78,7 +78,7 @@ class WithAwsPluginTest {
             def expectedOptions = [ option: 'someValue' ]
             def workflowScript = spy(new MockWorkflowScript())
             def plugin = spy(new WithAwsPlugin())
-            doReturn(expectedOptions).when(plugin).getOptions(any(EnvironmentUtil))
+            doReturn(expectedOptions).when(plugin).getOptions(any(String), any(EnvironmentUtil))
 
             def withAwsClosure = plugin.withAwsClosure()
             withAwsClosure.delegate = workflowScript
@@ -94,7 +94,7 @@ class WithAwsPluginTest {
         void returnsEmptyMapByDefault() {
             def plugin = new WithAwsPlugin()
 
-            def results = plugin.getOptions(new EnvironmentUtil())
+            def results = plugin.getOptions('foo', new EnvironmentUtil())
 
             assertThat(results, equalTo([:]))
         }
@@ -106,7 +106,35 @@ class WithAwsPluginTest {
             def environmentUtil = spy(new EnvironmentUtil())
             doReturn(expectedRole).when(environmentUtil).getEnvironmentVariable('AWS_ROLE_ARN')
 
-            def results = plugin.getOptions(environmentUtil)
+            def results = plugin.getOptions('foo', environmentUtil)
+
+            assertThat(results, equalTo(iamRole: expectedRole))
+        }
+
+        @Test
+        void returnsEnvironmentSpecificRoleIfEnvironmentVariablePresent() {
+            def environment = 'qa'
+            def expectedRole = 'qaRole'
+            def plugin = new WithAwsPlugin()
+            def environmentUtil = spy(new EnvironmentUtil())
+            doReturn(expectedRole).when(environmentUtil).getEnvironmentVariable("${environment.toUpperCase()}_AWS_ROLE_ARN".toString())
+
+            def results = plugin.getOptions(environment, environmentUtil)
+
+            assertThat(results, equalTo(iamRole: expectedRole))
+        }
+
+        @Test
+        void prefersEnvironmentSpecificRoleOverDefaultRole() {
+            def environment = 'qa'
+            def expectedRole = 'qaRole'
+            def defaultRole = 'defaultRole'
+            def plugin = new WithAwsPlugin()
+            def environmentUtil = spy(new EnvironmentUtil())
+            doReturn(defaultRole).when(environmentUtil).getEnvironmentVariable("AWS_ROLE_ARN".toString())
+            doReturn(expectedRole).when(environmentUtil).getEnvironmentVariable("${environment.toUpperCase()}_AWS_ROLE_ARN".toString())
+
+            def results = plugin.getOptions(environment, environmentUtil)
 
             assertThat(results, equalTo(iamRole: expectedRole))
         }
