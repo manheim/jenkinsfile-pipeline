@@ -11,7 +11,7 @@ Example pipeline using the WithAwsPlugin using a single default role:
 
 ```
 // Define the AWS_ROLE_ARN environment variable
-WithAwsPlugin.withRole().init()
+WithAwsPlugin.init()
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
@@ -31,7 +31,7 @@ Example pipeline using environment-specific roles:
 
 ```
 // Define environment-specific variables (eg: QA_AWS_ROLE_ARN, UAT_AWS_ROLE_ARN, PROD_AWS_ROLE_ARN)
-WithAwsPlugin.withRole().init()
+WithAwsPlugin.init()
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()

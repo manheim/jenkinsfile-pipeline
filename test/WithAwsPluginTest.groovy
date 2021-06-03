@@ -22,16 +22,6 @@ class WithAwsPluginTest {
     }
 
     @Nested
-    public class WithRole {
-        @Test
-        void isFluent() {
-            def result = WithAwsPlugin.withRole()
-
-            assertThat(result, equalTo(WithAwsPlugin.class))
-        }
-    }
-
-    @Nested
     public class Init {
         @Test
         void addsPluginToTheDeployStage() {

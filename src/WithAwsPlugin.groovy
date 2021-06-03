@@ -3,10 +3,6 @@ class WithAwsPlugin implements Plugin {
         StagePlugins.add(new WithAwsPlugin(), DeployStage)
     }
 
-    public static withRole() {
-        return this
-    }
-
     public void apply(Stage stage) {
         def environment = stage.getEnvironment()
         stage.decorate(withAwsClosure(environment))
