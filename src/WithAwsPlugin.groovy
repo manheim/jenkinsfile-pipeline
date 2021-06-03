@@ -11,9 +11,13 @@ class WithAwsPlugin implements Plugin {
         stage.decorate(withAwsClosure())
     }
 
+    public Map getOptions() {
+        return [:]
+    }
+
     public Closure withAwsClosure() {
         return { innerClosure ->
-            def options = [ role: 'someRole' ]
+            def options = getOptions()
             sh "echo \"WithAwsPlugin.withAWS(${options})\""
             withAWS(options, innerClosure)
         }

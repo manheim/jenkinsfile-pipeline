@@ -75,15 +75,16 @@ class WithAwsPluginTest {
 
         @Test
         void callsWithAws() {
-            def expectedRole = 'someRole'
+            def expectedOptions = [ option: 'someValue' ]
             def workflowScript = spy(new MockWorkflowScript())
-            def plugin = new WithAwsPlugin()
+            def plugin = spy(new WithAwsPlugin())
+            doReturn(expectedOptions).when(plugin).getOptions()
 
             def withAwsClosure = plugin.withAwsClosure()
             withAwsClosure.delegate = workflowScript
             withAwsClosure { }
 
-            verify(workflowScript).withAWS(eq(role: expectedRole), any(Closure))
+            verify(workflowScript).withAWS(eq(expectedOptions), any(Closure))
         }
     }
 }
