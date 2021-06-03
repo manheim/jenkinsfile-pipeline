@@ -1,5 +1,11 @@
 public class EnvironmentUtil {
+    private workflowScript
+
+    public EnvironmentUtil(workflowScript) {
+        this.workflowScript = workflowScript
+    }
+
     public String getEnvironmentVariable(String variableName) {
-        return null
+        return workflowScript.env[variableName]
     }
 }

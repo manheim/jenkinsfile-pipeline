@@ -31,7 +31,7 @@ class WithAwsPlugin implements Plugin {
 
     public Closure withAwsClosure(String environment) {
         return { innerClosure ->
-            def envUtil = new EnvironmentUtil()
+            def envUtil = new EnvironmentUtil(delegate)
             def options = getOptions(environment, envUtil)
             sh "echo \"WithAwsPlugin.withAWS(${options}) for ${environment}\""
             withAWS(options, innerClosure)

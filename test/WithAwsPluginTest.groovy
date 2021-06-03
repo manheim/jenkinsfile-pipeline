@@ -94,7 +94,7 @@ class WithAwsPluginTest {
         void returnsEmptyMapByDefault() {
             def plugin = new WithAwsPlugin()
 
-            def results = plugin.getOptions('foo', new EnvironmentUtil())
+            def results = plugin.getOptions('foo', new EnvironmentUtil(new MockWorkflowScript()))
 
             assertThat(results, equalTo([:]))
         }
@@ -103,7 +103,7 @@ class WithAwsPluginTest {
         void returnsDefaultRoleIfEnvironmentVariablePresent() {
             def expectedRole = 'myRole'
             def plugin = new WithAwsPlugin()
-            def environmentUtil = spy(new EnvironmentUtil())
+            def environmentUtil = spy(new EnvironmentUtil(new MockWorkflowScript()))
             doReturn(expectedRole).when(environmentUtil).getEnvironmentVariable('AWS_ROLE_ARN')
 
             def results = plugin.getOptions('foo', environmentUtil)
