@@ -97,5 +97,11 @@ class MockWorkflowScript {
         innerClosure.delegate = this
         innerClosure()
     }
+
+    public withAWS(Map options, Closure innerClosure) {
+        print "MockWorkflowScript.withAWS(${options})"
+        innerClosure.delegate = this
+        innerClosure()
+    }
 }
 

@@ -13,8 +13,9 @@ class WithAwsPlugin implements Plugin {
 
     public Closure withAwsClosure() {
         return { innerClosure ->
-            sh "echo \"placeholder - call withAws\""
-            innerClosure()
+            def options = [ role: 'someRole' ]
+            sh "echo \"WithAwsPlugin.withAWS(${options})\""
+            withAWS(options, innerClosure)
         }
     }
 }
