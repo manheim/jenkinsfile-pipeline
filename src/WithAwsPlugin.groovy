@@ -11,13 +11,22 @@ class WithAwsPlugin implements Plugin {
         stage.decorate(withAwsClosure())
     }
 
-    public Map getOptions() {
-        return [:]
+    public Map getOptions(EnvironmentUtil util) {
+        def results = [:]
+        def role = null
+
+        role = util.getEnvironmentVariable('AWS_ROLE_ARN')
+        if (role != null) {
+            results['iamRole'] = role
+        }
+
+        return results
     }
 
     public Closure withAwsClosure() {
         return { innerClosure ->
-            def options = getOptions()
+            def envUtil = new EnvironmentUtil()
+            def options = getOptions(envUtil)
             sh "echo \"WithAwsPlugin.withAWS(${options})\""
             withAWS(options, innerClosure)
         }
