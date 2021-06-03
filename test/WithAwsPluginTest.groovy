@@ -2,7 +2,10 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
+import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.mock
+import static org.mockito.Mockito.spy
+import static org.mockito.Mockito.verify
 
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -35,6 +38,37 @@ class WithAwsPluginTest {
             def plugins = StagePlugins.getPluginsFor(mock(DeployStage))
 
             assertThat(plugins, hasItem(instanceOf(WithAwsPlugin)))
+        }
+    }
+
+    @Nested
+    public class Apply {
+        @Test
+        void decoratesDeployStageWithAws() {
+            def expectedDecoration = { }
+            def plugin = spy(new WithAwsPlugin())
+            doReturn(expectedDecoration).when(plugin).withAwsClosure()
+            def stage = mock(DeployStage)
+
+            plugin.apply(stage)
+
+            verify(stage).decorate(expectedDecoration)
+        }
+    }
+
+    @Nested
+    public class WithAwsClosure {
+        @Test
+        void callsInnerClosure() {
+            def wasCalled = false
+            def innerClosure = { wasCalled = true }
+            def plugin = spy(new WithAwsPlugin())
+
+            def withAwsClosure = plugin.withAwsClosure()
+            withAwsClosure.delegate = new MockWorkflowScript()
+            withAwsClosure(innerClosure)
+
+            assertThat(wasCalled, equalTo(true))
         }
     }
 }

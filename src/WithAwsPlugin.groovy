@@ -8,6 +8,13 @@ class WithAwsPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        println "Do the thing"
+        stage.decorate(withAwsClosure())
+    }
+
+    public Closure withAwsClosure() {
+        return { innerClosure ->
+            sh "echo \"placeholder - call withAws\""
+            innerClosure()
+        }
     }
 }
