@@ -108,7 +108,7 @@ class WithAwsPluginTest {
 
             def results = plugin.getOptions('foo', environmentUtil)
 
-            assertThat(results, equalTo(iamRole: expectedRole))
+            assertThat(results, equalTo(role: expectedRole))
         }
 
         @Test
@@ -121,7 +121,7 @@ class WithAwsPluginTest {
 
             def results = plugin.getOptions(environment, environmentUtil)
 
-            assertThat(results, equalTo(iamRole: expectedRole))
+            assertThat(results, equalTo(role: expectedRole))
         }
 
         @Test
@@ -136,7 +136,7 @@ class WithAwsPluginTest {
 
             def results = plugin.getOptions(environment, environmentUtil)
 
-            assertThat(results, equalTo(iamRole: expectedRole))
+            assertThat(results, equalTo(role: expectedRole))
         }
     }
 }

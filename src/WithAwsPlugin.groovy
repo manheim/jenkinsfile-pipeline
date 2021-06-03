@@ -18,11 +18,11 @@ class WithAwsPlugin implements Plugin {
 
         role = util.getEnvironmentVariable("${environment.toUpperCase()}_AWS_ROLE_ARN".toString())
         if (role != null) {
-            results['iamRole'] = role
+            results['role'] = role
         } else {
             role = util.getEnvironmentVariable('AWS_ROLE_ARN')
             if (role != null) {
-                results['iamRole'] = role
+                results['role'] = role
             }
         }
 
