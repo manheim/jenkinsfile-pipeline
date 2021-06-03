@@ -11,7 +11,7 @@ By default, parameters will be retrieved from the ParameterStore path constructe
 By default, [AWS Parameter Store Build Wrapper Plugin](https://plugins.jenkins.io/aws-parameter-store/) will be set to use `basename`, and all of your parameter names will be [converted and uppercased](https://github.com/jenkinsci/aws-parameter-store-plugin/blob/master/src/main/java/hudson/plugins/awsparameterstore/AwsParameterStoreService.java#L309-L315).  Eg: `/Manheim/MyApp/qa/param-1` becomes the environment variable `PARAM_1`.
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 
 ParameterStorePlugin.init()
 

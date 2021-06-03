@@ -1,21 +1,21 @@
-[![Build Status](https://travis-ci.org/manheim/jenkinsfile-pipeline-library.svg?branch=master)](https://travis-ci.org/manheim/jenkinsfile-pipeline-library) [![codecov](https://codecov.io/gh/manheim/jenkinsfile-pipeline-library/branch/master/graph/badge.svg)](https://codecov.io/gh/manheim/jenkinsfile-pipeline-library)
+[![Build Status](https://travis-ci.org/manheim/jenkinsfile-pipeline.svg?branch=master)](https://travis-ci.org/manheim/jenkinsfile-pipeline) [![codecov](https://codecov.io/gh/manheim/jenkinsfile-pipeline/branch/master/graph/badge.svg)](https://codecov.io/gh/manheim/jenkinsfile-pipeline)
 
 
-# jenkinsfile-pipeline-library
+# jenkinsfile-pipeline
 A reusable pipeline template to build and deploy an application serially across multiple environments, using [Jenkins](https://www.jenkins.io/) and [Jenkinsfile](https://www.jenkins.io/doc/book/pipeline/jenkinsfile/).
 
 # Requirements and Assumptions
 1.  Your application source code is available in a git repo.
 2.  You have an application that can be built in some way.  By default, you can provide a `./bin/build.sh` to build your artifact.
 3.  Your application artifact can be deployed to an environment in some way.  By default, you can provide a `./bin/deploy.sh` to deploy your artifact.  `./bin/deploy.sh` should accept the name of your environment as the first argument.
-4.  You've imported jenkinsfile-pipeline-library to your Jenkins instance.
-![Importing Pipeline Library](./images/import-jenkinsfile-pipeline-library.png)
+4.  You've imported jenkinsfile-pipeline to your Jenkins instance.
+![Importing Pipeline Library](./images/import-jenkinsfile-pipeline.png)
 
 # How to Use
-1.  Create a Jenkinsfile in your application project and import the [version](https://github.com/manheim/jenkinsfile-pipeline-library/releases) of jenkinsfile-pipeline-library that you want to use.  It's recommended that you always use the latest version.
+1.  Create a Jenkinsfile in your application project and import the [version](https://github.com/manheim/jenkinsfile-pipeline/releases) of jenkinsfile-pipeline that you want to use.  It's recommended that you always use the latest version.
 ```
 // Jenkinsfile
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 ```
 2.  Create a pipeline.  In this case, we'll make it Scripted.
 ```
@@ -54,7 +54,7 @@ pipeline.startsWith(buildArtifact)
 7.  From beginning to end, your Jenkinsfile should roughly look like this:
 
 ```
-@Library('jenkinsfile-pipeline-library@<VERSION>') _
+@Library('jenkinsfile-pipeline@<VERSION>') _
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()

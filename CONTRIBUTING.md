@@ -1,12 +1,12 @@
-# Contributing to jenkinsfile-pipeline-library
+# Contributing to jenkinsfile-pipeline
 
 Thanks for taking the time to contribute!
 
-The following is a set of guidelines for contributing to the jenkinsfile-pipeline-library on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+The following is a set of guidelines for contributing to the jenkinsfile-pipeline on GitHub. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by our [Code of Conduct](https://github.com/manheim/jenkinsfile-pipeline-library/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+This project and everyone participating in it is governed by our [Code of Conduct](https://github.com/manheim/jenkinsfile-pipeline/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
 
 ## What should I know before I get started?
 
@@ -16,7 +16,7 @@ This project is similar to, and a more generic implementation of [terraform-pipe
 
 ## How Can I Contribute?
 
-1.  Create an [Issue](https://github.com/manheim/jenkinsfile-pipeline-library/issues) for the change that's being made.
+1.  Create an [Issue](https://github.com/manheim/jenkinsfile-pipeline/issues) for the change that's being made.
 2.  All changes pending the next release will be staged in the master branch.
 3.  Fork this project.
 4.  Make a branch in your fork, named after your issue. Ex: "issue_152"
@@ -29,7 +29,7 @@ This project is similar to, and a more generic implementation of [terraform-pipe
 
 ## Styleguides
 
-Code style is enforced as part of the build, and can be run using `./gradlew check --info`.  For details, you can see the configuration in [./config/codenarc/codenarc.xml](https://github.com/manheim/jenkinsfile-pipeline-library/blob/master/config/codenarc/codenarc.xml)
+Code style is enforced as part of the build, and can be run using `./gradlew check --info`.  For details, you can see the configuration in [./config/codenarc/codenarc.xml](https://github.com/manheim/jenkinsfile-pipeline/blob/master/config/codenarc/codenarc.xml)
 
 ## Attribution
 
