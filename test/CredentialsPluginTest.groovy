@@ -71,6 +71,15 @@ class CredentialsPluginTest {
 
             assertThat(plugins, hasItem(instanceOf(CredentialsPlugin.class)))
         }
+
+        @Test
+        void addsPluginToTheDeployStage() {
+            CredentialsPlugin.init()
+
+            def plugins = StagePlugins.getPluginsFor(mock(DeployStage.class))
+
+            assertThat(plugins, hasItem(instanceOf(CredentialsPlugin.class)))
+        }
     }
 
     @Nested
