@@ -3,6 +3,7 @@ public class CredentialsPlugin implements Plugin {
 
     public static init() {
         StagePlugins.add(new CredentialsPlugin(), BuildStage.class)
+        StagePlugins.add(new CredentialsPlugin(), DeployStage.class)
     }
 
     public static withCredentials(Map options = [:], String credentialId) {
