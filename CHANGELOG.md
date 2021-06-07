@@ -24,3 +24,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #46](https://github.com/manheim/jenkinsfile-pipeline/issues/46): Allow jenkins to assume a deployment role
 - [Issue #51](https://github.com/manheim/jenkinsfile-pipeline/issues/51): Rename to jenkinsfile-pipeline
 - [Issue #53](https://github.com/manheim/jenkinsfile-pipeline/issues/53): Extend CredentialsPlugin to apply during DeployStage
+- [Issue #55](https://github.com/manheim/jenkinsfile-pipeline/issues/55): Add a strategy for reusing the same plugins across multiple pipelines
