@@ -109,6 +109,65 @@ By default, the pipeline jobs are not assigned to a particular Jenkins node.  If
 def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
 ```
 
+# [DRY'ing](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) your Plugin configuration
+
+It's likely that you'll use a number of different Plugins for your particular application's pipeline.  It's also likely that you'll have a number of different applications using jenkinsfile-pipeline, and many of these applications may share the same plugin configuration.  Rather than duplicate and clutter your Jenkinsfile with these details, it may help to group all of your Plugin initialization into a single class, and share that class across your pipelines with a shared library.
+
+1. Create a new repository for the shared library.  You can pick any name - in this example, we'll use `jenkinsfile-pipeline-customizations`.
+2. In that repository, create a new file called `Customizations.groovy`.
+3. Create a static `init()` method in your class, and add your Plugin configuration there.  In the example below, the Customization will enable the `ParameterStorePlugin`, and the `WithAwsPlugin`.
+```
+// Customizations.groovy
+
+class Customizations {
+    public static void init() {
+        ParameterStorePlugin.init()
+        WithAwsPlugin.init()
+    }
+}
+```
+4. Load your repository as a shared library (See: [Using Libraries](https://jenkins.io/doc/book/pipeline/shared-libraries/)).  Be sure to version your library, to maintain control over how changes propagate across your pipelines.
+5. Import your shared library, just like you imported jenkinsfile-pipeline.
+6. Call the `Customizations.init()` method in your pipeline to initialize your plugins.
+```
+// Jenkinsfile
+@Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-customizations@<VERSION>') _
+
+Customizations.init()
+
+def pipeline = new ScriptedPipeline(this)
+def buildArtifact = new BuildStage()
+def deployQa = new DeployStage('qa')
+def deployUat = new DeployStage('uat')
+def deployProd = new DeployStage('prod')
+
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
+        .build()
+```
+7. Repeat Step 5-6 above for every project that you want to apply the same set of Plugins/Customizations to.
+8. If you have multiple groups of pipelines that require different groups of plugins, you can create multiple Customization libraries with unique names.  Eg: `jenkinsfile-pipeline-lambda-customizations`.
+```
+// Jenkinsfile
+@Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
+
+Customizations.init()
+
+def pipeline = new ScriptedPipeline(this)
+def buildArtifact = new BuildStage()
+def deployQa = new DeployStage('qa')
+def deployUat = new DeployStage('uat')
+def deployProd = new DeployStage('prod')
+
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
+        .build()
+```
+
 # Goals that this library is trying to achieve:
 
 1.  Application code should be written once, and should be reusable for all environments.
