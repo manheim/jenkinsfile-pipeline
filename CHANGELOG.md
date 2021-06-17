@@ -26,3 +26,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #53](https://github.com/manheim/jenkinsfile-pipeline/issues/53): Extend CredentialsPlugin to apply during DeployStage
 - [Issue #55](https://github.com/manheim/jenkinsfile-pipeline/issues/55): Add a strategy for reusing the same plugins across multiple pipelines
 - [Issue #62](https://github.com/manheim/jenkinsfile-pipeline/issues/62): Make test objects available to exernal libraries
+- [Issue #59](https://github.com/manheim/jenkinsfile-pipeline/issues/59): Make workflowScript available to plugins
