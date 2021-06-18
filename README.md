@@ -17,17 +17,23 @@ A reusable pipeline template to build and deploy an application serially across 
 // Jenkinsfile
 @Library('jenkinsfile-pipeline@<VERSION>') _
 ```
-2.  Create a pipeline.  In this case, we'll make it Scripted.
+2. Provide jenkinsfile-pipeline with a reference to the Jenkinsfile context, so that it can do all of it's magic under the hood.
 ```
-def pipeline = new ScriptedPipeline(this)
+// Jenkinsfile
+...
+Jenkinsfile.init(this)
 ```
-3.  Create a stage to build your deployment artifact.
+3.  Create a pipeline.  In this case, we'll make it Scripted.
+```
+def pipeline = new ScriptedPipeline()
+```
+4.  Create a stage to build your deployment artifact.
 ```
 // Jenkinsfile
 ...
 def buildArtifact = new BuildStage()
 ```
-4.  Create a stage to deploy to each of your environments.  This example creates stages to deploy to qa, uat, and prod environments.  The number and names of your environments can differ from this example.  Choose the environments and environment names that reflect your own development process to go from Code to Customer.
+5.  Create a stage to deploy to each of your environments.  This example creates stages to deploy to qa, uat, and prod environments.  The number and names of your environments can differ from this example.  Choose the environments and environment names that reflect your own development process to go from Code to Customer.
 ```
 // Jenkinsfile
 ...
@@ -35,7 +41,7 @@ def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
 def deployProd = new DeployStage('prod')
 ```
-5.  Link the Stages together in your pipeline in the order that you want them to run.  This examples builds your deployment artifact, then deploys qa, then uat, then prod.  Each step *MUST* succeed before it can proceed on to the next.
+6.  Link the Stages together in your pipeline in the order that you want them to run.  This examples builds your deployment artifact, then deploys qa, then uat, then prod.  Each step *MUST* succeed before it can proceed on to the next.
 ```
 // Jenkinsfile
 ...
@@ -44,19 +50,21 @@ pipeline.startsWith(buildArtifact)
         .then(deployUat)
         .then(deployProd)
 ```
-6.  The design of this library is influenced by the [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern) - your pipeline has been configured, but hasn't been constructed just yet.  Finalize and create your pipeline by calling the `build()` method.  This should only be done once - no code should come after calling this method.
+7.  The design of this library is influenced by the [Builder Pattern](https://en.wikipedia.org/wiki/Builder_pattern) - your pipeline has been configured, but hasn't been constructed just yet.  Finalize and create your pipeline by calling the `build()` method.  This should only be done once - no code should come after calling this method.
 ```
 // Jenkinsfile
 ...
         .build()
 ```
 
-7.  From beginning to end, your Jenkinsfile should roughly look like this:
+8.  From beginning to end, your Jenkinsfile should roughly look like this:
 
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
-def pipeline = new ScriptedPipeline(this)
+Jenkinsfile.init(this)
+
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
@@ -69,7 +77,7 @@ pipeline.startsWith(buildArtifact)
         .build()
 ```
 
-8.  Load your project into Jenkins, and point it to your newly created Jenkinsfile.
+9.  Load your project into Jenkins, and point it to your newly created Jenkinsfile.
     1. Create a new job using the 'New Item' menu
 
        ![New Item](./images/NewItem.png)
@@ -80,7 +88,7 @@ pipeline.startsWith(buildArtifact)
 
        ![Loading/Configuring Project](./images/configure-project.png)
 
-9.  If everything was successful, you should see something like this:
+10.  If everything was successful, you should see something like this:
 
 ![DefaultPipelineSuccess](./images/default-pipeline-success.png)
 
@@ -134,6 +142,7 @@ class Customizations {
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-customizations@<VERSION>') _
 
 Customizations.init()
+Jenkinsfile.init()
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
@@ -154,6 +163,7 @@ pipeline.startsWith(buildArtifact)
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
 
 Customizations.init()
+Jenkinsfile.init()
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
