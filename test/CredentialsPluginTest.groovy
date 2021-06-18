@@ -9,11 +9,11 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class CredentialsPluginTest {
     @Nested
     public class WithCredentials {
@@ -57,12 +57,6 @@ class CredentialsPluginTest {
 
     @Nested
     public class Init {
-        @BeforeEach
-        @AfterEach
-        public void reset() {
-            StagePlugins.reset()
-        }
-
         @Test
         void addsPluginToTheBuildStage() {
             CredentialsPlugin.init()

@@ -12,20 +12,14 @@ import static org.mockito.Mockito.times
 import static org.mockito.Mockito.verify
 import static org.mockito.Mockito.when
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class ParameterStorePluginTest {
     @Nested
     public class Init {
-        @BeforeEach
-        @AfterEach
-        public void reset() {
-            StagePlugins.reset()
-        }
-
         @Test
         void addsPluginToTheDeployStage() {
             ParameterStorePlugin.init()

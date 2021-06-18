@@ -7,18 +7,12 @@ import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class StashUnstashPluginTest {
-    @BeforeEach
-    @AfterEach
-    public void reset() {
-        StagePlugins.reset()
-    }
-
     @Nested
     public class WithArtifact {
         @Test
