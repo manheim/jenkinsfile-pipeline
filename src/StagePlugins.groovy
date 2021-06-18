@@ -1,4 +1,4 @@
-public class StagePlugins {
+public class StagePlugins implements Resettable {
     private static plugins = []
 
     public static add(Plugin plugin, Class stageClass = null) {
