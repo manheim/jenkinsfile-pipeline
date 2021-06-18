@@ -13,9 +13,11 @@ By default, [AWS Parameter Store Build Wrapper Plugin](https://plugins.jenkins.i
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
+Jenkinsfile.init(this)
+
 ParameterStorePlugin.init()
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')

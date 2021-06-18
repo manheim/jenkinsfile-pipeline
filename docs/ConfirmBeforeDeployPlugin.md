@@ -5,10 +5,12 @@ By default, environments will deploy builds/changes automatically, with no human
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
+Jenkinsfile.init(this)
+
 // Wait on confirmation before deploying to any environment.
 ConfirmBeforeDeployPlugin.init()
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
@@ -26,12 +28,14 @@ You can configure different behavior per-environment, using the `autoDeploy` met
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
+Jenkinsfile.init(this)
+
 // Automatically deploy qa builds with no confirmation.
 // Wait on confirmation before deploying to any other environment (uat/prod).
 ConfirmBeforeDeployPlugin.autoDeploy('qa')
                          .init()
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')

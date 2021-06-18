@@ -10,10 +10,12 @@ One-time setup
 Example pipeline using the WithAwsPlugin using a single default role:
 
 ```
+Jenkinsfile.init(this)
+
 // Define the AWS_ROLE_ARN environment variable
 WithAwsPlugin.init()
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 // Assume AWS_ROLE_ARN before deploying each environment
 def deployQa = new DeployStage('qa')
@@ -30,10 +32,12 @@ pipeline.startsWith(buildArtifact)
 Example pipeline using environment-specific roles:
 
 ```
+Jenkinsfile.init(this)
+
 // Define environment-specific variables (eg: QA_AWS_ROLE_ARN, UAT_AWS_ROLE_ARN, PROD_AWS_ROLE_ARN)
 WithAwsPlugin.init()
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 
 // Assume QA_AWS_ROLE_ARN before deploying, or fall back to AWS_ROLE_ARN
