@@ -1,4 +1,4 @@
-public class ConfirmBeforeDeployPlugin implements Plugin {
+public class ConfirmBeforeDeployPlugin implements Plugin, Resettable {
     private static autoDeployEnvironments = []
 
     public static init() {
