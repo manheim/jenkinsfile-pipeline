@@ -1,4 +1,4 @@
-public class StashUnstashPlugin implements Plugin {
+public class StashUnstashPlugin implements Plugin, Resettable {
     public static final String DEFAULT_STASH_NAME = 'buildArtifact'
     private static String artifactPattern
 
@@ -32,5 +32,9 @@ public class StashUnstashPlugin implements Plugin {
             unstash DEFAULT_STASH_NAME
             innerClosure()
         }
+    }
+
+    public static reset() {
+        artifactPattern = null
     }
 }
