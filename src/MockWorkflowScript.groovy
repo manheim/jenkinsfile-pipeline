@@ -1,4 +1,4 @@
-class MockWorkflowScript {
+class MockWorkflowScript implements Resettable {
     public docker
     public scm = new MockScm('someurl')
     public env = [:]
@@ -102,6 +102,10 @@ class MockWorkflowScript {
         print "MockWorkflowScript.withAWS(${options})"
         innerClosure.delegate = this
         innerClosure()
+    }
+
+    public static reset() {
+        BRANCH_NAME = null
     }
 }
 
