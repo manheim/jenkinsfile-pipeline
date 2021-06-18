@@ -1,4 +1,4 @@
-public class Jenkinsfile {
+public class Jenkinsfile implements Resettable {
     private static original
 
     public static void init(original) {
@@ -7,5 +7,9 @@ public class Jenkinsfile {
 
     public static getInstance() {
         return original
+    }
+
+    public static reset() {
+        this.original = null
     }
 }

@@ -3,7 +3,9 @@ import static org.hamcrest.Matchers.equalTo
 
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class JenkinsfileTest {
     @Nested
     public class Init {
