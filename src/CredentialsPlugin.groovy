@@ -1,4 +1,4 @@
-public class CredentialsPlugin implements Plugin {
+public class CredentialsPlugin implements Plugin, Resettable {
     private static credentials = [:]
 
     public static init() {
@@ -27,5 +27,9 @@ public class CredentialsPlugin implements Plugin {
                 innerClosure()
             }
         }
+    }
+
+    public static reset() {
+        this.credentials = [:]
     }
 }

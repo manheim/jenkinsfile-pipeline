@@ -7,11 +7,13 @@ Specify the path to the artifact that you want to stash.
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
+Jenkinsfile.init(this)
+
 // BuildStage is expected to generate a file target/MyApplication.war - stash it on completion
 // Unstash MyApplication.war at the beginning of each subsequent DeployStage
 StashUnstashPlugin.withArtifact('target/MyApplication.war').init()
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')

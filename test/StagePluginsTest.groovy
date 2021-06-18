@@ -5,18 +5,12 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.verify
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class StagePluginsTest {
-    @BeforeEach
-    @AfterEach
-    public void reset() {
-        StagePlugins.reset()
-    }
-
     @Nested
     class GetPluginsFor {
         @Test
