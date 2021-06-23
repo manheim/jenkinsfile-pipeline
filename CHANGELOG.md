@@ -27,3 +27,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #55](https://github.com/manheim/jenkinsfile-pipeline/issues/55): Add a strategy for reusing the same plugins across multiple pipelines
 - [Issue #62](https://github.com/manheim/jenkinsfile-pipeline/issues/62): Make test objects available to exernal libraries
 - [Issue #59](https://github.com/manheim/jenkinsfile-pipeline/issues/59): Make workflowScript available to plugins
+- [Issue #65](https://github.com/manheim/jenkinsfile-pipeline/issues/65): Make it easy to access files from a plugin
