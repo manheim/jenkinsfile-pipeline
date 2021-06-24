@@ -178,6 +178,130 @@ pipeline.startsWith(buildArtifact)
         .build()
 ```
 
+# Scripted vs Declarative Pipelines (+Restart From Stage)
+
+Jenkinsfile has a number of quirks, which in turn creates a number of frustrating short-comings.  The most noticeable quirk is the two distinctive syntaxes for creating a pipeline:
+
+1. [Scripted Pipelines](https://jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline)
+2. [Declarative Pipelines](https://jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline)
+
+Scripted Pipelines are much easier to work with, and offer a lot of flexibility and programmability.  Declarative Pipelines on the otherhand, are much less flexible, but offer the really important feature known as ['Restart From Stage'](https://jenkins.io/doc/book/pipeline/running-pipelines/#restart-from-a-stage) - the ability to re-run portions of a previous pipeline run.
+
+jenkinsfile-pipeline attempts to abstract away these two different types of pipelines, so that you can get the features that you want, without needing to write your pipeline code in a specific/arbitrary way.
+
+You can convert to a DeclarativePipeline by instantiating it in place of a Scripted one.
+```
+def pipeline = new DeclarativePipeline(this)
+```
+
+A short-coming of Declarative Pipelines is the inability to use variables when defining Stage names (See: [JENKINS-43820](https://issues.jenkins-ci.org/browse/JENKINS-43820)).  The compromise made by terraform-pipeline is to name each of the top-level Stage names using consecutive numbers '1', '2', '3', etc.  The following code:
+
+```
+// Jenkinsfile
+@Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
+
+Customizations.init()
+Jenkinsfile.init()
+
+def pipeline = new DeclarativePipeline(this)
+def buildArtifact = new BuildStage()
+def deployQa = new DeployStage('qa')
+def deployUat = new DeployStage('uat')
+def deployProd = new DeployStage('prod')
+
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
+        .build()
+```
+
+will produce a Declarative Pipeline that looks like this:
+
+![Declarative Pipeline](./images/declarative-pipeline.png)
+
+When using the Restart from Stage feature, you'll need to map the numbered Stages to the Stages that you've defined in your Jenkinsfile.  In this example, 1 = Validate, 2 = Qa, 3 = Uat, 4 = Prod.
+
+![Restart From Stage - Numbers](./images/restart-from-stage-numbers.png)
+
+Mapping arbitrary numbers to your Stages can likely be annoying.  If you want to give your Stages more meaningful names, you can override the underlying Declarative Pipeline template with your own, using the `Jenkinsfile.pipelineTemplate` variable, and a Customizations library (See: [DRY'ing your Plugin Configuration](#drying-your-plugin-configuration)).
+
+As an example, we'll create a `vars/CustomPipelineTemplate.groovy` in our customizations library, and define top-level Stages that match the Stages of our pipeline - `Validate`, `Qa`, `Uat`, and `Prod`.
+
+```
+// jenkinsfile-pipeline-customizations/vars/CustomPipelineTemplate.groovy
+
+def call(args) {
+    pipeline {
+        agent none
+
+        stages {
+            stage('Build') {
+                steps {
+                    script {
+                        ((Stage)args.getAt(0)).build()
+                    }
+                }
+            }
+
+            stage('DeployQa') {
+                steps {
+                    script {
+                        ((Stage)args.getAt(1)).build()
+                    }
+                }
+            }
+
+            stage('DeployUat') {
+                steps {
+                    script {
+                        ((Stage)args.getAt(2)).build()
+                    }
+                }
+            }
+
+            stage('DeployProd') {
+                steps {
+                    script {
+                        ((Stage)args.getAt(3)).build()
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+In your Jenkinsfile, override the default pipelineTemplate, and point it to your new pipeline template function.  For example:
+
+```
+@Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-customizations@<VERSION>') _
+
+Customizations.init()
+Jenkinsfile.init()
+DeclarativePipeline.withPipelineTemplate(this.CustomPipelineTemplate)
+
+def pipeline = new DeclarativePipeline(this)
+def buildArtifact = new BuildStage()
+def deployQa = new DeployStage('qa')
+def deployUat = new DeployStage('uat')
+def deployProd = new DeployStage('prod')
+
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
+        .build()
+```
+
+This will generate a new Declarative Pipeline, using your custom template.
+
+![Customized Declarative Pipeline](./images/custom-declarative-pipeline.png)
+
+Restart from Stage will now display more sensible names.  __Note:__ This is in __NO__ way dynamic.  If you reorder the Stages in your Jenkinsfile, you'll need to reorder the Stage names in your custom template.  This is an unfortunate side-effect of the strict syntax of Declarative Pipelines.
+
+![Restart From Stage](./images/restart-from-stage.png)
+
 # Goals that this library is trying to achieve:
 
 1.  Application code should be written once, and should be reusable for all environments.
