@@ -220,13 +220,13 @@ will produce a Declarative Pipeline that looks like this:
 
 ![Declarative Pipeline](./images/declarative-pipeline.png)
 
-When using the Restart from Stage feature, you'll need to map the numbered Stages to the Stages that you've defined in your Jenkinsfile.  In this example, 1 = Validate, 2 = Qa, 3 = Uat, 4 = Prod.
+When using the Restart from Stage feature, you'll need to map the numbered Stages to the Stages that you've defined in your Jenkinsfile.  In this example, 1 = Build, 2 = Qa, 3 = Uat, 4 = Prod.
 
 ![Restart From Stage - Numbers](./images/restart-from-stage-numbers.png)
 
 Mapping arbitrary numbers to your Stages can likely be annoying.  If you want to give your Stages more meaningful names, you can override the underlying Declarative Pipeline template with your own, using the `Jenkinsfile.pipelineTemplate` variable, and a Customizations library (See: [DRY'ing your Plugin Configuration](#drying-your-plugin-configuration)).
 
-As an example, we'll create a `vars/CustomPipelineTemplate.groovy` in our customizations library, and define top-level Stages that match the Stages of our pipeline - `Validate`, `Qa`, `Uat`, and `Prod`.
+As an example, we'll create a `vars/CustomPipelineTemplate.groovy` in our customizations library, and define top-level Stages that match the Stages of our pipeline - `Build`, `Qa`, `Uat`, and `Prod`.
 
 ```
 // jenkinsfile-pipeline-customizations/vars/CustomPipelineTemplate.groovy
