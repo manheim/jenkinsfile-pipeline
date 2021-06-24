@@ -1,12 +1,14 @@
 class DeclarativePipeline {
     private workflowScript
     private List<Stage> stages = []
+    private label
 
     public DeclarativePipeline(workflowScript) {
         this.workflowScript = workflowScript
     }
 
     public DeclarativePipeline withNodeLabel(String label) {
+        this.label = label
         return this
     }
 
@@ -23,7 +25,7 @@ class DeclarativePipeline {
     public void build() {
         def template = getPipelineTemplate(stages)
 
-        template.call(stages)
+        template.call(stages, label)
     }
 
     public getPipelineTemplate(List<Stage> stages) {

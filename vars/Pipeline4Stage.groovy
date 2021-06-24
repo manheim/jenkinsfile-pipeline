@@ -1,4 +1,4 @@
-def call(args) {
+def call(args, label) {
     pipeline {
         agent none
         options { preserveStashes() }
@@ -7,9 +7,11 @@ def call(args) {
             stage('1') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        node(label) {
+                            def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
+                            configuration.delegate = this
+                            configuration()
+                        }
                     }
                 }
             }
@@ -17,9 +19,11 @@ def call(args) {
             stage('2') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        node(label) {
+                            def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
+                            configuration.delegate = this
+                            configuration()
+                        }
                     }
                 }
             }
@@ -27,9 +31,11 @@ def call(args) {
             stage('3') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(2)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        node(label) {
+                            def configuration = ((Stage)args.getAt(2)).pipelineConfiguration()
+                            configuration.delegate = this
+                            configuration()
+                        }
                     }
                 }
             }
@@ -37,9 +43,11 @@ def call(args) {
             stage('4') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(3)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        node(label) {
+                            def configuration = ((Stage)args.getAt(3)).pipelineConfiguration()
+                            configuration.delegate = this
+                            configuration()
+                        }
                     }
                 }
             }

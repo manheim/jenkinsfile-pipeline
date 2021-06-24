@@ -59,7 +59,7 @@ class DeclarativePipelineTest {
         @Test
         void buildsThePipelineUsingTheAppropriateDeclarativeTemplate() {
             def wasCalled = false
-            def pipelineTemplate = { wasCalled = true }
+            def pipelineTemplate = { stages, label -> wasCalled = true }
             def pipeline = spy(new DeclarativePipeline(new MockWorkflowScript()))
             doReturn(pipelineTemplate).when(pipeline).getPipelineTemplate(any(List))
 
@@ -72,7 +72,7 @@ class DeclarativePipelineTest {
         void correctlyOrdersTheStages() {
             def expectedStages = [mock(Stage), mock(Stage), mock(Stage)]
             def actualStages = null
-            def pipelineTemplate = { stages -> actualStages = stages }
+            def pipelineTemplate = { stages, label -> actualStages = stages }
             def pipeline = spy(new DeclarativePipeline(new MockWorkflowScript()))
             doReturn(pipelineTemplate).when(pipeline).getPipelineTemplate(any(List))
 
