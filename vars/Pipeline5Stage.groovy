@@ -8,6 +8,8 @@ def call(args, label) {
                 steps {
                     script {
                         node(label) {
+                            checkout scm
+
                             def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
                             configuration.delegate = this
                             configuration()
@@ -20,6 +22,8 @@ def call(args, label) {
                 steps {
                     script {
                         node(label) {
+                            checkout scm
+
                             def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
                             configuration.delegate = this
                             configuration()
@@ -32,6 +36,8 @@ def call(args, label) {
                 steps {
                     script {
                         node(label) {
+                            checkout scm
+
                             def configuration = ((Stage)args.getAt(2)).pipelineConfiguration()
                             configuration.delegate = this
                             configuration()
@@ -44,6 +50,8 @@ def call(args, label) {
                 steps {
                     script {
                         node(label) {
+                            checkout scm
+
                             def configuration = ((Stage)args.getAt(3)).pipelineConfiguration()
                             configuration.delegate = this
                             configuration()
@@ -56,6 +64,8 @@ def call(args, label) {
                 steps {
                     script {
                         node(label) {
+                            checkout scm
+
                             def configuration = ((Stage)args.getAt(4)).pipelineConfiguration()
                             configuration.delegate = this
                             configuration()
