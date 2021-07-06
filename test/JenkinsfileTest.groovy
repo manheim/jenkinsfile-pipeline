@@ -21,13 +21,10 @@ class JenkinsfileTest {
 
             assertThat(result, equalTo(workflowScript))
         }
-    }
 
-    @Nested
-    public class InitializeDefaultPlugins {
         @Test
-        void initializesConfirmBeforeDeployPlugin() {
-            Jenkinsfile.initializeDefaultPlugins()
+        void initializesDefaultPlugins() {
+            Jenkinsfile.init(new MockWorkflowScript())
 
             def plugins = StagePlugins.getPluginsFor(mock(DeployStage))
 

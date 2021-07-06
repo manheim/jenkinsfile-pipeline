@@ -3,6 +3,7 @@ public class Jenkinsfile implements Resettable {
 
     public static void init(original) {
         this.original = original
+        initializeDefaultPlugins()
     }
 
     public static void initializeDefaultPlugins() {
