@@ -30,5 +30,25 @@ class JenkinsfileTest {
 
             assertThat(plugins, hasItem(instanceOf(ConfirmBeforeDeployPlugin)))
         }
+
+        @Test
+        void skipsDefaultPluginsWhenDisabled() {
+            Jenkinsfile.skipDefaultPlugins()
+                       .init(new MockWorkflowScript())
+
+            def plugins = StagePlugins.getPluginsFor(mock(DeployStage))
+
+            assertThat(plugins, equalTo([]))
+        }
+    }
+
+    @Nested
+    public class SkipDefaultPlugins {
+        @Test
+        public void isFluent() {
+            def result = Jenkinsfile.skipDefaultPlugins()
+
+            assertThat(result, equalTo(Jenkinsfile))
+        }
     }
 }
