@@ -29,3 +29,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #59](https://github.com/manheim/jenkinsfile-pipeline/issues/59): Make workflowScript available to plugins
 - [Issue #65](https://github.com/manheim/jenkinsfile-pipeline/issues/65): Make it easy to access files from a plugin
 - [Issue #61](https://github.com/manheim/jenkinsfile-pipeline/issues/61): Enable optional Declarative Pipelines
+- [Issue #68](https://github.com/manheim/jenkinsfile-pipeline/issues/68): Enable select plugins by default
