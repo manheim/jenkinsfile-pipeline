@@ -104,6 +104,9 @@ def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
 
 The example above gives you a bare-bones pipeline, and there may be Jenkinsfile features that you'd like to take advantage of.  Some of these features have been pre-defined as Plugins for this library.  Pre-defined plugins can be enabled by simply calling their static `init()` method.
 
+### Default Plugins
+* [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Wait for confirmation before deploying an environment
+
 ### Build Artifact Management
 * [StashUnstashPlugin](./docs/StashUnstashPlugin.md): Stash your artifact after BuildStage, and unstash it for each of your subsequent DeployStages.
 
@@ -113,9 +116,6 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### IAM Role Management
 * [WithAwsPlugin](./docs/WithAwsPlugin.md): Use `withAws` to assume different IAM roles during deployment.
-
-### Workflow Management
-* [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Optionally wait for confirmation before deploying
 
 ## Plugin Order
 
