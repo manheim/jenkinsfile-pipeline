@@ -145,7 +145,7 @@ The above would generate roughly the following Jenkinsfile DSL:
     // Set a key value pair in ParameterStore so that AWS_ROLE_ARN=<SomeArn>
     withAWSParameterStore {
         ...
-        // Use AWS_ROLE_ARN was set by ParameterStore
+        // Use AWS_ROLE_ARN which was set in ParameterStore
         withAWS(role: AWS_ROLE_ARN) {
             ...
         }
@@ -153,7 +153,7 @@ The above would generate roughly the following Jenkinsfile DSL:
 ...
 ```
 
-The order in which the plugins were initialized determined the order of the Jenkinsfile DSL. Had the plugins been initialized in the reverse order, the Jenkinsfile DSL would likewise be reversed, and would lead to an undesirable outcome.
+The order in which the DSL was executed was determined the order that the jenkinsfile-pipeline plugins were initialized. Had the plugins been initialized in the reverse order, the Jenkinsfile DSL would likewise be reversed, and would lead to an undesirable outcome.
 
 ```
 // Wrap everything before this in withAWSParameterStore { }
@@ -166,10 +166,10 @@ WithAwsPlugin.init()
 ```
 ...
 
-    // AWS_ROLE_ARN is not defined - withAWS does nothing
-    withAWS(role: null) {
+    // AWS_ROLE_ARN is not defined/null - withAWS does nothing
+    withAWS(role: <?>) {
         ...
-        // AWS_ROLE_ARN=<SomeArn> is defined in ParameterStore, but it's too late - withAWS was already evaluated
+        // AWS_ROLE_ARN=<SomeArn> is now retrieved from ParameterStore, but it's too late - withAWS was already evaluated
         withAWSParameterStore {
             ...
         }
