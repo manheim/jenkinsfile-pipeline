@@ -117,6 +117,66 @@ By default, the pipeline jobs are not assigned to a particular Jenkins node.  If
 def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
 ```
 
+## Plugin Order
+
+Plugins often work by wrapping your stages in Jenkinfile DSL blocks.  If multiple plugins wrap your stages simultaneously, the order in which they are wrapped can be very important.  On the whole, jenkinsfile-pipeline strives to preserve and maintain the order you initialize the plugins, so that the corresponding Jenkinsfile DSL blocks execute predictably.
+
+Take the following example:
+
+* `ParameterStorePlugin` wraps your pipeline stages with the Jenkinsfile DSL `withAWSParameterStore { }` and can inject environment variables into your stage from ParameterStore key/value pairs.
+* `WithAwsPlugin` wraps your pipeline stages with the Jenkinsfile DSL `withAws { }` and can execute your stage under the context of an IAM role that's defined by an environment variable.
+* The two plugins can be used together - an IAM role can be defined in ParameterStore and translated to an environment variable `AWS_ROLE_ARN`, and that environment variable can in turn be used to configure the IAM role assumed by `WithAwsPlugin`.
+
+Using jenkinsfile-pipeline, you might initialize your pipeline as such:
+
+```
+// Wrap everything before this in withAWS { }
+WithAwsPlugin.init()
+
+// Wrap everything before this in withAWSParameterStore { }
+ParameterStorePlugin.init()
+```
+
+The above would generate roughly the following Jenkinsfile DSL:
+
+```
+...
+
+    // Set a key value pair in ParameterStore so that AWS_ROLE_ARN=<SomeArn>
+    withAWSParameterStore {
+        ...
+        // Use AWS_ROLE_ARN was set by ParameterStore
+        withAWS(role: AWS_ROLE_ARN) {
+            ...
+        }
+    }
+...
+```
+
+The order in which the plugins were initialized determined the order of the Jenkinsfile DSL. Had the plugins been initialized in the reverse order, the Jenkinsfile DSL would likewise be reversed, and would lead to an undesirable outcome.
+
+```
+// Wrap everything before this in withAWSParameterStore { }
+ParameterStoreBuildWrapperPlugin.init()
+
+// Wrap everything before this in withAWS { }
+WithAwsPlugin.init()
+```
+
+```
+...
+
+    // AWS_ROLE_ARN is not defined - withAWS does nothing
+    withAWS(role: null) {
+        ...
+        // AWS_ROLE_ARN=<SomeArn> is defined in ParameterStore, but it's too late - withAWS was already evaluated
+        withAWSParameterStore {
+            ...
+        }
+    }
+...
+```
+
 # [DRY'ing](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) your Plugin configuration
 
 It's likely that you'll use a number of different Plugins for your particular application's pipeline.  It's also likely that you'll have a number of different applications using jenkinsfile-pipeline, and many of these applications may share the same plugin configuration.  Rather than duplicate and clutter your Jenkinsfile with these details, it may help to group all of your Plugin initialization into a single class, and share that class across your pipelines with a shared library.
