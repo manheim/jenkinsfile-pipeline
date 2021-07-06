@@ -92,6 +92,14 @@ pipeline.startsWith(buildArtifact)
 
 ![DefaultPipelineSuccess](./images/default-pipeline-success.png)
 
+# Control Where Your Jobs Are Run
+
+By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so with the following line of code:
+
+```
+def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
+```
+
 # Customizing Your Pipeline With Plugins
 
 The example above gives you a bare-bones pipeline, and there may be Jenkinsfile features that you'd like to take advantage of.  Some of these features have been pre-defined as Plugins for this library.  Pre-defined plugins can be enabled by simply calling their static `init()` method.
@@ -108,14 +116,6 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Workflow Management
 * [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Optionally wait for confirmation before deploying
-
-# Control Where Your Jobs Are Run
-
-By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so with the following line of code:
-
-```
-def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
-```
 
 ## Plugin Order
 
