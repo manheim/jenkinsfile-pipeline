@@ -5,6 +5,10 @@ public class Jenkinsfile implements Resettable {
         this.original = original
     }
 
+    public static void initializeDefaultPlugins() {
+        ConfirmBeforeDeployPlugin.init()
+    }
+
     public static getInstance() {
         return original
     }
