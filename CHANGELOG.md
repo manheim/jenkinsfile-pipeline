@@ -30,3 +30,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [Issue #65](https://github.com/manheim/jenkinsfile-pipeline/issues/65): Make it easy to access files from a plugin
 - [Issue #61](https://github.com/manheim/jenkinsfile-pipeline/issues/61): Enable optional Declarative Pipelines
 - [Issue #68](https://github.com/manheim/jenkinsfile-pipeline/issues/68): Enable select plugins by default
+- [Issue #72](https://github.com/manheim/jenkinsfile-pipeline/issues/72): Incorrect Documentation: pipeline example image in README is wrong
