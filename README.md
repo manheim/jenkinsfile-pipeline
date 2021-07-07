@@ -92,9 +92,20 @@ pipeline.startsWith(buildArtifact)
 
 ![DefaultPipelineSuccess](./images/default-pipeline-success.png)
 
+# Control Where Your Jobs Are Run
+
+By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so with the following line of code:
+
+```
+def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
+```
+
 # Customizing Your Pipeline With Plugins
 
 The example above gives you a bare-bones pipeline, and there may be Jenkinsfile features that you'd like to take advantage of.  Some of these features have been pre-defined as Plugins for this library.  Pre-defined plugins can be enabled by simply calling their static `init()` method.
+
+### Default Plugins
+* [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Wait for confirmation before deploying an environment
 
 ### Build Artifact Management
 * [StashUnstashPlugin](./docs/StashUnstashPlugin.md): Stash your artifact after BuildStage, and unstash it for each of your subsequent DeployStages.
@@ -106,15 +117,64 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 ### IAM Role Management
 * [WithAwsPlugin](./docs/WithAwsPlugin.md): Use `withAws` to assume different IAM roles during deployment.
 
-### Workflow Management
-* [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Optionally wait for confirmation before deploying
+## Plugin Order
 
-# Control Where Your Jobs Are Run
+Plugins often work by wrapping your stages in Jenkinfile DSL blocks.  If multiple plugins wrap your stages simultaneously, the order in which they are wrapped can be very important.  On the whole, jenkinsfile-pipeline strives to preserve and maintain the order you initialize the plugins, so that the corresponding Jenkinsfile DSL blocks execute predictably.
 
-By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so with the following line of code:
+Take the following example:
+
+* `ParameterStorePlugin` wraps your pipeline stages with the Jenkinsfile DSL `withAWSParameterStore { }` and can inject environment variables into your stage from ParameterStore key/value pairs.
+* `WithAwsPlugin` wraps your pipeline stages with the Jenkinsfile DSL `withAws { }` and can execute your stage under the context of an IAM role that's defined by an environment variable.
+* The two plugins can be used together - an IAM role can be defined in ParameterStore and translated to an environment variable `AWS_ROLE_ARN`, and that environment variable can in turn be used to configure the IAM role assumed by `WithAwsPlugin`.
+
+Using jenkinsfile-pipeline, you might initialize your pipeline as such:
 
 ```
-def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
+// Wrap everything before this in withAWS { }
+WithAwsPlugin.init()
+
+// Wrap everything before this in withAWSParameterStore { }
+ParameterStorePlugin.init()
+```
+
+The above would generate roughly the following Jenkinsfile DSL:
+
+```
+...
+
+    // Set a key value pair in ParameterStore so that AWS_ROLE_ARN=<SomeArn>
+    withAWSParameterStore {
+        ...
+        // Use AWS_ROLE_ARN which was set in ParameterStore
+        withAWS(role: AWS_ROLE_ARN) {
+            ...
+        }
+    }
+...
+```
+
+The order in which the DSL was executed was determined the order that the jenkinsfile-pipeline plugins were initialized. Had the plugins been initialized in the reverse order, the Jenkinsfile DSL would likewise be reversed, and would lead to an undesirable outcome.
+
+```
+// Wrap everything before this in withAWSParameterStore { }
+ParameterStoreBuildWrapperPlugin.init()
+
+// Wrap everything before this in withAWS { }
+WithAwsPlugin.init()
+```
+
+```
+...
+
+    // AWS_ROLE_ARN is not defined/null - withAWS does nothing
+    withAWS(role: <?>) {
+        ...
+        // AWS_ROLE_ARN=<SomeArn> is now retrieved from ParameterStore, but it's too late - withAWS was already evaluated
+        withAWSParameterStore {
+            ...
+        }
+    }
+...
 ```
 
 # [DRY'ing](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) your Plugin configuration
@@ -142,7 +202,7 @@ class Customizations {
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-customizations@<VERSION>') _
 
 Customizations.init()
-Jenkinsfile.init()
+Jenkinsfile.init(this)
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
@@ -163,7 +223,7 @@ pipeline.startsWith(buildArtifact)
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
 
 Customizations.init()
-Jenkinsfile.init()
+Jenkinsfile.init(this)
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
@@ -201,7 +261,7 @@ A short-coming of Declarative Pipelines is the inability to use variables when d
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
 
 Customizations.init()
-Jenkinsfile.init()
+Jenkinsfile.init(this)
 
 def pipeline = new DeclarativePipeline(this)
 def buildArtifact = new BuildStage()

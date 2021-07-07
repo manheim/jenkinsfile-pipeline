@@ -1,5 +1,8 @@
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
+import static org.hamcrest.Matchers.hasItem
+import static org.hamcrest.Matchers.instanceOf
+import static org.mockito.Mockito.mock
 
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -17,6 +20,35 @@ class JenkinsfileTest {
             def result = Jenkinsfile.getInstance()
 
             assertThat(result, equalTo(workflowScript))
+        }
+
+        @Test
+        void initializesDefaultPlugins() {
+            Jenkinsfile.init(new MockWorkflowScript())
+
+            def plugins = StagePlugins.getPluginsFor(mock(DeployStage))
+
+            assertThat(plugins, hasItem(instanceOf(ConfirmBeforeDeployPlugin)))
+        }
+
+        @Test
+        void skipsDefaultPluginsWhenDisabled() {
+            Jenkinsfile.skipDefaultPlugins()
+                       .init(new MockWorkflowScript())
+
+            def plugins = StagePlugins.getPluginsFor(mock(DeployStage))
+
+            assertThat(plugins, equalTo([]))
+        }
+    }
+
+    @Nested
+    public class SkipDefaultPlugins {
+        @Test
+        public void isFluent() {
+            def result = Jenkinsfile.skipDefaultPlugins()
+
+            assertThat(result, equalTo(Jenkinsfile))
         }
     }
 }
