@@ -202,7 +202,7 @@ class Customizations {
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-customizations@<VERSION>') _
 
 Customizations.init()
-Jenkinsfile.init()
+Jenkinsfile.init(this)
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
@@ -223,7 +223,7 @@ pipeline.startsWith(buildArtifact)
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
 
 Customizations.init()
-Jenkinsfile.init()
+Jenkinsfile.init(this)
 
 def pipeline = new ScriptedPipeline(this)
 def buildArtifact = new BuildStage()
@@ -261,7 +261,7 @@ A short-coming of Declarative Pipelines is the inability to use variables when d
 @Library('jenkinsfile-pipeline@<VERSION>', 'jenkinsfile-pipeline-lambda-customizations@<VERSION>') _
 
 Customizations.init()
-Jenkinsfile.init()
+Jenkinsfile.init(this)
 
 def pipeline = new DeclarativePipeline(this)
 def buildArtifact = new BuildStage()
