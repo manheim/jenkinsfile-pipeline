@@ -1,6 +1,0 @@
-language: groovy
-jdk:
-  - openjdk9
-script: ./gradlew check --info
-after_success:
-  - ./codecov-1.0.2-537069158a6f72b145cfe5f782dceb608d9ef594
