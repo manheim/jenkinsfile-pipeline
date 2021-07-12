@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/manheim/jenkinsfile-pipeline.svg?branch=master)](https://travis-ci.org/manheim/jenkinsfile-pipeline) [![codecov](https://codecov.io/gh/manheim/jenkinsfile-pipeline/branch/master/graph/badge.svg)](https://codecov.io/gh/manheim/jenkinsfile-pipeline)
+[![Build Status](https://github.com/manheim/jenkinsfile-pipeline/actions/workflows/build.yml/badge.svg)](https://github.com/manheim/jenkinsfile-pipeline/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/manheim/jenkinsfile-pipeline/branch/master/graph/badge.svg)](https://codecov.io/gh/manheim/jenkinsfile-pipeline)
 
 
 # jenkinsfile-pipeline
