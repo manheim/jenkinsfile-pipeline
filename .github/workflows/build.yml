@@ -25,9 +25,11 @@ jobs:
 
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-        
-      # Runs a single command using the runners shell
-      - name: Run tests with gradle and upload code coverage results to CodeCov
-        run: |
-            ./gradlew check --info
-            ./codecov-1.0.2-537069158a6f72b145cfe5f782dceb608d9ef594
+
+      # Run unit tests
+      - name: Run tests with gradle
+        run: ./gradlew check --info
+
+      # Upload code coverage data to CodeCov
+      - name: Upload CodeCov results
+        uses: codecov/codecov-action@v1
