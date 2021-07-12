@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Triggers the workflow on all push or pull request events
+on: [push, pull_request]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 9
+        uses: actions/setup-java@v2
+        with:
+          java-version: '9'
+          distribution: 'adopt'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+        
+      # Runs a single command using the runners shell
+      - name: Run tests with gradle and upload code coverage results to CodeCov
+        run: |
+            ./gradlew check --info
+            ./codecov-1.0.2-537069158a6f72b145cfe5f782dceb608d9ef594

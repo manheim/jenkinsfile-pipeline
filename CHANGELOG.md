@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #78](https://github.com/manheim/jenkinsfile-pipeline/issues/78): Replace TravisCI with GithubActions
+
 ## v1.0
 
 ### Added
