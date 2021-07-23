@@ -112,6 +112,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Credentials and Configuration Management
 * [CredentialsPlugin](./docs/CredentialsPlugin.md): Inject Jenkins credentials into your stages.
+* [EnvironmentVariablePlugin](./docs/EnvironmentVariablePlugin.md): Add environment variables across your stages.
 * [ParameterStorePlugin](./docs/ParameterStorePlugin.md): Inject environment variables from ParameterStore parameters.
 
 ### IAM Role Management
