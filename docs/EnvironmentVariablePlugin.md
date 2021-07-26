@@ -22,14 +22,14 @@ pipeline.startsWith(buildArtifact)
         .build()
 ```
 
-Environment variables can be lazy-loaded, if they won't be present at the time that you configure your plugin, but *will* be available at the time that they'll be used.  Use this feature if you want to combine EnvironmentVariablePlugin with other plugins that may also set environment variables.
+Environment variables can be lazy-loaded, if they won't be present at the time that you configure your plugin, but *will* be available by the time they're used.  This can be helpful when moving configuration to a Customizations class, where you might not have immediate access to all of a project's information.
 
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
 Jenkinsfile.init(this)
-// The value of `env "OTHER_VAR"` does not exist right now, but will exist at the time of deployment
-EnvironmentVariablePlugin.add('MY_VAR') { env "OTHER_VAR" }.init()
+// The project Scm hasn't been checked out just yet, but will be checked out when the pipeline runs
+EnvironmentVariablePlugin.add('MY_REPO') { ScmUtil.getRepositoryName() }.init()
 
 // The environment variable MY_VAR=someValue is made available across BuildStage and DeployStages
 def pipeline = new ScriptedPipeline()
