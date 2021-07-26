@@ -1,10 +1,24 @@
 public class StashUnstashPlugin implements Plugin, Resettable {
     public static final String DEFAULT_STASH_NAME = 'buildArtifact'
-    private static String artifactPattern
+    private static String pattern
+    private static String patternFile
 
-    public static withArtifact(String artifactPattern) {
-        this.artifactPattern = artifactPattern
+    public static withArtifact(String pattern) {
+        this.pattern = pattern
         return this
+    }
+
+    public static withArtifactFrom(String patternFile) {
+        this.patternFile = patternFile
+        return this
+    }
+
+    public String getArtifactPattern() {
+        if (pattern != null) {
+            return pattern
+        }
+
+        return Jenkinsfile.original.readFile(patternFile ?: '.buildArtifact')
     }
 
     public static void init() {
@@ -23,7 +37,7 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     public Closure stashDecoration() {
         return { innerClosure ->
             innerClosure()
-            stash includes: artifactPattern, name: DEFAULT_STASH_NAME
+            stash includes: getArtifactPattern(), name: DEFAULT_STASH_NAME
         }
     }
 
@@ -35,6 +49,7 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     }
 
     public static reset() {
-        artifactPattern = null
+        pattern = null
+        patternFile = null
     }
 }

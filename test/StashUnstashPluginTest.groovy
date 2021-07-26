@@ -24,6 +24,67 @@ class StashUnstashPluginTest {
     }
 
     @Nested
+    public class WithArtifactFrom {
+        @Test
+        void isFluent() {
+            def result = StashUnstashPlugin.withArtifactFrom('.buildArtifact')
+
+            assertThat(result, equalTo(StashUnstashPlugin.class))
+        }
+    }
+
+    @Nested
+    public class GetArtifactPattern {
+        @Nested
+        public class WithArtifact {
+            @Test
+            void returnsTheGivenArtifactPattern() {
+                def expectedArtifact = 'someArtifact'
+                StashUnstashPlugin.withArtifact(expectedArtifact)
+                def plugin = new StashUnstashPlugin()
+
+                def result = plugin.getArtifactPattern()
+
+                assertThat(result, equalTo(expectedArtifact))
+            }
+        }
+
+        @Nested
+        public class WithArtifactFromFile {
+            @Test
+            void returnsTheArtifactPatternFromTheGivenFile() {
+                def expectedArtifact = 'someArtifact'
+                def patternFile = '.someFile'
+                StashUnstashPlugin.withArtifactFrom(patternFile)
+                def plugin = new StashUnstashPlugin()
+                def workflowScript = spy(new MockWorkflowScript())
+                doReturn(expectedArtifact).when(workflowScript).readFile(patternFile)
+                Jenkinsfile.original = workflowScript
+
+                def result = plugin.getArtifactPattern()
+
+                assertThat(result, equalTo(expectedArtifact))
+            }
+        }
+
+        @Nested
+        public class Default {
+            @Test
+            void returnsContentsOfBuildArtifactFile() {
+                def expectedArtifact = 'someArtifact'
+                def plugin = new StashUnstashPlugin()
+                def workflowScript = spy(new MockWorkflowScript())
+                doReturn(expectedArtifact).when(workflowScript).readFile('.buildArtifact')
+                Jenkinsfile.original = workflowScript
+
+                def result = plugin.getArtifactPattern()
+
+                assertThat(result, equalTo(expectedArtifact))
+            }
+        }
+    }
+
+    @Nested
     public class Init {
         @Test
         void addsStashUnstashPluginToBuildStage() {
@@ -75,10 +136,10 @@ class StashUnstashPluginTest {
         void callsStashOnTheGivenArtifactPatternAndDefaultStashName() {
             def expectedStashName = StashUnstashPlugin.DEFAULT_STASH_NAME
             def expectedArtifactPattern = 'build/pattern.artifact'
-            def plugin = new StashUnstashPlugin()
+            def plugin = spy(new StashUnstashPlugin())
+            doReturn(expectedArtifactPattern).when(plugin).getArtifactPattern()
             def workflowScript = spy(new MockWorkflowScript())
 
-            StashUnstashPlugin.withArtifact(expectedArtifactPattern)
             def decoration = plugin.stashDecoration()
             decoration.delegate = workflowScript
             decoration() { }
@@ -90,7 +151,8 @@ class StashUnstashPluginTest {
         void callsInnerClosure() {
             def wasCalled = false
             def innerClosure = { wasCalled = true }
-            def plugin = new StashUnstashPlugin()
+            def plugin = spy(new StashUnstashPlugin())
+            doReturn('anything').when(plugin).getArtifactPattern()
             def workflowScript = new MockWorkflowScript()
 
             def decoration = plugin.stashDecoration()
@@ -109,7 +171,6 @@ class StashUnstashPluginTest {
             def plugin = new StashUnstashPlugin()
             def workflowScript = spy(new MockWorkflowScript())
 
-            StashUnstashPlugin.withArtifact('someArtifact')
             def decoration = plugin.unstashDecoration()
             decoration.delegate = workflowScript
             decoration() { }
