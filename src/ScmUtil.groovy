@@ -24,6 +24,12 @@ public class ScmUtil {
         return results
     }
 
+    public static getOrganizationName() {
+        def util = new ScmUtil(Jenkinsfile.getInstance())
+
+        return util.getParsedUrl()["organization"]
+    }
+
     public static getRepositoryName() {
         def util = new ScmUtil(Jenkinsfile.getInstance())
 
