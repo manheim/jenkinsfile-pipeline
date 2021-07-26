@@ -13,6 +13,10 @@ public class StashUnstashPlugin implements Plugin, Resettable {
         return this
     }
 
+    public String getArtifactPattern() {
+        return pattern
+    }
+
     public static void init() {
         StagePlugins.add(new StashUnstashPlugin(), BuildStage.class)
         StagePlugins.add(new StashUnstashPlugin(), DeployStage.class)
@@ -29,7 +33,7 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     public Closure stashDecoration() {
         return { innerClosure ->
             innerClosure()
-            stash includes: pattern, name: DEFAULT_STASH_NAME
+            stash includes: getArtifactPattern(), name: DEFAULT_STASH_NAME
         }
     }
 
