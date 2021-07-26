@@ -18,8 +18,15 @@ class EnvironmentVariableTest {
     @Nested
     public class Add {
         @Test
-        void isFluent() {
+        void isFluentForStrings() {
             def result = EnvironmentVariablePlugin.add('MY_VAR', 'someValue')
+
+            assertThat(result, equalTo(EnvironmentVariablePlugin))
+        }
+
+        @Test
+        void isFluentForClosures() {
+            def result = EnvironmentVariablePlugin.add('MY_VAR') { 'anLazyValue' }
 
             assertThat(result, equalTo(EnvironmentVariablePlugin))
         }
@@ -56,6 +63,46 @@ class EnvironmentVariableTest {
             plugin.apply(stage)
 
             verify(stage).decorate(expectedClosure)
+        }
+    }
+
+    @Nested
+    public class GetVariableList {
+        @Test
+        void convertsVariablesIntoAList() {
+            def key1 = 'KEY1'
+            def val1 = 'value1'
+            def key2 = 'KEY2'
+            def val2 = 'value2'
+
+            EnvironmentVariablePlugin.add(key1, val1)
+            EnvironmentVariablePlugin.add(key2, val2)
+
+            def plugin = new EnvironmentVariablePlugin()
+
+            def results = plugin.getVariableList()
+
+            assertThat(results, equalTo(["${key1}=${val1}", "${key2}=${val2}"]))
+        }
+
+        @Test
+        void evaluatesLazyValues() {
+            def lazyValue = mock(DeployStage)
+            def key = 'someKey'
+            def expectedValue = 'expectedValue'
+
+            // At the moment, lazyValue.getEnvironment() will return null
+            EnvironmentVariablePlugin.add(key) { lazyValue.getEnvironment() }
+
+            // It's important that lazyValue.getEnvironment() only returns non-null *AFTER*
+            // being added to the plugin above
+            doReturn(expectedValue).when(lazyValue).getEnvironment()
+
+            def plugin = new EnvironmentVariablePlugin()
+
+            def results = plugin.getVariableList()
+
+            assertThat(results, equalTo(["${key}=${expectedValue}"]))
         }
     }
 
