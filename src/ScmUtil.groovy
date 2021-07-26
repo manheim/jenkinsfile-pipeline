@@ -23,4 +23,10 @@ public class ScmUtil {
         results.put("repo", matcher[0][4])
         return results
     }
+
+    public static getRepositoryName() {
+        def util = new ScmUtil(Jenkinsfile.getInstance())
+
+        return util.getParsedUrl()["repo"]
+    }
 }

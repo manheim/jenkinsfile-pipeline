@@ -1,5 +1,5 @@
 public class Jenkinsfile implements Resettable {
-    private static original
+    public static original
     private static boolean shouldInitializeDefaultPlugins = true
 
     public static void init(original) {
