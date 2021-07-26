@@ -24,6 +24,16 @@ class StashUnstashPluginTest {
     }
 
     @Nested
+    public class WithArtifactFrom {
+        @Test
+        void isFluent() {
+            def result = StashUnstashPlugin.withArtifactFrom('.buildArtifact')
+
+            assertThat(result, equalTo(StashUnstashPlugin.class))
+        }
+    }
+
+    @Nested
     public class Init {
         @Test
         void addsStashUnstashPluginToBuildStage() {
