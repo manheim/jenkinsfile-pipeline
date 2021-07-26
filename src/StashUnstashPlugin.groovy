@@ -9,12 +9,16 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     }
 
     public static withArtifactFrom(String patternFile) {
-        //this.patternFile = patternFile
+        this.patternFile = patternFile
         return this
     }
 
     public String getArtifactPattern() {
-        return pattern
+        if (pattern != null) {
+            return pattern
+        }
+
+        return Jenkinsfile.original.readFile(patternFile ?: '.buildArtifact')
     }
 
     public static void init() {
@@ -46,5 +50,6 @@ public class StashUnstashPlugin implements Plugin, Resettable {
 
     public static reset() {
         pattern = null
+        patternFile = null
     }
 }
