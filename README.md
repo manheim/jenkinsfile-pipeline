@@ -106,6 +106,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Default Plugins
 * [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Wait for confirmation before deploying an environment
+* [NodePlugin](./docs/NodePlugin.md): Control where jobs are run
 * [ScmPlugin](./docs/ScmPlugin.md): Checkout the project's code
 
 ### Build Artifact Management
