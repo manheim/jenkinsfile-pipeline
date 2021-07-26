@@ -16,6 +16,37 @@ class ScmUtilTest {
     }
 
     @Nested
+    public class GetRepositoryName {
+        @Test
+        void returnsTheGivenRepositoryName() {
+            def expectedRepo = 'MyRepo'
+
+            def workflowScript = new MockWorkflowScript()
+            workflowScript.scm = new MockScm("https://github.myorg.com/MyOrg/${expectedRepo}".toString())
+            Jenkinsfile.original = workflowScript
+
+            def result = ScmUtil.getRepositoryName()
+
+            assertThat(result, equalTo(expectedRepo))
+        }
+    }
+
+    @Nested
+    public class GetOrganizationName {
+        @Test
+        void returnsTheGivenOrganizationName() {
+            def expectedOrg = 'SomeOrg'
+
+            def workflowScript = new MockWorkflowScript()
+            workflowScript.scm = new MockScm("https://github.myorg.com/${expectedOrg}/MyRepo".toString())
+            Jenkinsfile.original = workflowScript
+
+            def result = ScmUtil.getOrganizationName()
+
+            assertThat(result, equalTo(expectedOrg))
+        }
+    }
+    @Nested
     public class GetParsedUrl {
         @Test
         void callsGetScmUrlThenParses() {
