@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #88](https://github.com/manheim/jenkinsfile-pipeline/issues/88): Create default ScmPlugin to handle Scm tasks
 - [Issue #67](https://github.com/manheim/jenkinsfile-pipeline/issues/67): Allow StashUnstashPlugin pattern to be defined in a file
 - [Issue #85](https://github.com/manheim/jenkinsfile-pipeline/issues/85): Add convenience methods to get repo name and org name.
 - [Issue #82](https://github.com/manheim/jenkinsfile-pipeline/issues/82): New EnvironmentVariablePlugin to add global environment variables

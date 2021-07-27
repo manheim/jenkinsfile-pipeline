@@ -106,6 +106,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Default Plugins
 * [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Wait for confirmation before deploying an environment
+* [ScmPlugin](./docs/ScmPlugin.md): Checkout the project's code
 
 ### Build Artifact Management
 * [StashUnstashPlugin](./docs/StashUnstashPlugin.md): Stash your artifact after BuildStage, and unstash it for each of your subsequent DeployStages.
