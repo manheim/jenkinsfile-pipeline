@@ -1,4 +1,11 @@
-class NodePlugin implements Plugin {
+class NodePlugin implements Plugin, Resettable {
+    private static label
+
+    public static withLabel(String label) {
+        this.label = label
+        return this
+    }
+
     public static void init() {
         StagePlugins.add(new NodePlugin(), BuildStage)
         StagePlugins.add(new NodePlugin(), DeployStage)
@@ -10,7 +17,11 @@ class NodePlugin implements Plugin {
 
     public Closure nodeClosure() {
         return { innerClosure ->
-            node(null, innerClosure)
+            node(label, innerClosure)
         }
+    }
+
+    public static void reset() {
+        label = null
     }
 }

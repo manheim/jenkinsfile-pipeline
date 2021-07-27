@@ -87,5 +87,30 @@ class NodePluginTest {
 
             verify(workflowScript).node(null, innerClosure)
         }
+
+        @Test
+        void wrapsTheInnerClosureInNodeAndGivenLabel() {
+            def workflowScript = spy(new MockWorkflowScript())
+            def plugin = new NodePlugin()
+            def expectedLabel = 'myLabel'
+            def innerClosure = { }
+
+            NodePlugin.withLabel(expectedLabel)
+            def nodeClosure = plugin.nodeClosure()
+            nodeClosure.delegate = workflowScript
+            nodeClosure(innerClosure)
+
+            verify(workflowScript).node(expectedLabel, innerClosure)
+        }
+    }
+
+    @Nested
+    public class WithLabel {
+        @Test
+        void isFluent() {
+            def result = NodePlugin.withLabel('someLabel')
+
+            assertThat(result, equalTo(NodePlugin))
+        }
     }
 }
