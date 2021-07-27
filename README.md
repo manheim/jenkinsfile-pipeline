@@ -94,10 +94,10 @@ pipeline.startsWith(buildArtifact)
 
 # Control Where Your Jobs Are Run
 
-By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so with the following line of code:
+By default, the pipeline jobs are not assigned to a particular Jenkins node.  If you want to tie your pipeline to particular Jenkins node label, you can do so using the [NodePlugin](./docs/NodePlugin.md), which is enabled by default when you call `Jenkinsfile.init(this)`
 
 ```
-def pipeline = new ScriptedPipeline().withNodeLabel('mylabel')
+NodePlugin.withLabel('myLabel')
 ```
 
 # Customizing Your Pipeline With Plugins
@@ -106,6 +106,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Default Plugins
 * [ConfirmBeforeDeployPlugin](./docs/ConfirmBeforeDeployPlugin.md): Wait for confirmation before deploying an environment
+* [NodePlugin](./docs/NodePlugin.md): Control where jobs are run
 * [ScmPlugin](./docs/ScmPlugin.md): Checkout the project's code
 
 ### Build Artifact Management

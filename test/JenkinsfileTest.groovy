@@ -40,6 +40,15 @@ class JenkinsfileTest {
 
                 assertThat(plugins, hasItem(ScmPlugin))
             }
+
+            @Test
+            public void enablesNodePlugin() {
+                Jenkinsfile.init(new MockWorkflowScript())
+
+                def plugins = StagePlugins.getPlugins()
+
+                assertThat(plugins, hasItem(NodePlugin))
+            }
         }
 
         @Test

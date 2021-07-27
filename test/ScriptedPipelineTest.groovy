@@ -1,8 +1,6 @@
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.mockito.Mockito.any
 import static org.mockito.Mockito.doReturn
-import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
@@ -56,37 +54,6 @@ class ScriptedPipelineTest {
     @Nested
     public class Build {
         @Test
-        void wrapsStagesInANode() {
-            def stage = mock(Stage.class)
-            def jenkinsfileDsl = { }
-            doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
-
-            def workflowScript = spy(new MockWorkflowScript())
-            def pipeline = new ScriptedPipeline(workflowScript)
-
-            pipeline.startsWith(stage).build()
-            verify(workflowScript).node(eq(null), any(Closure.class))
-        }
-
-        @Nested
-        public class WithNodeLabel {
-            @Test
-            void wrapsStgesInANodeOfTheGivenLabel() {
-                def stage = mock(Stage.class)
-                def jenkinsfileDsl = { }
-                doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
-                String expectedLabel = 'someLabel'
-
-                def workflowScript = spy(new MockWorkflowScript())
-                def pipeline = new ScriptedPipeline(workflowScript)
-                pipeline.withNodeLabel(expectedLabel)
-
-                pipeline.startsWith(stage).build()
-                verify(workflowScript).node(eq(expectedLabel), any(Closure.class))
-            }
-        }
-
-        @Test
         void runsThePipelineConfigurationOfTheStartingStage() {
             def stage = mock(Stage.class)
             def jenkinsfileDsl = { sh 'do the thing' }
@@ -113,18 +80,6 @@ class ScriptedPipelineTest {
             pipeline.startsWith(stage1).then(stage2).build()
             verify(workflowScript).sh('stage1 do the thing')
             verify(workflowScript).sh('stage2 do the thing')
-        }
-    }
-
-    @Nested
-    public class WithNodeLabel {
-        @Test
-        void isFluent() {
-            def pipeline = new ScriptedPipeline(null)
-
-            def result = pipeline.withNodeLabel('someLabel')
-
-            assertThat(result, equalTo(pipeline))
         }
     }
 }

@@ -24,8 +24,6 @@ public class ConfirmBeforeDeployPlugin implements Plugin, Resettable {
                         ok: "Deploy ${environment}".toString(),
                         submitterParameter: 'approver'
                     ])
-
-                    sh "echo results: ${results}"
                 }
             }
 

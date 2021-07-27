@@ -1,7 +1,6 @@
 public class ScriptedPipeline {
     private workflowScript
     private stages = []
-    private String nodeLabel
 
     public ScriptedPipeline(workflowScript) {
         this.workflowScript = workflowScript
@@ -17,19 +16,12 @@ public class ScriptedPipeline {
         return this
     }
 
-    public ScriptedPipeline withNodeLabel(String nodeLabel) {
-        this.nodeLabel = nodeLabel
-        return this
-    }
-
     public void build() {
         def pipelineDsl = {
-            node(nodeLabel) {
-                stages.each { stage ->
-                    def pipelineConfiguration = stage.pipelineConfiguration()
-                    pipelineConfiguration.delegate = delegate
-                    pipelineConfiguration()
-                }
+            stages.each { stage ->
+                def pipelineConfiguration = stage.pipelineConfiguration()
+                pipelineConfiguration.delegate = delegate
+                pipelineConfiguration()
             }
         }
         pipelineDsl.delegate = workflowScript
