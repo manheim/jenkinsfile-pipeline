@@ -120,6 +120,9 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 ### IAM Role Management
 * [WithAwsPlugin](./docs/WithAwsPlugin.md): Use `withAws` to assume different IAM roles during deployment.
 
+### Workspace Management:
+* [DeleteDirPlugin](./docs/DeleteDirPlugin.md): Optionally delete directories between runs
+
 ## Plugin Order
 
 Plugins often work by wrapping your stages in Jenkinfile DSL blocks.  If multiple plugins wrap your stages simultaneously, the order in which they are wrapped can be very important.  On the whole, jenkinsfile-pipeline strives to preserve and maintain the order you initialize the plugins, so that the corresponding Jenkinsfile DSL blocks execute predictably.
