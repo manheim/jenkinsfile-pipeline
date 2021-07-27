@@ -11,6 +11,7 @@ public class Jenkinsfile implements Resettable {
     }
 
     public static void initializeDefaultPlugins() {
+        ScmPlugin.init()
         ConfirmBeforeDeployPlugin.init()
     }
 

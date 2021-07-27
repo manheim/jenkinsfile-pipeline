@@ -10,6 +10,11 @@ public class StagePlugins implements Resettable {
                       .collect { it['plugin'] }
     }
 
+    public static List<Class> getPlugins() {
+        return plugins.collect { it['plugin'].getClass() }
+                      .unique(false)
+    }
+
     public static reset() {
         plugins = []
     }

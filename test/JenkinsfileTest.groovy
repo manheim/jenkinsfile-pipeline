@@ -1,7 +1,6 @@
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
-import static org.hamcrest.Matchers.instanceOf
 import static org.mockito.Mockito.mock
 
 import org.junit.jupiter.api.Nested
@@ -22,13 +21,25 @@ class JenkinsfileTest {
             assertThat(result, equalTo(workflowScript))
         }
 
-        @Test
-        void initializesDefaultPlugins() {
-            Jenkinsfile.init(new MockWorkflowScript())
+        @Nested
+        public class InitializeDefaultPlugins {
+            @Test
+            public void enablesConfirmBeforeDeployPlugin() {
+                Jenkinsfile.init(new MockWorkflowScript())
 
-            def plugins = StagePlugins.getPluginsFor(mock(DeployStage))
+                def plugins = StagePlugins.getPlugins()
 
-            assertThat(plugins, hasItem(instanceOf(ConfirmBeforeDeployPlugin)))
+                assertThat(plugins, hasItem(ConfirmBeforeDeployPlugin))
+            }
+
+            @Test
+            public void enablesScmPlugin() {
+                Jenkinsfile.init(new MockWorkflowScript())
+
+                def plugins = StagePlugins.getPlugins()
+
+                assertThat(plugins, hasItem(ScmPlugin))
+            }
         }
 
         @Test
