@@ -87,19 +87,6 @@ class ScriptedPipelineTest {
         }
 
         @Test
-        void checksOutTheScm() {
-            def stage = mock(Stage.class)
-            def jenkinsfileDsl = { }
-            doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
-
-            def workflowScript = spy(new MockWorkflowScript())
-            def pipeline = new ScriptedPipeline(workflowScript)
-
-            pipeline.startsWith(stage).build()
-            verify(workflowScript).checkout(any(Object.class))
-        }
-
-        @Test
         void runsThePipelineConfigurationOfTheStartingStage() {
             def stage = mock(Stage.class)
             def jenkinsfileDsl = { sh 'do the thing' }
