@@ -1,4 +1,4 @@
-def call(args, label) {
+def call(args) {
     pipeline {
         agent none
         options { preserveStashes() }

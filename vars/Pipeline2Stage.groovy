@@ -1,4 +1,4 @@
-def call(args, label) {
+def call(args) {
     pipeline {
         agent none
         options { preserveStashes() }
@@ -7,11 +7,9 @@ def call(args, label) {
             stage('1') {
                 steps {
                     script {
-                        node(label) {
-                            def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
-                            configuration.delegate = this
-                            configuration()
-                        }
+                        def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
+                        configuration.delegate = this
+                        configuration()
                     }
                 }
             }
@@ -19,11 +17,9 @@ def call(args, label) {
             stage('2') {
                 steps {
                     script {
-                        node(label) {
-                            def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
-                            configuration.delegate = this
-                            configuration()
-                        }
+                        def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
+                        configuration.delegate = this
+                        configuration()
                     }
                 }
             }
