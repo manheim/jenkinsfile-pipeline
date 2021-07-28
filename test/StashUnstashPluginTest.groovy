@@ -36,6 +36,16 @@ class StashUnstashPluginTest {
     }
 
     @Nested
+    public class WithUnstashVariable {
+        @Test
+        void isFluent() {
+            def result = StashUnstashPlugin.withUnstashVariable('MY_CUSTOM_VARIABLE')
+
+            assertThat(result, equalTo(StashUnstashPlugin))
+        }
+    }
+
+    @Nested
     public class GetArtifactPattern {
         @Nested
         public class WithArtifact {
@@ -209,6 +219,22 @@ class StashUnstashPluginTest {
             decoration() { }
 
             verify(workflowScript).withEnv(eq(["BUILD_ARTIFACT=${expectedStashedFilename}".toString()]), any(Closure))
+        }
+
+        @Test
+        void usesTheCustomVariableNameIfGiven() {
+            def expectedVariable = 'CUSTOM_BUILD_ARTIFACT'
+            def stashedFilename = 'someFile'
+            def plugin = spy(new StashUnstashPlugin())
+            doReturn(stashedFilename).when(plugin).getStashedFilename()
+            doReturn(expectedVariable).when(plugin).getUnstashVariableName()
+            def workflowScript = spy(new MockWorkflowScript())
+
+            def decoration = plugin.unstashDecoration()
+            decoration.delegate = workflowScript
+            decoration() { }
+
+            verify(workflowScript).withEnv(eq(["${expectedVariable}=${stashedFilename}".toString()]), any(Closure))
         }
 
         @Test

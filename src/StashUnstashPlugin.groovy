@@ -2,6 +2,7 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     public static final String DEFAULT_STASH_NAME = 'buildArtifact'
     private static String pattern
     private static String patternFile
+    private static String unstashVariableName
     private String stashedFilename
 
     public static withArtifact(String pattern) {
@@ -11,6 +12,11 @@ public class StashUnstashPlugin implements Plugin, Resettable {
 
     public static withArtifactFrom(String patternFile) {
         this.patternFile = patternFile
+        return this
+    }
+
+    public static withUnstashVariable(String unstashVariable) {
+        this.unstashVariableName = unstashVariable
         return this
     }
 
@@ -50,15 +56,20 @@ public class StashUnstashPlugin implements Plugin, Resettable {
         return stashedFilename
     }
 
+    public String getUnstashVariableName() {
+        return unstashVariableName ?: 'BUILD_ARTIFACT'
+    }
+
     public Closure unstashDecoration() {
         return { innerClosure ->
             unstash DEFAULT_STASH_NAME
-            withEnv(["BUILD_ARTIFACT=${getStashedFilename()}".toString()], innerClosure)
+            withEnv(["${getUnstashVariableName()}=${getStashedFilename()}".toString()], innerClosure)
         }
     }
 
     public static reset() {
         pattern = null
         patternFile = null
+        unstashVariableName = null
     }
 }
