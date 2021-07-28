@@ -10,7 +10,9 @@ Specify the path to the artifact that you want to stash.
 Jenkinsfile.init(this)
 
 // BuildStage is expected to generate a file target/MyApplication.war - stash it on completion
-// Unstash MyApplication.war at the beginning of each subsequent DeployStage
+// Unstash MyApplication.war at the beginning of each subsequent DeployStage.  The matching
+// filename will be available in the variable BUILD_ARTIFACT, after being unstashed in the
+// DeployStage.
 StashUnstashPlugin.withArtifact('target/MyApplication.war').init()
 
 def pipeline = new ScriptedPipeline()
