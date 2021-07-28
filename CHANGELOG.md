@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #36](https://github.com/manheim/jenkinsfile-pipeline/issues/36): StashUnstash will now provide the artifact filename in an environment variable.
 - [Issue #58](https://github.com/manheim/jenkinsfile-pipeline/issues/58): New DeleteDirPlugin to delete directories between runs
 - [Issue #69](https://github.com/manheim/jenkinsfile-pipeline/issues/69): Turn node configuration into a default plugin.
 - [Issue #88](https://github.com/manheim/jenkinsfile-pipeline/issues/88): Create default ScmPlugin to handle Scm tasks
