@@ -2,6 +2,8 @@ public class DeployStage implements Stage {
     private plugins = new StagePlugins()
     private decorations = new StageDecorations()
     private String environment
+    private String command = './bin/deploy.sh'
+    private String prefix = null
 
     public DeployStage(String environment) {
         this.environment = environment
@@ -15,7 +17,7 @@ public class DeployStage implements Stage {
         return {
             decorations.apply() {
                 stage("deploy-${stageEnvironment}") {
-                    sh "./bin/deploy.sh ${stageEnvironment}".toString()
+                    sh getFullDeployCommand()
                 }
             }
         }
@@ -28,5 +30,25 @@ public class DeployStage implements Stage {
 
     public String getEnvironment() {
         return environment
+    }
+
+    public DeployStage withCommand(String command) {
+        this.command = command
+        return this
+    }
+
+    public DeployStage withCommandPrefix(String prefix) {
+        this.prefix = prefix
+        return this
+    }
+
+    public String getFullDeployCommand() {
+        def command = "${command} ${environment}"
+
+        if (prefix) {
+            command = "${prefix} ${command}"
+        }
+
+        return command.toString()
     }
 }
