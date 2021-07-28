@@ -23,8 +23,9 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     }
 
     public static void init() {
-        StagePlugins.add(new StashUnstashPlugin(), BuildStage.class)
-        StagePlugins.add(new StashUnstashPlugin(), DeployStage.class)
+        def plugin = new StashUnstashPlugin()
+        StagePlugins.add(plugin, BuildStage.class)
+        StagePlugins.add(plugin, DeployStage.class)
     }
 
     public void apply(Stage stage) {
