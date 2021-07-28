@@ -2,7 +2,7 @@
 
 Enable this plugin to [stash](https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#stash-stash-some-files-to-be-used-later-in-the-build) your artifact at the end of your BuildStage, and [unstash](https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#unstash-restore-files-previously-stashed) it to make it available at the start of each DeployStage.
 
-Specify the path to the artifact that you want to stash.  The stashed filename will be made available in DeployStages with the enviornment variable `BUILD_ARTIFACT`.
+Specify the path to the artifact that you want to stash.  The stashed filename will be made available in DeployStages with the environment variable `BUILD_ARTIFACT`.
 
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
