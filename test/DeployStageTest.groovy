@@ -82,4 +82,71 @@ class DeployStageTest {
             assertThat(result, equalTo(expectedEnvironment))
         }
     }
+
+    @Nested
+    public class WithCommand {
+        @Test
+        void isFluent() {
+            def stage = new DeployStage('foo')
+
+            def result = stage.withCommand('bar')
+
+            assertThat(result, equalTo(stage))
+        }
+    }
+
+    @Nested
+    public class WithCommandPrefix {
+        @Test
+        void isFluent() {
+            def stage = new DeployStage('foo')
+
+            def result = stage.withCommandPrefix('bar')
+
+            assertThat(result, equalTo(stage))
+        }
+    }
+
+    @Nested
+    public class GetFullDeployCommand {
+        @Test
+        void defaultsToDeployShell() {
+            def environment = 'foo'
+            def stage = new DeployStage(environment)
+
+            def result = stage.getFullDeployCommand()
+
+            assertThat(result, equalTo("./bin/deploy.sh ${environment}".toString()))
+        }
+
+        @Nested
+        public class WithCommand {
+            @Test
+            void replacesTheDeploymentCommand() {
+                def expectedCommand = 'my_deploy'
+                def environment = 'foo'
+                def stage = new DeployStage(environment)
+
+                stage.withCommand(expectedCommand)
+                def result = stage.getFullDeployCommand()
+
+                assertThat(result, equalTo("${expectedCommand} ${environment}".toString()))
+            }
+        }
+
+        @Nested
+        public class WithCommandPrefix {
+            @Test
+            void prefixesCommand() {
+                def prefix = 'bundle exec'
+                def environment = 'foo'
+                def stage = new DeployStage(environment)
+
+                stage.withCommandPrefix(prefix)
+                def result = stage.getFullDeployCommand()
+
+                assertThat(result, equalTo("${prefix} ./bin/deploy.sh ${environment}".toString()))
+            }
+        }
+    }
 }
