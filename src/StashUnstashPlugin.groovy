@@ -2,6 +2,7 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     public static final String DEFAULT_STASH_NAME = 'buildArtifact'
     private static String pattern
     private static String patternFile
+    private String stashedFilename
 
     public static withArtifact(String pattern) {
         this.pattern = pattern
@@ -37,14 +38,21 @@ public class StashUnstashPlugin implements Plugin, Resettable {
     public Closure stashDecoration() {
         return { innerClosure ->
             innerClosure()
-            stash includes: getArtifactPattern(), name: DEFAULT_STASH_NAME
+            def artifactPattern = getArtifactPattern()
+            this.stashedFilename = sh(script: "ls ${artifactPattern}".toString(), returnStdout: true).trim()
+
+            stash includes: artifactPattern, name: DEFAULT_STASH_NAME
         }
+    }
+
+    public String getStashedFilename() {
+        return stashedFilename
     }
 
     public Closure unstashDecoration() {
         return { innerClosure ->
             unstash DEFAULT_STASH_NAME
-            innerClosure()
+            withEnv(["BUILD_ARTIFACT=${getStashedFilename()}".toString()], innerClosure)
         }
     }
 

@@ -2,7 +2,9 @@ import static org.hamcrest.MatcherAssert.assertThat
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
+import static org.mockito.Mockito.any
 import static org.mockito.Mockito.doReturn
+import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
@@ -148,6 +150,23 @@ class StashUnstashPluginTest {
         }
 
         @Test
+        void capturesTheFilenameOfTheArtifact() {
+            def expectedArtifactPattern = 'build/pattern*.artifact'
+            def expectedFilename = 'build/pattern-1.0.artifact'
+            def plugin = spy(new StashUnstashPlugin())
+            doReturn(expectedArtifactPattern).when(plugin).getArtifactPattern()
+            def workflowScript = spy(new MockWorkflowScript())
+            doReturn(expectedFilename).when(workflowScript).sh(script: "ls ${expectedArtifactPattern}".toString(), returnStdout: true)
+
+            def decoration = plugin.stashDecoration()
+            decoration.delegate = workflowScript
+            decoration() { }
+            def stashedFilename = plugin.getStashedFilename()
+
+            assertThat(stashedFilename, equalTo(expectedFilename))
+        }
+
+        @Test
         void callsInnerClosure() {
             def wasCalled = false
             def innerClosure = { wasCalled = true }
@@ -176,6 +195,20 @@ class StashUnstashPluginTest {
             decoration() { }
 
             verify(workflowScript).unstash(expectedStashName)
+        }
+
+        @Test
+        void makesStashedFilenameAvailableAsEnvironmentVariable() {
+            def expectedStashedFilename = 'stashFile.war'
+            def plugin = spy(new StashUnstashPlugin())
+            doReturn(expectedStashedFilename).when(plugin).getStashedFilename()
+            def workflowScript = spy(new MockWorkflowScript())
+
+            def decoration = plugin.unstashDecoration()
+            decoration.delegate = workflowScript
+            decoration() { }
+
+            verify(workflowScript).withEnv(eq(["BUILD_ARTIFACT=${expectedStashedFilename}".toString()]), any(Closure))
         }
 
         @Test
