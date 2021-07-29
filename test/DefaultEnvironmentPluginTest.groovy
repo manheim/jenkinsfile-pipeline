@@ -26,6 +26,16 @@ class DefaultEnvironmentPluginTest {
     }
 
     @Nested
+    public class WithVariableName {
+        @Test
+        void isFluent() {
+            def result = DefaultEnvironmentPlugin.withVariableName('someName')
+
+            assertThat(result, equalTo(DefaultEnvironmentPlugin))
+        }
+    }
+
+    @Nested
     public class Apply {
         @Test
         void addsEnvironmentDecoration() {
@@ -69,6 +79,22 @@ class DefaultEnvironmentPluginTest {
             confirmClosure(innerClosure)
 
             verify(workflowScript).withEnv(["ENVIRONMENT=${expectedEnvironment}"], innerClosure)
+        }
+
+        @Test
+        void usesDifferentVariableNameIfProvided() {
+            def workflowScript = spy(new MockWorkflowScript())
+            def plugin = new DefaultEnvironmentPlugin()
+            def innerClosure = { }
+            def expectedEnvironment = 'foo'
+            def expectedVariableName = 'CUSTOM_ENV'
+
+            DefaultEnvironmentPlugin.withVariableName(expectedVariableName)
+            def confirmClosure = plugin.environmentClosure(expectedEnvironment)
+            confirmClosure.delegate = workflowScript
+            confirmClosure(innerClosure)
+
+            verify(workflowScript).withEnv(["${expectedVariableName}=${expectedEnvironment}"], innerClosure)
         }
     }
 }
