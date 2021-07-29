@@ -49,6 +49,15 @@ class JenkinsfileTest {
 
                 assertThat(plugins, hasItem(NodePlugin))
             }
+
+            @Test
+            public void enablesDefaultEnvironmentPlugin() {
+                Jenkinsfile.init(new MockWorkflowScript())
+
+                def plugins = StagePlugins.getPlugins()
+
+                assertThat(plugins, hasItem(DefaultEnvironmentPlugin))
+            }
         }
 
         @Test
