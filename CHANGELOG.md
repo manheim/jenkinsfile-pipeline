@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #96](https://github.com/manheim/jenkinsfile-pipeline/issues/96): Provide an environment variable containing the DeployStage environment name.
 - [Issue #76](https://github.com/manheim/jenkinsfile-pipeline/issues/76): Allow DeployStage command to be customized
 - [Issue #36](https://github.com/manheim/jenkinsfile-pipeline/issues/36): StashUnstash will now provide the artifact filename in an environment variable.
 - [Issue #58](https://github.com/manheim/jenkinsfile-pipeline/issues/58): New DeleteDirPlugin to delete directories between runs
