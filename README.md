@@ -123,6 +123,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 
 ### Workspace Management:
 * [DeleteDirPlugin](./docs/DeleteDirPlugin.md): Optionally delete directories between runs
+* [DockerPlugin](./docs/DockerPlugin.md): Optionally run your pipeline on a Docker image
 
 ## Plugin Order
 
