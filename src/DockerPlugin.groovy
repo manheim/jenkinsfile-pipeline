@@ -7,8 +7,13 @@ public class DockerPlugin implements Plugin {
         stage.decorate(dockerClosure())
     }
 
+    public String getImageName() {
+        return ""
+    }
+
     public Closure dockerClosure() {
         return { innerClosure ->
+            docker.build(getImageName())
             innerClosure()
         }
     }

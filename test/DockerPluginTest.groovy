@@ -54,5 +54,20 @@ class DockerPluginTest {
 
             assertThat(wasCalled, equalTo(true))
         }
+
+        @Test
+        void buildsTheDockerImage() {
+            def plugin = spy(new DockerPlugin())
+            def expectedImage = 'expectedImageName'
+            doReturn(expectedImage).when(plugin).getImageName()
+            def workflowScript = new MockWorkflowScript()
+            workflowScript.docker = spy(workflowScript.docker)
+
+            def closure = plugin.dockerClosure()
+            closure.delegate = workflowScript
+            closure { }
+
+            verify(workflowScript.docker).build(expectedImage)
+        }
     }
 }
