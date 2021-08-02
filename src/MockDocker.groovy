@@ -1,6 +1,6 @@
 public class MockDocker {
     public image(String dockerImage) { return this }
-    public inside(String dockerImage, Closure closure) {
+    public inside(String command = null, Closure closure) {
         closure()
         return this
     }

@@ -13,8 +13,7 @@ public class DockerPlugin implements Plugin {
 
     public Closure dockerClosure() {
         return { innerClosure ->
-            docker.build(getImageName())
-            innerClosure()
+            docker.build(getImageName()).inside(innerClosure)
         }
     }
 }

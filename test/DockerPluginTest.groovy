@@ -69,5 +69,19 @@ class DockerPluginTest {
 
             verify(workflowScript.docker).build(expectedImage)
         }
+
+        @Test
+        void runsTheNestedClosureInsideTheDockerImage() {
+            def plugin = spy(new DockerPlugin())
+            def workflowScript = new MockWorkflowScript()
+            workflowScript.docker = spy(workflowScript.docker)
+            def innerClosure = { }
+
+            def closure = plugin.dockerClosure()
+            closure.delegate = workflowScript
+            closure(innerClosure)
+
+            verify(workflowScript.docker).inside(innerClosure)
+        }
     }
 }
