@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #98](https://github.com/manheim/jenkinsfile-pipeline/issues/98): Change DeployStage ./bin/deploy.sh to rely on $ENVIRONMENT, instead of argument
 - [Issue #96](https://github.com/manheim/jenkinsfile-pipeline/issues/96): Provide an environment variable containing the DeployStage environment name.
 - [Issue #76](https://github.com/manheim/jenkinsfile-pipeline/issues/76): Allow DeployStage command to be customized
 - [Issue #36](https://github.com/manheim/jenkinsfile-pipeline/issues/36): StashUnstash will now provide the artifact filename in an environment variable.
