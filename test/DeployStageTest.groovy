@@ -119,7 +119,7 @@ class DeployStageTest {
 
             def result = stage.getFullDeployCommand()
 
-            assertThat(result, equalTo("./bin/deploy.sh ${environment}".toString()))
+            assertThat(result, equalTo("./bin/deploy.sh".toString()))
         }
 
         @Nested
@@ -127,13 +127,12 @@ class DeployStageTest {
             @Test
             void replacesTheDeploymentCommand() {
                 def expectedCommand = 'my_deploy'
-                def environment = 'foo'
-                def stage = new DeployStage(environment)
+                def stage = new DeployStage('foo')
 
                 stage.withCommand(expectedCommand)
                 def result = stage.getFullDeployCommand()
 
-                assertThat(result, equalTo("${expectedCommand} ${environment}".toString()))
+                assertThat(result, equalTo(expectedCommand))
             }
         }
 
@@ -142,13 +141,12 @@ class DeployStageTest {
             @Test
             void prefixesCommand() {
                 def prefix = 'bundle exec'
-                def environment = 'foo'
-                def stage = new DeployStage(environment)
+                def stage = new DeployStage('foo')
 
                 stage.withCommandPrefix(prefix)
                 def result = stage.getFullDeployCommand()
 
-                assertThat(result, equalTo("${prefix} ./bin/deploy.sh ${environment}".toString()))
+                assertThat(result, equalTo("${prefix} ./bin/deploy.sh".toString()))
             }
         }
     }
