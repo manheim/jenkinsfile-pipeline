@@ -2,6 +2,7 @@ import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.instanceOf
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.mockito.Mockito.any
+import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
@@ -41,16 +42,18 @@ class DeployStageTest {
         }
 
         @Test
-        void runsDeployScriptWithEnvironmentNameByDefault() {
+        void runsDeployCommandByDefault() {
             def environment = 'qa'
-            def deployStage = new DeployStage(environment)
+            def deployStage = spy(new DeployStage(environment))
+            def expectedCommand = 'someCommand'
+            doReturn(expectedCommand).when(deployStage).getFullDeployCommand()
             def workflowScript = spy(new MockWorkflowScript())
 
             def pipelineConfiguration = deployStage.pipelineConfiguration()
             pipelineConfiguration.delegate = workflowScript
             pipelineConfiguration()
 
-            verify(workflowScript).sh("./bin/deploy.sh ${environment}".toString())
+            verify(workflowScript).sh(expectedCommand)
         }
 
         @Nested
