@@ -10,6 +10,10 @@ public class ConfirmBeforeDeployPlugin implements Plugin, Resettable {
         return this
     }
 
+    public static withTimeout(int time, String unit) {
+        return this
+    }
+
     public void apply(Stage stage) {
         String environment = stage.getEnvironment()
         stage.decorate(confirmClosure(environment))

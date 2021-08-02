@@ -155,4 +155,14 @@ class ConfirmBeforeDeployPluginTest {
             assertThat(result, equalTo(ConfirmBeforeDeployPlugin))
         }
     }
+
+    @Nested
+    public class WithTimeout {
+        @Test
+        void isFluent() {
+            def result = ConfirmBeforeDeployPlugin.withTimeout(10, 'SECONDS')
+
+            assertThat(result, equalTo(ConfirmBeforeDeployPlugin))
+        }
+    }
 }
