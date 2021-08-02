@@ -8,7 +8,11 @@ public class DockerPlugin implements Plugin {
     }
 
     public String getImageName() {
-        return ""
+        def fileUtil = new FileUtil(Jenkinsfile.getInstance())
+        def org = ScmUtil.getOrganizationName()
+        def repo = ScmUtil.getRepositoryName()
+        def tag = fileUtil.sha256('Dockerfile')
+        return "${org}/${repo}:${tag}"
     }
 
     public Closure dockerClosure() {

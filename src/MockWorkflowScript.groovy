@@ -93,5 +93,11 @@ class MockWorkflowScript implements Resettable {
     public static reset() {
         BRANCH_NAME = null
     }
+
+    public String sha256(String filename) {
+        String charset = (('a'..'z') + ('A'..'Z') + ('0'..'9')).join()
+        int length = 64
+        new Random().with { (1..length).collect { charset[ nextInt( charset.length() ) ] }.join() }
+    }
 }
 

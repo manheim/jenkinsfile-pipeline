@@ -43,19 +43,6 @@ class DockerPluginTest {
     @Nested
     public class DockerClosure {
         @Test
-        void runsTheInnerClosure() {
-            def plugin = new DockerPlugin()
-            def wasCalled = false
-            def innerClosure = { wasCalled = true }
-
-            def closure = plugin.dockerClosure()
-            closure.delegate = new MockWorkflowScript()
-            closure(innerClosure)
-
-            assertThat(wasCalled, equalTo(true))
-        }
-
-        @Test
         void buildsTheDockerImage() {
             def plugin = spy(new DockerPlugin())
             def expectedImage = 'expectedImageName'
@@ -73,6 +60,7 @@ class DockerPluginTest {
         @Test
         void runsTheNestedClosureInsideTheDockerImage() {
             def plugin = spy(new DockerPlugin())
+            doReturn('someImage').when(plugin).getImageName()
             def workflowScript = new MockWorkflowScript()
             workflowScript.docker = spy(workflowScript.docker)
             def innerClosure = { }
@@ -82,6 +70,24 @@ class DockerPluginTest {
             closure(innerClosure)
 
             verify(workflowScript.docker).inside(innerClosure)
+        }
+    }
+
+    @Nested
+    public class GetImageName {
+        @Test
+        void constructsTheImageNameByDefault() {
+            def plugin = new DockerPlugin()
+            def expectedOrg = 'MyOrg'
+            def expectedRepo = 'my-repo'
+            def expectedTag = 'someSha256Value'
+            Jenkinsfile.original = spy(new MockWorkflowScript())
+            doReturn(expectedTag).when(Jenkinsfile.original).sha256("Dockerfile")
+            Jenkinsfile.original.scm = new MockScm("http://my.github.com/${expectedOrg}/${expectedRepo}")
+
+            def result = plugin.getImageName()
+
+            assertThat(result, equalTo("${expectedOrg}/${expectedRepo}:${expectedTag}".toString()))
         }
     }
 }

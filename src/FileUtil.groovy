@@ -19,4 +19,8 @@ public class FileUtil {
 
         return null
     }
+
+    public String sha256(String filename) {
+        return workflowScript.sha256(filename)
+    }
 }
