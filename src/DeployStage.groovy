@@ -43,12 +43,12 @@ public class DeployStage implements Stage {
     }
 
     public String getFullDeployCommand() {
-        def command = "${command} ${environment}"
+        def fullCommand = command
 
         if (prefix) {
-            command = "${prefix} ${command}"
+            fullCommand = "${prefix} ${fullCommand}"
         }
 
-        return command.toString()
+        return fullCommand.toString()
     }
 }
