@@ -24,7 +24,7 @@ pipeline.startsWith(buildArtifact)
         .build()
 ```
 
-By default, the plugin will timeout after 15 minutes if no answer is given, and your pipeline will be aborted.  You can optionally change this timeout.
+By default, the plugin will timeout after 15 minutes if no answer is given, and your pipeline will be aborted.  You can optionally change this timeout.  Valid `unit` arguments are defined by the [Jenkinsfile DSL](https://www.jenkins.io/doc/pipeline/steps/workflow-basic-steps/#timeout-enforce-time-limit).
 
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
