@@ -1,5 +1,7 @@
 public class ConfirmBeforeDeployPlugin implements Plugin, Resettable {
     private static autoDeployEnvironments = []
+    private static timeoutTime
+    private static timeoutUnit
 
     public static init() {
         StagePlugins.add(new ConfirmBeforeDeployPlugin(), DeployStage.class)
@@ -11,6 +13,8 @@ public class ConfirmBeforeDeployPlugin implements Plugin, Resettable {
     }
 
     public static withTimeout(int time, String unit) {
+        timeoutTime = time
+        timeoutUnit = unit
         return this
     }
 
@@ -22,7 +26,7 @@ public class ConfirmBeforeDeployPlugin implements Plugin, Resettable {
     public Closure confirmClosure(String environment) {
         return { innerClosure ->
             if (!shouldAutoDeploy(environment)) {
-                timeout(time: 15, unit: 'MINUTES') {
+                timeout(time: timeoutTime ?: 15, unit: timeoutUnit ?: 'MINUTES') {
                     def results = input([
                         message: "Do you really want to deploy ${environment}?".toString(),
                         ok: "Deploy ${environment}".toString(),

@@ -59,7 +59,7 @@ class ConfirmBeforeDeployPluginTest {
         }
 
         @Test
-        void timesOutAfter15Minutes() {
+        void timesOutAfter15MinutesByDefault() {
             def workflowScript = spy(new MockWorkflowScript())
             def plugin = new ConfirmBeforeDeployPlugin()
 
@@ -68,6 +68,21 @@ class ConfirmBeforeDeployPluginTest {
             confirmClosure { }
 
             verify(workflowScript).timeout(eq(time: 15, unit: 'MINUTES'), any(Closure.class))
+        }
+
+        @Test
+        void timesOutAfterGivenDuration() {
+            def workflowScript = spy(new MockWorkflowScript())
+            def plugin = new ConfirmBeforeDeployPlugin()
+            def expectedTime = 48
+            def expectedUnit = 'HOURS'
+
+            ConfirmBeforeDeployPlugin.withTimeout(expectedTime, expectedUnit)
+            def confirmClosure = plugin.confirmClosure()
+            confirmClosure.delegate = workflowScript
+            confirmClosure { }
+
+            verify(workflowScript).timeout(eq(time: expectedTime, unit: expectedUnit), any(Closure.class))
         }
 
         @Test
