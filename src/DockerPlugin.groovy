@@ -4,6 +4,12 @@ public class DockerPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        println "do the thing"
+        stage.decorate(dockerClosure())
+    }
+
+    public Closure dockerClosure() {
+        return { innerClosure ->
+            innerClosure()
+        }
     }
 }
