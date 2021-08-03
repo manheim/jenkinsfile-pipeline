@@ -7,9 +7,9 @@ By default, the plugin will build and load a Dockerfile that you've provided in 
 ```
 @Library('jenkinsfile-pipeline@<VERSION>') _
 
-Jenkinsfile.init(this)
 // Build and load a Dockerfile that you've provided in your project
 DockerPlugin.init()
+Jenkinsfile.init(this)
 
 def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
