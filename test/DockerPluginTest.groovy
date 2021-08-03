@@ -79,15 +79,13 @@ class DockerPluginTest {
         void constructsTheImageNameByDefault() {
             def plugin = new DockerPlugin()
             def expectedOrg = 'MyOrg'
-            def expectedRepo = 'my-repo'
-            def expectedTag = 'someSha256Value'
-            Jenkinsfile.original = spy(new MockWorkflowScript())
-            doReturn(expectedTag).when(Jenkinsfile.original).sha256("Dockerfile")
+            def expectedRepo = 'My-Repo'
+            Jenkinsfile.original = new MockWorkflowScript()
             Jenkinsfile.original.scm = new MockScm("http://my.github.com/${expectedOrg}/${expectedRepo}")
 
             def result = plugin.getImageName()
 
-            assertThat(result, equalTo("${expectedOrg}/${expectedRepo}:${expectedTag}".toString()))
+            assertThat(result, equalTo("${expectedOrg.toLowerCase()}/${expectedRepo.toLowerCase()}".toString()))
         }
     }
 }
