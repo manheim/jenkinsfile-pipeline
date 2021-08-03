@@ -16,6 +16,15 @@ class DockerPluginTest {
     @Nested
     public class Init {
         @Test
+        void addsPluginToTheBuildStage() {
+            DockerPlugin.init()
+
+            def plugins = StagePlugins.getPluginsFor(mock(BuildStage.class))
+
+            assertThat(plugins, hasItem(instanceOf(DockerPlugin.class)))
+        }
+
+        @Test
         void addsPluginToTheDeployStage() {
             DockerPlugin.init()
 

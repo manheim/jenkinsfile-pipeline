@@ -1,6 +1,7 @@
 public class DockerPlugin implements Plugin {
     public static void init() {
         StagePlugins.add(new DockerPlugin(), DeployStage.class)
+        StagePlugins.add(new DockerPlugin(), BuildStage.class)
     }
 
     public void apply(Stage stage) {
