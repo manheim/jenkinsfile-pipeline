@@ -51,21 +51,5 @@ class FileUtilTest {
             assertThat(result, equalTo(null))
         }
     }
-
-    @Nested
-    public class Sha256 {
-        @Test
-        void returnsTheSha256OfTheGivenFile() {
-            def expectedFile = 'myFile.txt'
-            def workflowScript = spy(new MockWorkflowScript())
-            def expectedSha = "sD93BMldlRTPjDOMtjhBWDJcYeh7mO0je6xqnuKWdWxJApjqGmJDQJN88bBR1fH2"
-            doReturn(expectedSha).when(workflowScript).sha256(expectedFile)
-            def util = new FileUtil(workflowScript)
-
-            def result = util.sha256(expectedFile)
-
-            assertThat(result, equalTo(expectedSha))
-        }
-    }
 }
 
