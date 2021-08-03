@@ -1,2 +1,4 @@
 ignore:
   - "src/MockWorkflowScript.groovy"
+  - "src/MockDocker.groovy"
+  - "src/MockScm.groovy"

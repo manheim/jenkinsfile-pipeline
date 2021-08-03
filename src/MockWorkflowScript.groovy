@@ -1,23 +1,9 @@
 class MockWorkflowScript implements Resettable {
-    public docker
+    public docker = new MockDocker()
     public scm = new MockScm('someurl')
     public env = [:]
     public static BRANCH_NAME
 
-    public MockWorkflowScript() {
-        docker = this
-    }
-
-    public docker(Closure closure = null) {
-        return this
-    }
-
-    public image(String dockerImage) { return this }
-    public inside(String dockerImage, Closure closure) {
-        closure()
-        return this
-    }
-    public build(String image, String options) { return this }
     public echo(String message) { println "MockWorkflowScript.echo ${message}" }
     public pwd(Map options) { return '/MockWorkflowScript/currentDir' }
     public writeFile(Map options) { println "MockWorkflowScript.writeFile: ${options.toString()}" }
