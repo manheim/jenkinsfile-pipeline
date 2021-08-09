@@ -2,6 +2,7 @@ import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.instanceOf
 import static org.hamcrest.MatcherAssert.assertThat
 import static org.mockito.Mockito.any
+import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
@@ -15,6 +16,28 @@ class BuildStageTest {
         @Test
         void doesNotFail() {
             def buildStage = new BuildStage()
+        }
+    }
+
+    @Nested
+    public class WithCommand {
+        @Test
+        void isFluent() {
+            def stage = new BuildStage()
+            def result = stage.withCommand('someCommand')
+
+            assertThat(result, equalTo(stage))
+        }
+    }
+
+    @Nested
+    public class WithCommandPrefix {
+        @Test
+        void isFluent() {
+            def stage = new BuildStage()
+            def result = stage.withCommandPrefix('bundle exec')
+
+            assertThat(result, equalTo(stage))
         }
     }
 
@@ -42,15 +65,17 @@ class BuildStageTest {
         }
 
         @Test
-        void runBuildScriptByDefault() {
-            def buildStage = new BuildStage()
+        void runBuildCommand() {
+            def buildStage = spy(new BuildStage())
             def workflowScript = spy(new MockWorkflowScript())
+            def expectedBuildCommand = 'someCommand'
+            doReturn(expectedBuildCommand).when(buildStage).getFullCommand()
 
             def closure = buildStage.pipelineConfiguration()
             closure.delegate = workflowScript
             closure()
 
-            verify(workflowScript).sh("./bin/build.sh")
+            verify(workflowScript).sh(expectedBuildCommand)
         }
 
         @Nested
@@ -67,6 +92,40 @@ class BuildStageTest {
 
                 assertThat(wasCalled, equalTo(true))
             }
+        }
+    }
+
+    @Nested
+    public class GetFullBuildCommand {
+        @Test
+        void defaultsToBuildScript() {
+            def stage = new BuildStage()
+
+            def result = stage.getFullCommand()
+
+            assertThat(result, equalTo('./bin/build.sh'))
+        }
+
+        @Test
+        void returnsCustomCommandWhenGiven() {
+            def stage = new BuildStage()
+            def expectedCommand = 'custom-command'
+
+            stage.withCommand(expectedCommand)
+            def result = stage.getFullCommand()
+
+            assertThat(result, equalTo(expectedCommand))
+        }
+
+        @Test
+        void prefixesCommandIfGiven() {
+            def stage = new BuildStage()
+            def expectedPrefix = 'bundle exec'
+
+            stage.withCommandPrefix(expectedPrefix)
+            def result = stage.getFullCommand()
+
+            assertThat(result, equalTo("${expectedPrefix} ./bin/build.sh".toString()))
         }
     }
 }
