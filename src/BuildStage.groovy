@@ -1,6 +1,12 @@
 public class BuildStage implements Stage {
     private plugins = new StagePlugins()
     private decorations = new StageDecorations()
+    private String command = './bin/build.sh'
+
+    public BuildStage withCommand(String command) {
+        this.command = command
+        return this
+    }
 
     @Override
     public Closure pipelineConfiguration() {
@@ -9,7 +15,7 @@ public class BuildStage implements Stage {
         return { ->
             decorations.apply() {
                 stage("build") {
-                    sh("./bin/build.sh")
+                    sh(command)
                 }
             }
         }

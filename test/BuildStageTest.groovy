@@ -19,6 +19,17 @@ class BuildStageTest {
     }
 
     @Nested
+    public class WithCommand {
+        @Test
+        void isFluent() {
+            def stage = new BuildStage()
+            def result = stage.withCommand('someCommand')
+
+            assertThat(result, equalTo(stage))
+        }
+    }
+
+    @Nested
     public class PipelineConfiguration {
         @Test
         void returnsAClosure() {
@@ -54,6 +65,23 @@ class BuildStageTest {
         }
 
         @Nested
+        public class WithCommand {
+            @Test
+            void runsTheGivenBuildCommand() {
+                def buildStage = new BuildStage()
+                def workflowScript = spy(new MockWorkflowScript())
+                def expectedCommand = 'echo custom command'
+
+                buildStage.withCommand(expectedCommand)
+                def closure = buildStage.pipelineConfiguration()
+                closure.delegate = workflowScript
+                closure()
+
+                verify(workflowScript).sh(expectedCommand)
+            }
+        }
+
+        @Nested
         public class WithDecorations {
             @Test
             void appliesDecorations() {
@@ -69,4 +97,5 @@ class BuildStageTest {
             }
         }
     }
+
 }
