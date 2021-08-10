@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## v1.1
+
 - [Issue #103](https://github.com/manheim/jenkinsfile-pipeline/issues/103): BuildStage: Ability to customize build command
 - [Issue #39](https://github.com/manheim/jenkinsfile-pipeline/issues/39): Allow pipeline to run on Dockerfile
 - [Issue #44](https://github.com/manheim/jenkinsfile-pipeline/issues/44): ConfirmBeforeDeployPlugin: parameterize timeout
