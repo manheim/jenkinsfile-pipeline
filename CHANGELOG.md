@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #71](https://github.com/manheim/jenkinsfile-pipeline/issues/71): DeclarativePipeline: allow custom templates
 - [Issue #114](https://github.com/manheim/jenkinsfile-pipeline/issues/114): Simplify ScriptedPipeline constructor
 - [Issue #112](https://github.com/manheim/jenkinsfile-pipeline/issues/112): Refactor: BuildStage/DeployStage, turn hardcoded stage into a Plugin
 - [Issue #110](https://github.com/manheim/jenkinsfile-pipeline/issues/110): Simplify DeclarativePipeline constructor
