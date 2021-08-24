@@ -7,7 +7,9 @@ import static org.mockito.Mockito.spy
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class DeclarativePipelineTest {
     @Nested
     public class Constructor {
@@ -91,6 +93,18 @@ class DeclarativePipelineTest {
 
     @Nested
     public class GetPipelineTemplate {
+        @Test
+        void returnsPipelineTemplateIfProvided() {
+            def expectedTemplate = { }
+            def workflowScript = new MockWorkflowScript()
+            def pipeline = new DeclarativePipeline(workflowScript)
+
+            DeclarativePipeline.withPipelineTemplate(expectedTemplate)
+            def result = pipeline.getPipelineTemplate([])
+
+            assertThat(result, equalTo(expectedTemplate))
+        }
+
         @Test
         void returnsEmptyDeclarativeTemplateWhenZeroStagesAdded() {
             def expectedTemplate = { }

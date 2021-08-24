@@ -1,7 +1,9 @@
-class DeclarativePipeline {
+class DeclarativePipeline implements Resettable {
+    private static pipelineTemplate
     private List<Stage> stages = []
 
     public static withPipelineTemplate(pipelineTemplate) {
+        this.pipelineTemplate = pipelineTemplate
         return this
     }
 
@@ -28,6 +30,10 @@ class DeclarativePipeline {
     public getPipelineTemplate(List<Stage> stages) {
         def workflowScript = Jenkinsfile.getInstance()
 
+        if (pipelineTemplate) {
+            return pipelineTemplate
+        }
+
         switch (stages.size()) {
             case 0:
                 return workflowScript.Pipeline0Stage
@@ -48,5 +54,9 @@ class DeclarativePipeline {
         }
 
         return null
+    }
+
+    public static void reset() {
+        this.pipelineTemplate = null
     }
 }
