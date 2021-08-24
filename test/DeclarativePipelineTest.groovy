@@ -80,6 +80,16 @@ class DeclarativePipelineTest {
     }
 
     @Nested
+    public class WithPipelineTemplate {
+        @Test
+        void isFluent() {
+            def result = DeclarativePipeline.withPipelineTemplate { }
+
+            assertThat(result, equalTo(DeclarativePipeline))
+        }
+    }
+
+    @Nested
     public class GetPipelineTemplate {
         @Test
         void returnsEmptyDeclarativeTemplateWhenZeroStagesAdded() {

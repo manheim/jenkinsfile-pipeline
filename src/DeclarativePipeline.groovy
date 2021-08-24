@@ -1,6 +1,10 @@
 class DeclarativePipeline {
     private List<Stage> stages = []
 
+    public static withPipelineTemplate(pipelineTemplate) {
+        return this
+    }
+
     // Remove workflowScript argument as part of Issue #111
     public DeclarativePipeline(workflowScript = null) {
     }
