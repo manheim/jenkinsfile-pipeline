@@ -85,7 +85,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline0Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def result = pipeline.getPipelineTemplate([])
 
@@ -97,7 +98,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline1Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def result = pipeline.getPipelineTemplate([mock(Stage)])
 
@@ -109,7 +111,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline2Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def stages = (1..2).collect { mock(Stage) }
             def result = pipeline.getPipelineTemplate(stages)
@@ -122,7 +125,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline3Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def stages = (1..3).collect { mock(Stage) }
             def result = pipeline.getPipelineTemplate(stages)
@@ -135,7 +139,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline4Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def stages = (1..4).collect { mock(Stage) }
             def result = pipeline.getPipelineTemplate(stages)
@@ -148,7 +153,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline5Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def stages = (1..5).collect { mock(Stage) }
             def result = pipeline.getPipelineTemplate(stages)
@@ -161,7 +167,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline6Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def stages = (1..6).collect { mock(Stage) }
             def result = pipeline.getPipelineTemplate(stages)
@@ -174,7 +181,8 @@ class DeclarativePipelineTest {
             def expectedTemplate = { }
             def workflowScript = new PipelineTemplateMockWorkflowScript()
             workflowScript.Pipeline7Stage = expectedTemplate
-            def pipeline = new DeclarativePipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             def stages = (1..7).collect { mock(Stage) }
             def result = pipeline.getPipelineTemplate(stages)
