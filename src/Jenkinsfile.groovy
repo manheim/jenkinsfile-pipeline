@@ -14,8 +14,8 @@ public class Jenkinsfile implements Resettable {
         ScmPlugin.init()
         DefaultEnvironmentPlugin.init()
         NodePlugin.init()
-        StageDisplayPlugin.init()
         ConfirmBeforeDeployPlugin.init()
+        StageDisplayPlugin.init()
     }
 
     public static getInstance() {
