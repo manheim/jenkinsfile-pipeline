@@ -150,4 +150,18 @@ class DeployStageTest {
             }
         }
     }
+
+    @Nested
+    public class GetName {
+        @Test
+        void returnsStageNameThatIncludesEnvironment() {
+            def environment = 'foo'
+            def expectedName = "deploy-${environment}".toString()
+
+            def stage = new DeployStage(environment)
+            def result = stage.getName()
+
+            assertThat(result, equalTo(expectedName))
+        }
+    }
 }

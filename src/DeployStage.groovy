@@ -51,4 +51,8 @@ public class DeployStage implements Stage {
 
         return fullCommand.toString()
     }
+
+    public String getName() {
+        return "deploy-${environment}"
+    }
 }
