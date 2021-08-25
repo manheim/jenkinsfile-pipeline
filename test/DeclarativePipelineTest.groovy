@@ -12,7 +12,7 @@ class DeclarativePipelineTest {
     @Nested
     public class Constructor {
         @Test
-        void acceptsAWorkflowScript() {
+        void deprecatedAcceptsAWorkflowScript() {
             def workflowScript = new MockWorkflowScript()
             def pipeline = new DeclarativePipeline(workflowScript)
         }
