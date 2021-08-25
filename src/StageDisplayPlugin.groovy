@@ -9,6 +9,8 @@ public class StageDisplayPlugin implements Plugin {
     }
 
     public Closure stageClosure(Stage stage) {
-        return { }
+        return { innerClosure ->
+            innerClosure()
+        }
     }
 }

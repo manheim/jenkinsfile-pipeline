@@ -1,4 +1,5 @@
 import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItem
 import static org.hamcrest.Matchers.instanceOf
 import static org.mockito.Mockito.doReturn
@@ -45,6 +46,22 @@ class StageDisplayPluginTest {
             plugin.apply(stage)
 
             verify(stage).decorate(expectedClosure)
+        }
+    }
+
+    @Nested
+    public class StageClosure {
+        @Test
+        void callsTheInnerClosure() {
+            def wasCalled = false
+            def innerClosure = { wasCalled = true }
+            def plugin = new StageDisplayPlugin()
+
+            def closure = plugin.stageClosure(mock(Stage))
+            closure.delegate = new MockWorkflowScript()
+            closure(innerClosure)
+
+            assertThat(wasCalled, equalTo(true))
         }
     }
 }
