@@ -109,6 +109,7 @@ The example above gives you a bare-bones pipeline, and there may be Jenkinsfile 
 * [DefaultEnvironmentPlugin](./docs/DefaultEnvironmentPlugin.md): Provide an environment variable containing the DeployStage's environment.
 * [NodePlugin](./docs/NodePlugin.md): Control where jobs are run
 * [ScmPlugin](./docs/ScmPlugin.md): Checkout the project's code
+* [StageDisplayPlugin](./docs/StageDisplayPlugin.md): Wraps each Stage with Jenkinsfile DSL `stage`
 
 ### Build Artifact Management
 * [StashUnstashPlugin](./docs/StashUnstashPlugin.md): Stash your artifact after BuildStage, and unstash it for each of your subsequent DeployStages.

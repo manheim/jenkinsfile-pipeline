@@ -16,9 +16,7 @@ public class DeployStage implements Stage {
         def stageEnvironment = environment
         return {
             decorations.apply() {
-                stage("deploy-${stageEnvironment}") {
-                    sh getFullDeployCommand()
-                }
+                sh getFullDeployCommand()
             }
         }
     }
@@ -50,5 +48,9 @@ public class DeployStage implements Stage {
         }
 
         return fullCommand.toString()
+    }
+
+    public String getName() {
+        return "deploy-${environment}"
     }
 }

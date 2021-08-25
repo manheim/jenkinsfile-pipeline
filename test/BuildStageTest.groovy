@@ -1,9 +1,7 @@
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.instanceOf
 import static org.hamcrest.MatcherAssert.assertThat
-import static org.mockito.Mockito.any
 import static org.mockito.Mockito.doReturn
-import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.spy
 import static org.mockito.Mockito.verify
 
@@ -50,18 +48,6 @@ class BuildStageTest {
             def result = buildStage.pipelineConfiguration()
 
             assertThat(result, instanceOf(Closure.class))
-        }
-
-        @Test
-        void createsAStageNamedBuild() {
-            def buildStage = new BuildStage()
-            def workflowScript = spy(new MockWorkflowScript())
-
-            def closure = buildStage.pipelineConfiguration()
-            closure.delegate = workflowScript
-            closure()
-
-            verify(workflowScript).stage(eq("build"), any(Closure.class))
         }
 
         @Test
@@ -126,6 +112,19 @@ class BuildStageTest {
             def result = stage.getFullCommand()
 
             assertThat(result, equalTo("${expectedPrefix} ./bin/build.sh".toString()))
+        }
+    }
+
+    @Nested
+    public class GetName {
+        @Test
+        void returnsAStageName() {
+            def expectedName = "build"
+            def stage = new BuildStage()
+
+            def result = stage.getName()
+
+            assertThat(result, equalTo(expectedName))
         }
     }
 }

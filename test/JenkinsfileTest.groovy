@@ -42,6 +42,15 @@ class JenkinsfileTest {
             }
 
             @Test
+            public void enablesStageDisplayPlugin() {
+                Jenkinsfile.init(new MockWorkflowScript())
+
+                def plugins = StagePlugins.getPlugins()
+
+                assertThat(plugins, hasItem(StageDisplayPlugin))
+            }
+
+            @Test
             public void enablesNodePlugin() {
                 Jenkinsfile.init(new MockWorkflowScript())
 
