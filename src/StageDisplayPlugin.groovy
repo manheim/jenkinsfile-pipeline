@@ -8,9 +8,9 @@ public class StageDisplayPlugin implements Plugin {
         stage.decorate(stageClosure(stage))
     }
 
-    public Closure stageClosure(Stage stage) {
+    public Closure stageClosure(Stage decoratedStage) {
         return { innerClosure ->
-            innerClosure()
+            stage(decoratedStage.getName(), innerClosure)
         }
     }
 }
