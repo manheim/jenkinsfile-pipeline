@@ -1,9 +1,7 @@
 public class ScriptedPipeline {
-    private workflowScript
     private stages = []
 
-    public ScriptedPipeline(workflowScript) {
-        this.workflowScript = Jenkinsfile.getInstance()
+    public ScriptedPipeline(workflowScript = null) {
     }
 
     public ScriptedPipeline startsWith(Stage stage) {
@@ -24,7 +22,7 @@ public class ScriptedPipeline {
                 pipelineConfiguration()
             }
         }
-        pipelineDsl.delegate = workflowScript
+        pipelineDsl.delegate = Jenkinsfile.getInstance()
         pipelineDsl()
     }
 }
