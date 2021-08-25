@@ -1,6 +1,7 @@
 public class ScriptedPipeline {
     private stages = []
 
+    // Remove this as part of issue 116
     public ScriptedPipeline(workflowScript = null) {
     }
 
