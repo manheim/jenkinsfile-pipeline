@@ -13,4 +13,8 @@ public class StageDisplayPlugin implements Plugin {
             stage(decoratedStage.getName(), innerClosure)
         }
     }
+
+    public static disable() {
+        return this
+    }
 }

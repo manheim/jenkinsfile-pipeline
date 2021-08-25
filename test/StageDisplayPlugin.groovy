@@ -37,6 +37,15 @@ class StageDisplayPluginTest {
     }
 
     @Nested
+    public class Disable {
+        @Test
+        void isFluent() {
+            def result = StageDisplayPlugin.disable()
+            assertThat(result, equalTo(StageDisplayPlugin))
+        }
+    }
+
+    @Nested
     public class Apply {
         @Test
         void decoratesTheStageWithStageClosure() {
