@@ -1,9 +1,8 @@
 class DeclarativePipeline {
-    private workflowScript
     private List<Stage> stages = []
 
-    public DeclarativePipeline(workflowScript) {
-        this.workflowScript = workflowScript
+    // Remove workflowScript argument as part of Issue #111
+    public DeclarativePipeline(workflowScript = null) {
     }
 
     public DeclarativePipeline startsWith(Stage stage) {
@@ -23,6 +22,8 @@ class DeclarativePipeline {
     }
 
     public getPipelineTemplate(List<Stage> stages) {
+        def workflowScript = Jenkinsfile.getInstance()
+
         switch (stages.size()) {
             case 0:
                 return workflowScript.Pipeline0Stage

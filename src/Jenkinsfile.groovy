@@ -26,6 +26,10 @@ public class Jenkinsfile implements Resettable {
         return this
     }
 
+    public static withWorkflowScript(workflowScript) {
+        this.original = workflowScript
+    }
+
     public static reset() {
         this.original = null
         this.shouldInitializeDefaultPlugins = true
