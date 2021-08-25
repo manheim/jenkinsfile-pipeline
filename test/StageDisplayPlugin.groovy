@@ -19,5 +19,14 @@ class StageDisplayPluginTest {
 
             assertThat(plugins, hasItem(instanceOf(StageDisplayPlugin.class)))
         }
+
+        @Test
+        void addsPluginToTheDeployStage() {
+            StageDisplayPlugin.init()
+
+            def plugins = StagePlugins.getPluginsFor(mock(DeployStage.class))
+
+            assertThat(plugins, hasItem(instanceOf(StageDisplayPlugin.class)))
+        }
     }
 }
