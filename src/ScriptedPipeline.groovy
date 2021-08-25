@@ -3,7 +3,7 @@ public class ScriptedPipeline {
     private stages = []
 
     public ScriptedPipeline(workflowScript) {
-        this.workflowScript = workflowScript
+        this.workflowScript = Jenkinsfile.getInstance()
     }
 
     public ScriptedPipeline startsWith(Stage stage) {
