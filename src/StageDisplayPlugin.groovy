@@ -5,6 +5,10 @@ public class StageDisplayPlugin implements Plugin {
     }
 
     public void apply(Stage stage) {
-        println "Do the thing"
+        stage.decorate(stageClosure(stage))
+    }
+
+    public Closure stageClosure(Stage stage) {
+        return { }
     }
 }
