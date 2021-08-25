@@ -213,7 +213,7 @@ class Customizations {
 Customizations.init()
 Jenkinsfile.init(this)
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
@@ -234,7 +234,7 @@ pipeline.startsWith(buildArtifact)
 Customizations.init()
 Jenkinsfile.init(this)
 
-def pipeline = new ScriptedPipeline(this)
+def pipeline = new ScriptedPipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
