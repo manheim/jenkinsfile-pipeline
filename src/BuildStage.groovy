@@ -20,9 +20,7 @@ public class BuildStage implements Stage {
 
         return { ->
             decorations.apply() {
-                stage(getName()) {
-                    sh(getFullCommand())
-                }
+                sh(getFullCommand())
             }
         }
     }
