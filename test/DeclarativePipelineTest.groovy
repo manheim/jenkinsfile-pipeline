@@ -16,6 +16,7 @@ class DeclarativePipelineTest {
             def pipeline = new DeclarativePipeline()
         }
 
+        // Remove this as part of Issue #111
         @Test
         void deprecatedAcceptsAWorkflowScript() {
             def workflowScript = new MockWorkflowScript()

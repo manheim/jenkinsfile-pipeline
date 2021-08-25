@@ -2,6 +2,7 @@ class DeclarativePipeline {
     private workflowScript
     private List<Stage> stages = []
 
+    // Remove workflowScript argument as part of Issue #111
     public DeclarativePipeline(workflowScript = null) {
         this.workflowScript = Jenkinsfile.getInstance()
     }
