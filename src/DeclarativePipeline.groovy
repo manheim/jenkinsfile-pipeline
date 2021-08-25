@@ -2,8 +2,8 @@ class DeclarativePipeline {
     private workflowScript
     private List<Stage> stages = []
 
-    public DeclarativePipeline(workflowScript) {
-        this.workflowScript = workflowScript
+    public DeclarativePipeline(workflowScript = null) {
+        this.workflowScript = Jenkinsfile.getInstance()
     }
 
     public DeclarativePipeline startsWith(Stage stage) {
