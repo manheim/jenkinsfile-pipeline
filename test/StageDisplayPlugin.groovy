@@ -7,8 +7,10 @@ import static org.mockito.Mockito.doReturn
 import static org.mockito.Mockito.eq
 import static org.mockito.Mockito.mock
 import static org.mockito.Mockito.spy
+import static org.mockito.Mockito.times
 import static org.mockito.Mockito.verify
 
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -88,6 +90,42 @@ class StageDisplayPluginTest {
             closure { }
 
             verify(workflowScript).stage(eq(expectedStageName), any(Closure))
+        }
+
+        @Nested
+        public class WhenDisabled {
+            @BeforeEach
+            void disable() {
+                StageDisplayPlugin.disable()
+            }
+
+            @Test
+            void callsTheInnerClosure() {
+                def wasCalled = false
+                def innerClosure = { wasCalled = true }
+                def plugin = new StageDisplayPlugin()
+
+                def closure = plugin.stageClosure(mock(Stage))
+                closure.delegate = new MockWorkflowScript()
+                closure(innerClosure)
+
+                assertThat(wasCalled, equalTo(true))
+            }
+
+            @Test
+            void doesNotWrapInnerClosureWithStage() {
+                def expectedStageName = 'stageName'
+                def plugin = new StageDisplayPlugin()
+                def stage = mock(Stage)
+                doReturn(expectedStageName).when(stage).getName()
+                def workflowScript = spy(new MockWorkflowScript())
+
+                def closure = plugin.stageClosure(stage)
+                closure.delegate = workflowScript
+                closure { }
+
+                verify(workflowScript, times(0)).stage(eq(expectedStageName), any(Closure))
+            }
         }
     }
 }

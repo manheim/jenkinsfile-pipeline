@@ -1,4 +1,6 @@
-public class StageDisplayPlugin implements Plugin {
+public class StageDisplayPlugin implements Plugin, Resettable {
+    public static boolean disabled
+
     public static void init() {
         StagePlugins.add(new StageDisplayPlugin(), BuildStage)
         StagePlugins.add(new StageDisplayPlugin(), DeployStage)
@@ -10,11 +12,20 @@ public class StageDisplayPlugin implements Plugin {
 
     public Closure stageClosure(Stage decoratedStage) {
         return { innerClosure ->
-            stage(decoratedStage.getName(), innerClosure)
+            if (!disabled) {
+                stage(decoratedStage.getName(), innerClosure)
+            } else {
+                innerClosure()
+            }
         }
     }
 
     public static disable() {
+        disabled = true
         return this
+    }
+
+    public static void reset() {
+        disabled = false
     }
 }
