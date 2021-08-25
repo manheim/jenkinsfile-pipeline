@@ -128,4 +128,17 @@ class BuildStageTest {
             assertThat(result, equalTo("${expectedPrefix} ./bin/build.sh".toString()))
         }
     }
+
+    @Nested
+    public class GetName {
+        @Test
+        void returnsAStageName() {
+            def expectedName = "build"
+            def stage = new BuildStage()
+
+            def result = stage.getName()
+
+            assertThat(result, equalTo(expectedName))
+        }
+    }
 }

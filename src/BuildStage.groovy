@@ -39,4 +39,8 @@ public class BuildStage implements Stage {
 
         return result
     }
+
+    public String getName() {
+        "build"
+    }
 }
