@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+- [Issue #110](https://github.com/manheim/jenkinsfile-pipeline/issues/110): Simplify DeclarativePipeline constructor
+
 ## v1.1
 
 - [Issue #103](https://github.com/manheim/jenkinsfile-pipeline/issues/103): BuildStage: Ability to customize build command
