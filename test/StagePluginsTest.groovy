@@ -85,10 +85,12 @@ class StagePluginsTest {
     private class Stage1 implements Stage {
         public Closure pipelineConfiguration() { return { } }
         public void decorate(Closure closure) { return }
+        public String getName() { return "stage1" }
     }
 
     private class Stage2 implements Stage {
         public Closure pipelineConfiguration() { return { } }
         public void decorate(Closure closure) { return }
+        public String getName() { return "stage2" }
     }
 }
