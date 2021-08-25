@@ -259,7 +259,7 @@ jenkinsfile-pipeline attempts to abstract away these two different types of pipe
 
 You can convert to a DeclarativePipeline by instantiating it in place of a Scripted one.
 ```
-def pipeline = new DeclarativePipeline(this)
+def pipeline = new DeclarativePipeline()
 ```
 
 A short-coming of Declarative Pipelines is the inability to use variables when defining Stage names (See: [JENKINS-43820](https://issues.jenkins-ci.org/browse/JENKINS-43820)).  The compromise made by terraform-pipeline is to name each of the top-level Stage names using consecutive numbers '1', '2', '3', etc.  The following code:
@@ -271,7 +271,7 @@ A short-coming of Declarative Pipelines is the inability to use variables when d
 Customizations.init()
 Jenkinsfile.init(this)
 
-def pipeline = new DeclarativePipeline(this)
+def pipeline = new DeclarativePipeline()
 def buildArtifact = new BuildStage()
 def deployQa = new DeployStage('qa')
 def deployUat = new DeployStage('uat')
