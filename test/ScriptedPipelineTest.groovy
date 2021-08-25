@@ -60,7 +60,8 @@ class ScriptedPipelineTest {
             doReturn(jenkinsfileDsl).when(stage).pipelineConfiguration()
 
             def workflowScript = spy(new MockWorkflowScript())
-            def pipeline = new ScriptedPipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new ScriptedPipeline()
 
             pipeline.startsWith(stage).build()
             verify(workflowScript).sh('do the thing')
@@ -75,7 +76,8 @@ class ScriptedPipelineTest {
             doReturn { sh 'stage2 do the thing' }.when(stage2).pipelineConfiguration()
 
             def workflowScript = spy(new MockWorkflowScript())
-            def pipeline = new ScriptedPipeline(workflowScript)
+            Jenkinsfile.withWorkflowScript(workflowScript)
+            def pipeline = new ScriptedPipeline()
 
             pipeline.startsWith(stage1).then(stage2).build()
             verify(workflowScript).sh('stage1 do the thing')
