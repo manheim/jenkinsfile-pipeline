@@ -30,7 +30,7 @@ class DeclarativePipelineTest {
     public class StartsWith {
         @Test
         void isFluent() {
-            def pipeline = new DeclarativePipeline(new MockWorkflowScript())
+            def pipeline = new DeclarativePipeline()
 
             def result = pipeline.startsWith(mock(Stage))
 
@@ -42,7 +42,7 @@ class DeclarativePipelineTest {
     public class Then {
         @Test
         void isFluent() {
-            def pipeline = new DeclarativePipeline(new MockWorkflowScript())
+            def pipeline = new DeclarativePipeline()
 
             def result = pipeline.then(mock(Stage))
 
@@ -56,7 +56,7 @@ class DeclarativePipelineTest {
         void buildsThePipelineUsingTheAppropriateDeclarativeTemplate() {
             def wasCalled = false
             def pipelineTemplate = { stages -> wasCalled = true }
-            def pipeline = spy(new DeclarativePipeline(new MockWorkflowScript()))
+            def pipeline = spy(new DeclarativePipeline())
             doReturn(pipelineTemplate).when(pipeline).getPipelineTemplate(any(List))
 
             pipeline.build()
@@ -69,7 +69,7 @@ class DeclarativePipelineTest {
             def expectedStages = [mock(Stage), mock(Stage), mock(Stage)]
             def actualStages = null
             def pipelineTemplate = { stages -> actualStages = stages }
-            def pipeline = spy(new DeclarativePipeline(new MockWorkflowScript()))
+            def pipeline = spy(new DeclarativePipeline())
             doReturn(pipelineTemplate).when(pipeline).getPipelineTemplate(any(List))
 
             pipeline.startsWith(expectedStages[0])
@@ -103,8 +103,7 @@ class DeclarativePipelineTest {
         @Test
         void returnsPipelineTemplateIfProvided() {
             def expectedTemplate = { }
-            def workflowScript = new MockWorkflowScript()
-            def pipeline = new DeclarativePipeline(workflowScript)
+            def pipeline = new DeclarativePipeline()
 
             DeclarativePipeline.withPipelineTemplate(expectedTemplate)
             def result = pipeline.getPipelineTemplate([])
