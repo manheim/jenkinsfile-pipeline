@@ -4,6 +4,9 @@ class DeclarativePipeline implements Resettable {
 
     public static withPipelineTemplate(pipelineTemplate) {
         this.pipelineTemplate = pipelineTemplate
+        // Stage names should come from template, let's not create
+        // duplicate stages with StageDisplayPlugin
+        StageDisplayPlugin.disable()
         return this
     }
 

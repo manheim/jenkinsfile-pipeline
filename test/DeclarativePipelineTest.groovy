@@ -89,6 +89,13 @@ class DeclarativePipelineTest {
 
             assertThat(result, equalTo(DeclarativePipeline))
         }
+
+        @Test
+        void disablesStageDisplayPlugin() {
+            DeclarativePipeline.withPipelineTemplate { }
+
+            assertThat(StageDisplayPlugin.isEnabled(), equalTo(false))
+        }
     }
 
     @Nested
