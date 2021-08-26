@@ -25,6 +25,10 @@ public class StageDisplayPlugin implements Plugin, Resettable {
         return this
     }
 
+    public static boolean isEnabled() {
+        return !disabled
+    }
+
     public static void reset() {
         disabled = false
     }
