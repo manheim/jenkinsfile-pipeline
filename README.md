@@ -342,11 +342,10 @@ def call(args) {
 }
 ```
 
-In your Jenkinsfile, override the default pipelineTemplate, and point it to your new pipeline template function.  Additionally, we'll disable the `StageDisplayPlugin`, since our custom template now handles calls to the Jenkinsfile DSL `stage` (otherwise, duplicate stages will appear in our pipeline view).
+In your Jenkinsfile, override the default pipelineTemplate, and point it to your new pipeline template function.  (This will automatically disable the `StageDisplayPlugin`, to prevent duplicate stages from appearing in our pipeline view).
 
 ```
 Jenkinsfile.init(this)
-StageDisplayPlugin.disable()
 DeclarativePipeline.withPipelineTemplate(this.CustomPipelineTemplate)
 
 def pipeline = new DeclarativePipeline(this)
