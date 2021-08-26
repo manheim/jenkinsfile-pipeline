@@ -295,7 +295,7 @@ When using the Restart from Stage feature, you'll need to map the numbered Stage
 
 Mapping arbitrary numbers to your Stages can likely be annoying.  If you want to give your Stages more meaningful names, you can override the underlying Declarative Pipeline template with your own, using the `DeclarativePipeline.withPipelineTemplate()` method, and a Customizations library (See: [DRY'ing your Plugin Configuration](#drying-your-plugin-configuration)).
 
-As an example, we'll create a `vars/CustomPipelineTemplate.groovy`, and define top-level Stages that match the Stages of our pipeline - `build`, `deploy-qa`, `deploy-uat`, and `deploy-prod`.
+As an example, we'll create a `vars/CustomPipelineTemplate.groovy` in our Customizations library, and define top-level Stages that match the Stages of our pipeline - `build`, `deploy-qa`, `deploy-uat`, and `deploy-prod`.  In the example below, we'll use a global helper method `findStageByName`, which will search `args` for the `Stage` that matches the enclosing stage name.  `configureStage` will do the magic-under-the-hood necessary create our stage using Jenkinsfile DSL.
 
 ```
 // ./vars/CustomPipelineTemplate.groovy
@@ -309,9 +309,7 @@ def call(args) {
             stage('build') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(findStageByName(args))
                     }
                 }
             }
@@ -319,9 +317,7 @@ def call(args) {
             stage('deploy-qa') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(findStageByName(args))
                     }
                 }
             }
@@ -329,9 +325,7 @@ def call(args) {
             stage('deploy-uat') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(2)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(findStageByName(args))
                     }
                 }
             }
@@ -339,9 +333,7 @@ def call(args) {
             stage('deploy-prod') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(3)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(findStageByName(args))
                     }
                 }
             }
@@ -350,10 +342,11 @@ def call(args) {
 }
 ```
 
-In your Jenkinsfile, override the default pipelineTemplate, and point it to your new pipeline template function.  For example:
+In your Jenkinsfile, override the default pipelineTemplate, and point it to your new pipeline template function.  Additionally, we'll disable the `StageDisplayPlugin`, since our custom template now handles calls to the Jenkinsfile DSL `stage` (otherwise, duplicate stages will appear in our pipeline view).
 
 ```
 Jenkinsfile.init(this)
+StageDisplayPlugin.disable()
 DeclarativePipeline.withPipelineTemplate(this.CustomPipelineTemplate)
 
 def pipeline = new DeclarativePipeline(this)
@@ -373,7 +366,7 @@ This will generate a new Declarative Pipeline, using your custom template.
 
 ![Customized Declarative Pipeline](./images/custom-declarative-pipeline.png)
 
-Restart from Stage will now display more sensible names.  __Note:__ This is in __NO__ way dynamic.  If you reorder the Stages in your Jenkinsfile, you'll need to reorder the Stage names in your custom template.  This is an unfortunate side-effect of the strict syntax of Declarative Pipelines.
+Restart from Stage will now display more sensible names.
 
 ![Restart From Stage](./images/restart-from-stage.png)
 
