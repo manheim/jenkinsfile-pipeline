@@ -48,6 +48,21 @@ class StageDisplayPluginTest {
     }
 
     @Nested
+    public class IsEnabled {
+        @Test
+        void returnsTrueByDefault() {
+            assertThat(StageDisplayPlugin.isEnabled(), equalTo(true))
+        }
+
+        @Test
+        void returnsFalseIfDisabled() {
+            StageDisplayPlugin.disable()
+
+            assertThat(StageDisplayPlugin.isEnabled(), equalTo(false))
+        }
+    }
+
+    @Nested
     public class Apply {
         @Test
         void decoratesTheStageWithStageClosure() {

@@ -293,6 +293,82 @@ When using the Restart from Stage feature, you'll need to map the numbered Stage
 
 ![Restart From Stage - Numbers](./images/restart-from-stage-numbers.png)
 
+Mapping arbitrary numbers to your Stages can likely be annoying.  If you want to give your Stages more meaningful names, you can override the underlying Declarative Pipeline template with your own, using the `DeclarativePipeline.withPipelineTemplate()` method, and a Customizations library (See: [DRY'ing your Plugin Configuration](#drying-your-plugin-configuration)).
+
+As an example, we'll create a `vars/CustomPipelineTemplate.groovy` in our Customizations library, and define top-level Stages that match the Stages of our pipeline - `build`, `deploy-qa`, `deploy-uat`, and `deploy-prod`.  In the example below, we'll use a global helper method `findStageByName`, which will search `args` for the `Stage` that matches the enclosing stage name.  `configureStage` will do the magic-under-the-hood necessary create our stage using Jenkinsfile DSL.
+
+```
+// ./vars/CustomPipelineTemplate.groovy
+
+def call(args) {
+    pipeline {
+        agent none
+        options { preserveStashes() }
+
+        stages {
+            stage('build') {
+                steps {
+                    script {
+                        configureStage(findStageByName(args))
+                    }
+                }
+            }
+
+            stage('deploy-qa') {
+                steps {
+                    script {
+                        configureStage(findStageByName(args))
+                    }
+                }
+            }
+
+            stage('deploy-uat') {
+                steps {
+                    script {
+                        configureStage(findStageByName(args))
+                    }
+                }
+            }
+
+            stage('deploy-prod') {
+                steps {
+                    script {
+                        configureStage(findStageByName(args))
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+In your Jenkinsfile, override the default pipelineTemplate, and point it to your new pipeline template function.  (This will automatically disable the `StageDisplayPlugin`, to prevent duplicate stages from appearing in our pipeline view).
+
+```
+Jenkinsfile.init(this)
+DeclarativePipeline.withPipelineTemplate(this.CustomPipelineTemplate)
+
+def pipeline = new DeclarativePipeline(this)
+def buildArtifact = new BuildStage()
+def deployQa = new DeployStage('qa')
+def deployUat = new DeployStage('uat')
+def deployProd = new DeployStage('prod')
+
+pipeline.startsWith(buildArtifact)
+        .then(deployQa)
+        .then(deployUat)
+        .then(deployProd)
+        .build()
+```
+
+This will generate a new Declarative Pipeline, using your custom template.
+
+![Customized Declarative Pipeline](./images/custom-declarative-pipeline.png)
+
+Restart from Stage will now display more sensible names.
+
+![Restart From Stage](./images/restart-from-stage.png)
+
 # Goals that this library is trying to achieve:
 
 1.  Application code should be written once, and should be reusable for all environments.

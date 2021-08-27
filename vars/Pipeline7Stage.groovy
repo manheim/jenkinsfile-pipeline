@@ -1,4 +1,4 @@
-def call(args) {
+def call(List<Stage> pipelineStages) {
     pipeline {
         agent none
         options { preserveStashes() }
@@ -7,9 +7,7 @@ def call(args) {
             stage('1') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(0)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(0))
                     }
                 }
             }
@@ -17,9 +15,7 @@ def call(args) {
             stage('2') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(1)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(1))
                     }
                 }
             }
@@ -27,9 +23,7 @@ def call(args) {
             stage('3') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(2)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(2))
                     }
                 }
             }
@@ -37,9 +31,7 @@ def call(args) {
             stage('4') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(3)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(3))
                     }
                 }
             }
@@ -47,9 +39,7 @@ def call(args) {
             stage('5') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(4)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(4))
                     }
                 }
             }
@@ -57,9 +47,7 @@ def call(args) {
             stage('6') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(5)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(5))
                     }
                 }
             }
@@ -67,9 +55,7 @@ def call(args) {
             stage('7') {
                 steps {
                     script {
-                        def configuration = ((Stage)args.getAt(6)).pipelineConfiguration()
-                        configuration.delegate = this
-                        configuration()
+                        configureStage(pipelineStages.getAt(6))
                     }
                 }
             }

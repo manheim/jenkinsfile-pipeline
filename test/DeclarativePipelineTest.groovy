@@ -7,7 +7,9 @@ import static org.mockito.Mockito.spy
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(ResetStaticStateExtension.class)
 class DeclarativePipelineTest {
     @Nested
     public class Constructor {
@@ -28,7 +30,7 @@ class DeclarativePipelineTest {
     public class StartsWith {
         @Test
         void isFluent() {
-            def pipeline = new DeclarativePipeline(new MockWorkflowScript())
+            def pipeline = new DeclarativePipeline()
 
             def result = pipeline.startsWith(mock(Stage))
 
@@ -40,7 +42,7 @@ class DeclarativePipelineTest {
     public class Then {
         @Test
         void isFluent() {
-            def pipeline = new DeclarativePipeline(new MockWorkflowScript())
+            def pipeline = new DeclarativePipeline()
 
             def result = pipeline.then(mock(Stage))
 
@@ -54,7 +56,7 @@ class DeclarativePipelineTest {
         void buildsThePipelineUsingTheAppropriateDeclarativeTemplate() {
             def wasCalled = false
             def pipelineTemplate = { stages -> wasCalled = true }
-            def pipeline = spy(new DeclarativePipeline(new MockWorkflowScript()))
+            def pipeline = spy(new DeclarativePipeline())
             doReturn(pipelineTemplate).when(pipeline).getPipelineTemplate(any(List))
 
             pipeline.build()
@@ -67,7 +69,7 @@ class DeclarativePipelineTest {
             def expectedStages = [mock(Stage), mock(Stage), mock(Stage)]
             def actualStages = null
             def pipelineTemplate = { stages -> actualStages = stages }
-            def pipeline = spy(new DeclarativePipeline(new MockWorkflowScript()))
+            def pipeline = spy(new DeclarativePipeline())
             doReturn(pipelineTemplate).when(pipeline).getPipelineTemplate(any(List))
 
             pipeline.startsWith(expectedStages[0])
@@ -80,7 +82,35 @@ class DeclarativePipelineTest {
     }
 
     @Nested
+    public class WithPipelineTemplate {
+        @Test
+        void isFluent() {
+            def result = DeclarativePipeline.withPipelineTemplate { }
+
+            assertThat(result, equalTo(DeclarativePipeline))
+        }
+
+        @Test
+        void disablesStageDisplayPlugin() {
+            DeclarativePipeline.withPipelineTemplate { }
+
+            assertThat(StageDisplayPlugin.isEnabled(), equalTo(false))
+        }
+    }
+
+    @Nested
     public class GetPipelineTemplate {
+        @Test
+        void returnsPipelineTemplateIfProvided() {
+            def expectedTemplate = { }
+            def pipeline = new DeclarativePipeline()
+
+            DeclarativePipeline.withPipelineTemplate(expectedTemplate)
+            def result = pipeline.getPipelineTemplate([])
+
+            assertThat(result, equalTo(expectedTemplate))
+        }
+
         @Test
         void returnsEmptyDeclarativeTemplateWhenZeroStagesAdded() {
             def expectedTemplate = { }
